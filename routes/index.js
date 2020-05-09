@@ -229,6 +229,11 @@ module.exports = function() {
     zoomControllerFE.mostrarMeeti
     );
 
+    router.get('/cart', 
+    // authController.usuarioAutenticado,
+    pagosController.showCart
+);
+
 
     return router;
 }

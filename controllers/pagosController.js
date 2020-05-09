@@ -51,3 +51,9 @@ if(estado_ === 'Aceptada'){
     res.send('Has confirmado tu asistencia');
 }
 
+exports.showCart= async (req, res, next) => {
+  res.render('cart', {
+    nombrePagina : 'Carrito de compras'
+})
+}
+
