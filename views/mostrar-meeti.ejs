@@ -1,0 +1,347 @@
+<div class="encabezado-evento">
+
+    <div class="contenedor">
+
+        <div class="resumen-evento">
+            <h1><%= meeti.titulo %></h1>
+            <div class="info-autor">
+                <div class="imagen">
+                    <% if(meeti.usuario.imagen ) { %> 
+                        <img src="/uploads/perfiles/<%= meeti.usuario.imagen %>">
+                    <% } %>
+                </div>
+                <div class="informacion">
+                    <p>Organizado por:</p>
+                    <p class="autor">
+                        <a href="/usuarios/<%= meeti.usuario.id %>"><%= meeti.usuario.nombre %> </a> Creador de: 
+                        <a href="/grupos/<%= meeti.grupo.id %>"><%= meeti.grupo.nombre %></a>
+                    </p>
+                </div>
+            </div><!--.info-autor-->
+        </div><!--resumen-evento-->
+        <div id="snoA" class="exito" data-alert="succes" 
+        style="    position: absolute;
+        z-index: 1400;
+        right: 50%;
+        margin: 0px auto;
+        color: white;
+        height: 29px;
+        width: 300px;
+        text-align: center;
+        ">Procesando...</div>
+        <div class="pregunta-asistencia">
+            <% if(usuario.id) { %>
+            <% const existe = meeti.interesados.includes(usuario.id) %>
+                <form action="/confirmar-asistencia/<%= meeti.slug %>" id="confirmar-asistencia">
+                    <p>¿inter cambiar?</p>
+                    <% if( existe ) {  %>
+                        <input type="hidden" id="accion" value="cancelar">
+                        <input type="submit" class="btn btn-rojo" value="Cancelar">
+                        <div id="sisas">
+                            <% if (orden.id) { %>
+                                <% if (orden.activo === 1) { %>
+                                  <a href="<%= orden.url %>">ingresa a qui</a>
+                                    <%   }else{ %>
+                                        <p>no se ha pagado la reunion</p>
+                                        <% } %> 
+                         <%    }else{ %>
+                            <p></p>
+                            <% } %>
+                        </div>
+                    <% } else { %>
+                        <input type="hidden" id="accion" value="confirmar">
+                        <input type="submit" class="btn btn-azul" value="Si">
+                          <div id="sisas">
+                       
+                        </div>
+                    <% } %>
+                    <div id="mensaje"></div>
+                </form>
+                <% if (orden.activo === 1) { %>
+                    <form id="epayco" hidden="true" action="/confirmar-pago" method="POST" >
+                        </form>
+                        <a id="linkPay" href="<%= orden.url %>"></a>
+                    <%   }else{ %>
+                        <% if(meeti.pagada === 1) { %>
+                            <% if(userCount) { %>
+                                <form id="epayco" hidden="true" action="/confirmar-pago" method="POST" >
+                                </form>
+                                <a id="linkPay" href="<%= orden.url %>">ingresa a qui</a>
+                                <%   }else{ %>
+                <form id="epayco" hidden="true" action="/confirmar-pago" method="POST" >
+                    <input type="hidden" name="meetId" id="meetId" value="<%= meeti.id %>"  >
+                    <input type="hidden" name="usuarioId" value="<%= usuario.id %>" id="usuarioId">
+                    <input type="hidden" name="grupoId" value="<%= meeti.grupo.id %>" id="grupoId" >
+                    <input type="hidden" name="titulo" value="<%= meeti.titulo %>" id="titulo" >
+                    <input type="hidden" name="slug" value="<%= meeti.slug %>" id="slug" >
+                    
+                    <input type="submit" class="btn btn-azul" value="pagar con epayco" />
+                    <a id="linkPay"></a>
+                </form>
+                    <%   } %>
+                <%   }else{ %>
+                    <form id="epayco" hidden="true" action="/confirmar-pago" method="POST" >
+                    </form>
+                    <a id="linkPay" href="<%= orden.url %>">ingresa a qui</a>
+                    <% } %>
+                <% } %>
+             <!--   <button id="epayco" hidden="true">pagar </button>-->
+       
+            <% } else { %>
+                
+                <p>Inicia sesión para confirmar tu asistencia</p>
+                <!-- <p><%= orden.id %></p> -->
+               
+            <% } %>       
+            
+       
+        </div>
+    </div>
+</div>
+
+
+	<!-- Product Detail -->
+	<div class="container bgwhite p-t-35 p-b-80">
+		<div class="flex-w flex-sb">
+			<div class="w-size13 p-t-30 respon5">
+				<div class="wrap-slick3 flex-sb flex-w">
+					<div class="wrap-slick3-dots"></div>
+
+					<div class="slick3">
+						<div class="item-slick3" data-thumb="/uploads/productos/<%= meeti.imagen %>">
+							<div class="wrap-pic-w">
+                                <img src="/uploads/productos/<%= meeti.imagen %>" alt="IMG-PRODUCT">
+							</div>
+						</div>
+
+						<div class="item-slick3" data-thumb="/uploads/productos/<%= meeti.imagen %>">
+							<div class="wrap-pic-w">
+                                <img src="/uploads/productos/<%= meeti.imagen %>" alt="IMG-PRODUCT">
+								
+							</div>
+						</div>
+
+						<div class="item-slick3" data-thumb="/uploads/productos/<%= meeti.imagen %>">
+							<div class="wrap-pic-w">
+                                <img src="/uploads/productos/<%= meeti.imagen %>" alt="IMG-PRODUCT">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="w-size14 p-t-30 respon5">
+                <div class="pregunta-asistencia">
+                    <p>¿comprar?</p>
+                </div>
+				<h4 class="product-detail-name m-text16 p-b-13">
+                    <%- meeti.titulo %>
+				</h4>
+			
+                <span class="m-text17">
+					$22
+				</span>
+
+				<!--  -->
+				<div class="p-t-33 p-b-60">
+					<div class="flex-m flex-w p-b-10">
+						<div class="s-text15 w-size15 t-center">
+							Size
+						</div>
+
+						<div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
+							<select class="selection-2" name="size">
+								<option>Choose an option</option>
+								<option>Size S</option>
+								<option>Size M</option>
+								<option>Size L</option>
+								<option>Size XL</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="flex-m flex-w">
+						<div class="s-text15 w-size15 t-center">
+							Color
+						</div>
+
+						<div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
+							<select class="selection-2" name="color">
+								<option>Choose an option</option>
+								<option>Gray</option>
+								<option>Red</option>
+								<option>Black</option>
+								<option>Blue</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="flex-r-m flex-w p-t-10">
+						<div class="w-size16 flex-m flex-w">
+							<div class="flex-w bo5 of-hidden m-r-22 m-t-10 m-b-10">
+								<button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2">
+									<i class="fs-12 fa fa-minus" aria-hidden="true"></i>
+								</button>
+
+								<input class="size8 m-text18 t-center num-product" type="number" name="num-product" value="1">
+
+								<button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2">
+									<i class="fs-12 fa fa-plus" aria-hidden="true"></i>
+								</button>
+							</div>
+
+							<div class="btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10 ">
+								<!-- Button -->
+								<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+									Add to Cart
+								</button>
+                            </div>
+         
+						</div>
+					</div>
+				</div>
+
+				<!--  -->
+				<div class="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
+					<h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
+						Description
+						<i class="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
+						<i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
+					</h5>
+
+					<div class="dropdown-content dis-none p-t-15 p-b-23">
+						<p class="s-text8">
+                            <%- meeti.descripcion %>
+						</p>
+					</div>
+				</div>
+
+				<div class="wrap-dropdown-content bo7 p-t-15 p-b-14">
+					<h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
+						Additional information
+						<i class="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
+						<i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
+					</h5>
+
+					<div class="dropdown-content dis-none p-t-15 p-b-23">
+						<p class="s-text8">
+                            <%- meeti.descripcion %>
+						</p>
+					</div>
+				</div>
+
+				<div class="wrap-dropdown-content bo7 p-t-15 p-b-14">
+					<h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
+						Reviews (0)
+						<i class="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
+						<i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
+					</h5>
+
+					<div class="dropdown-content dis-none p-t-15 p-b-23">
+						<p class="s-text8">
+							<%- meeti.descripcion %>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+<main class="contenido-evento">
+    <div class="contenedor">
+        <div class="informacion-evento">
+            <!-- <div class="descripcion">
+                <% if(meeti.grupo.imagen) { %>
+                    <img src="/uploads/grupos/<%= meeti.grupo.imagen %>">
+                <% } %>
+                <%- meeti.descripcion %>
+            </div> -->
+            <!--.descripcion-->
+
+            <!-- <div class="asistentes">
+                <div class="titulo">
+                    <h3><%= meeti.interesados.length %> Asistentes</h3>
+                    <a href="/asistentes/<%= meeti.slug %>">Ver Todos</a>
+                </div>
+            </div> -->
+            <!--asistentes-->
+
+            <div class="comentarios">
+                <h2>Comentarios</h2>
+                <% if(comentarios.length > 0 ) { %>
+                    <% comentarios.forEach(comentario => { %>
+                        <div class="comentario">
+                            <div class="imagen">
+                                <% if(comentario.usuario.imagen) { %>
+                                    <img src="/uploads/perfiles/<%= comentario.usuario.imagen%>"> 
+                                <% } %>
+                            </div>
+                            <div class="texto">
+                                <p><%= comentario.mensaje %></p>
+                                <p>Escrito por: 
+                                    <a href="/usuarios/<%= comentario.usuario.id %>">
+                                        <%= comentario.usuario.nombre %>
+                                    </a>
+                                </p>
+
+                                <% if(comentario.usuarioId === usuario.id || meeti.usuarioId === usuario.id ) { %>
+                                    <form action="/eliminar-comentario" method="POST" class="eliminar-comentario">
+                                        <input type="hidden" name="idComentario" value="<%= comentario.id %>">
+                                        <input type="submit" value="Eliminar" class="btn btn-azul">
+                                    </form>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }) %>
+
+                <% } else { %>
+                    <p>No hay comentarios aún</p>
+                <% } %>
+          
+
+                <!--formulario comentarios-->
+                <% if(usuario.id) { %>
+                    <form action="/meeti/<%= meeti.id %>" method="POST" class="default-form comentarios">
+                        <legend>Agrega un comentario</legend>
+                        <div class="campo">
+                            <label>Comentario</label>
+                            <textarea name="comentario"></textarea>
+                        </div>
+                        <div class="campo enviar">
+                            <input type="submit" value="Enviar" class="btn btn-rosa">
+                        </div>
+                    </form>
+                <% } else {  %>
+                    <p>Inicia Sesión para Agregar un Comentario</p>
+                <% } %>
+                <!--/formulario-comentarios-->
+
+            </div><!--.comentarios-->
+        </div><!--informacion-evento-->
+
+        <aside class="informacion">
+            <% if(usuario.id) { %>
+            <div class="fecha">
+                <% moment.locale('es'); %>
+                <% const fecha = meeti.fecha + ' ' + meeti.hora; %>
+                <p><%= moment(fecha).format('LLLL') %> Horas</p>
+            </div>
+            <div class="ubicacion">
+                <p> <%= meeti.direccion %>, <%= meeti.ciudad %>, <%= meeti.estado %>, <%= meeti.pais %> </p>
+            </div>
+            <% } else {  %>
+                <p>Inicia Sesión para Chatiar con el dueño del producto</p>
+            <% } %>
+            <!--Mapa de ubucacion-->
+                
+        </aside>
+    </div>
+
+</main>
+
+<h2>Otros Meeti's Cercanos</h2>
