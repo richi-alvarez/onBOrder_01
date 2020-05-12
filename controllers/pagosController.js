@@ -1,5 +1,7 @@
 const  axios = require('axios');
 const Ordenes = require('../models/Ordenes');
+const Meeti = require('../models/Meeti');
+const Cart = require('../models/Cart');
 
 exports.response= async (req, res, next) => {
     const ref_payco = req.query.ref_payco;
@@ -51,9 +53,28 @@ if(estado_ === 'Aceptada'){
     res.send('Has confirmado tu asistencia');
 }
 
+
+
+exports.addCart = async (req, res, next) => {
+  var prodcutId = req.params.id;
+  //console.log("url:::::::::",req);
+
+  var cart = new Cart(req.session.cart ? req.session.cart : {});
+   const producto = await Meeti.findByPk(prodcutId);
+    if(!producto){
+      console.log(':::::::::::::::::::',err)
+      return res.redirect('/');
+    }else{
+     cart.add(producto, producto.id);
+     req.session.cart = cart;
+     console.log(req.session.cart);
+      res.redirect('/');
+    }
+
+}
+
 exports.showCart= async (req, res, next) => {
   res.render('cart', {
     nombrePagina : 'Carrito de compras'
 })
 }
-

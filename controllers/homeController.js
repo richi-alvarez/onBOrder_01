@@ -12,7 +12,7 @@ exports.home = async (req, res) => {
     const consultas = [];
     consultas.push( Categorias.findAll({}) );
     consultas.push( Meeti.findAll ({
-            attributes : ['slug', 'titulo', 'fecha', 'hora','imagen'],
+            attributes : ['slug', 'titulo', 'fecha', 'hora','imagen', 'id'],
             where :{
                 fecha : { [Op.gte] : moment(new Date()).format("YYYY-MM-DD") }
             },

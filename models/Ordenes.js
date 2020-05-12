@@ -40,65 +40,7 @@ const Ordenes = db.define(
                 }
             }
         },
-        // fecha : {
-        //     type : Sequelize.DATEONLY, 
-        //     allowNull : false,
-        //     validate : {
-        //         notEmpty : {
-        //             msg : 'Agrega una fecha para el Meeti'
-        //         }
-        //     }
-        // },
-        // hora : {
-        //     type : Sequelize.TIME, 
-        //     allowNull : false,
-        //     validate : {
-        //         notEmpty : {
-        //             msg : 'Agrega una hora para el Meeti'
-        //         }
-        //     }
-        // },
-        // direccion : {
-        //     type : Sequelize.STRING, 
-        //     allowNull : false,
-        //     validate : {
-        //         notEmpty : {
-        //             msg : 'Agrega una dirección'
-        //         }
-        //     }
-        // },
-        // ciudad : {
-        //     type : Sequelize.STRING, 
-        //     allowNull : false,
-        //     validate : {
-        //         notEmpty : {
-        //             msg : 'Agrega una Ciudad'
-        //         }
-        //     }
-        // },
-        // estado : {
-        //     type : Sequelize.STRING, 
-        //     allowNull : false,
-        //     validate : {
-        //         notEmpty : {
-        //             msg : 'Agrega un estado'
-        //         }
-        //     }
-        // }
-        // pais : {
-        //     type : Sequelize.STRING, 
-        //     allowNull : false,
-        //     validate : {
-        //         notEmpty : {
-        //             msg : 'Agrega un país'
-        //         }
-        //     }
-        // },   
-        //      interesados : {
-        //     type: Sequelize.ARRAY(Sequelize.INTEGER),
-        //     defaultValue : []
-        // }
-    
+
     }, {
         hooks: {
             async beforeCreate(orden) {

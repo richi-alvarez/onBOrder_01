@@ -234,6 +234,7 @@ module.exports = function() {
     pagosController.showCart
 );
 
+    router.get('/add-to-cart/:id',pagosController.addCart);
 
     return router;
 }

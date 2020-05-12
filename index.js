@@ -67,6 +67,8 @@ app.use((req, res, next) => {
     res.locals.mensajes = req.flash();
     const fecha = new Date();
     res.locals.year = fecha.getFullYear();
+    res.locals.login = req.isAuthenticated();
+    res.locals.session = req.session;
     next();
 });
 
