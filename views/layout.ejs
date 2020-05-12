@@ -571,13 +571,32 @@
 	<script type="text/javascript" src="/vendor/sweetalert/sweetalert.min.js"></script>
 	<script type="text/javascript">
 		$('.block2-btn-addcart').each(function(){
+			if(localStorage.getItem("orden")){
+				$('.header-icons-noti').html(`<b>${localStorage.getItem("orden")}</b>` );
+			}
+		
 			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
 			$(this).on('click', function(){
+				
 				var url = $(this).parent().prevObject[0].dataset.id;
 				var url_completed=window.location.href+url;
-				console.log(url_completed)
+				const datos = {
+					url_completed
+    			}
+			$.ajax({
+            type:"get",
+            url: url_completed,
+            data:datos,
+            beforeSend:function(){
 				swal(nameProduct, "is added to cart !", "success");
-				location.href =url_completed;
+			}, success: function(datos){  
+				localStorage.setItem("orden", datos.data.totalQty);
+				console.log(datos.data.totalQty)
+				$('.header-icons-noti').html(`<b>${datos.data.totalQty}</b>` );
+				
+			}
+		})
+			
 			});
 		});
 
