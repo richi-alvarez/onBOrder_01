@@ -16,7 +16,9 @@
         <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css">
         <link rel="stylesheet" type="text/css" href="/vendor/css-hamburgers/hamburgers.min.css">
-        <link rel="stylesheet" type="text/css" href="/vendor/animsition/css/animsition.min.css">
+		<!-- <link rel="stylesheet" type="text/css" href="/vendor/animsition/css/animsition.min.css"> -->
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animsition/3.5.2/css/animsition.css" ></link> -->
+
         <link rel="stylesheet" type="text/css" href="/vendor/select2/select2.min.css">
         <link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css">
         <link rel="stylesheet" type="text/css" href="/vendor/slick/slick.css">
@@ -25,7 +27,7 @@
         <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" href="/css/trix.css">
     <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"> -->
 </head>
 <body>
     	<!-- Header -->
@@ -86,8 +88,8 @@
 
 					<div class="header-wrapicon2">
 						<img src="/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+					
 						<span class="header-icons-noti">0</span>
-
 						<!-- Header cart noti -->
 						<div class="header-cart header-dropdown">
 							<ul class="header-cart-wrapitem">
@@ -270,7 +272,7 @@
 		</div>
 
 		<!-- Menu Mobile -->
-		<div class="wrap-side-menu" >
+		<div class="wrap-side-menu desactivo" >
 			<nav class="side-menu">
 				<ul class="main-menu">
 					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
@@ -553,8 +555,10 @@
 			</div>
 		</div>
 
-	<script type="text/javascript" src="/vendor/jquery/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="/vendor/animsition/js/animsition.min.js"></script>
+	
+	<!-- <script type="text/javascript" src="/vendor/animsition/js/animsition.min.js"></script> -->
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/3.5.2/js/jquery.animsition.min.js"></script> -->
 	<script type="text/javascript" src="/vendor/bootstrap/js/popper.js"></script>
 	<script type="text/javascript" src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/vendor/select2/select2.min.js"></script>
@@ -571,9 +575,9 @@
 	<script type="text/javascript" src="/vendor/sweetalert/sweetalert.min.js"></script>
 	<script type="text/javascript">
 		$('.block2-btn-addcart').each(function(){
-			if(localStorage.getItem("orden")){
-				$('.header-icons-noti').html(`<b>${localStorage.getItem("orden")}</b>` );
-			}
+			// if(localStorage.getItem("orden")){
+			// 	$('.header-icons-noti').html(`<b>${localStorage.getItem("orden")}</b>` );
+			// }
 		
 			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
 			$(this).on('click', function(){
@@ -590,7 +594,7 @@
             beforeSend:function(){
 				swal(nameProduct, "is added to cart !", "success");
 			}, success: function(datos){  
-				localStorage.setItem("orden", datos.data.totalQty);
+				// localStorage.setItem("orden", datos.data.totalQty);
 				console.log(datos.data.totalQty)
 				$('.header-icons-noti').html(`<b>${datos.data.totalQty}</b>` );
 				
@@ -609,8 +613,6 @@
 	</script>
 
 
-	<script src="/js/main.js"></script>
-    <script src="/dist/main.bundle.js"></script>
     <script src="/js/trix.js"></script>
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
     <script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"
@@ -639,6 +641,9 @@
     <script src="/js/meeti.js"></script>
 
 <script src="/js/tool.js"></script>
+
+<!-- <script src="/js/main.js"></script> -->
+<script src="/dist/main.bundle.js"></script>
 
 </body>
 </html>

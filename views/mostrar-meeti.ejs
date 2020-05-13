@@ -31,10 +31,10 @@
         ">Procesando...</div>
         <div class="pregunta-asistencia">
             <% if(usuario.id) { %>
-            <% const existe = meeti.interesados.includes(usuario.id) %>
+        
                 <form action="/confirmar-asistencia/<%= meeti.slug %>" id="confirmar-asistencia">
                     <p>¿inter cambiar?</p>
-                    <% if( existe ) {  %>
+                    <% if( usuario.id ) {  %>
                         <input type="hidden" id="accion" value="cancelar">
                         <input type="submit" class="btn btn-rojo" value="Cancelar">
                         <div id="sisas">
@@ -139,7 +139,7 @@
 				</h4>
 			
                 <span class="m-text17">
-					$22
+					$<%- meeti.valorMeeti %>
 				</span>
 
 				<!--  -->

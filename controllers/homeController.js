@@ -12,7 +12,7 @@ exports.home = async (req, res) => {
     const consultas = [];
     consultas.push( Categorias.findAll({}) );
     consultas.push( Meeti.findAll ({
-            attributes : ['slug', 'titulo', 'fecha', 'hora','imagen', 'id'],
+            attributes : ['slug', 'titulo', 'fecha', 'hora','imagen', 'id', 'valorMeeti'],
             where :{
                 fecha : { [Op.gte] : moment(new Date()).format("YYYY-MM-DD") }
             },
@@ -34,11 +34,18 @@ exports.home = async (req, res) => {
 
     // extraer y pasar a la vista
     const [ categorias, meetis  ] = await Promise.all(consultas);
+    if(!req.session.cart){
+        var stock = 0;
+    }else{  
+        var stock = req.session.cart.totalQty;
+    }
+
 
     res.render('home', {
         nombrePagina : 'Inicio',
         categorias, 
         meetis, 
-        moment
+        moment,
+        stocks : stock
     })
 };

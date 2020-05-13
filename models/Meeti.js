@@ -37,7 +37,8 @@ const Meeti = db.define(
             defaultValue : 0
         },
         valorMeeti : {
-            type : Sequelize.TEXT
+            type: Sequelize.INTEGER,
+            defaultValue : 0
         },
         zoomId : {
             type : Sequelize.TEXT
@@ -111,8 +112,8 @@ const Meeti = db.define(
         imagen: Sequelize.TEXT,
 
         interesados : {
-            type: Sequelize.ARRAY(Sequelize.INTEGER),
-            defaultValue : []
+            type: Sequelize.INTEGER,
+            defaultValue : 0
         }
     }, {
         hooks: {

@@ -86,7 +86,6 @@ exports.showCart= async (req, res, next) => {
   for (var key in alg) {
     orden_ = alg[key];
 }
-  console.log(cart.totalPrice)
 
   res.render('cart', {products: cart.generateArray(), totalPrice: cart.totalPrice,  nombrePagina : 'Carrito de compras'});
 
