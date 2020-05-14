@@ -13,14 +13,6 @@
                 <% } %>
             </select>
         </div>
-        <div class="campo">
-            <label>Titulo</label>
-            <input type="text" name="titulo" placeholder="Titulo Meeti" required>
-        </div>
-        <!-- <div class="campo">
-            <label>Invitado</label>
-            <input type="text" name="invitado" placeholder="Nombre Invitado o Ponente (si aplica)">
-        </div> -->
         <div class="columnas-2 grid">
             <div class="campo">
                 <label>Fecha</label>
@@ -31,10 +23,11 @@
                 <input type="time" name="hora" placeholder="Hora Meeti"required>
             </div>
         </div>
-        <!-- <div class="campo">
-            <label>Cupo</label>
-            <input type="number" min="1" name="cupo" placeholder="Cupo Meeti (si aplica)">
-        </div> -->
+        <div class="campo">
+            <label>Titulo</label>
+            <input type="text" name="titulo" placeholder="Titulo Meeti" required>
+        </div>
+
         <div class="campo descripcion">
             <label>Descripción</label>
             <div class="contenedor-editor">
@@ -44,7 +37,7 @@
         </div>
         <div class="campo">
             <label>Imagen</label>
-            <input type="file" name="imagen">
+            <input type="file" name="imagen" multiple>
         </div>
 
         <legend>producto personalizada</legend>
@@ -64,7 +57,7 @@
         <div class="pago" id="pagoCheck" style="display:none">
 
             <div class="campo">
-                <label>Valor reunion</label>
+                <label>Valor producto</label>
                 <input type="text" id="valorMeeti" name="valorMeeti" placeholder="Valor reunión" >
             </div>
                 <br>
@@ -93,31 +86,15 @@
                 <label>modo</label>
                 <div>
                     <label>
-                      <input type="radio" class="checkB-input radio" name="checkoutTest" id="checkoutTest" checked />
+                      <input type="radio" class="checkB-input radio" name="checkoutTest" id="checkoutTest" value="test" checked />
                       Prueba
                     </label>
                     <label>
-                      <input type="radio" class="checkB-input radio" name="checkoutTest" id="checkoutTest" />
+                      <input type="radio" class="checkB-input radio" name="checkoutTest" id="checkoutTest" value="prod" />
                       Producción
                     </label>
                   </div>
             </div>
-        </div>
-        <br>
-        <p style="
-        font-weight: bold;
-        color: #333;
-        font-size: 1rem;
-        text-align: center;
-    ">los siguientes valores debe de validarlo en la cuenta de zoom:</p>
-        <div class="campo">
-            <label>zoom id reunion</label>
-            <input type="text" id="zoomId" name="zoomId" placeholder="id reunio zoom" required>
-        </div>
-
-        <div class="campo">
-            <label>zoom password reunion</label>
-            <input type="text" id="zoomPassword" name="zoomPassword" placeholder="password reunio zoom" required >
         </div>
         <br>
         <p class="informacion">Confirma que los siguientes campos sean correctos:</p>
@@ -126,15 +103,13 @@
             <input type="text" id="ciudad" name="ciudad" placeholder="Ciudad" required>
         </div>
         <div class="campo">
-            <label>Estado</label>
+            <label>Estado o provincia</label>
             <input type="text" id="estado" name="estado" placeholder="Estado" required>
         </div>
         <div class="campo">
             <label>País</label>
             <input type="text" id="pais" name="pais" placeholder="País" required>
         </div>
-            <input type="hidden" id="lat" name="lat">
-            <input type="hidden" id="lng" name="lng">
         <div class="campo enviar">
             <input type="submit" class="btn btn-rosa" value="Crear Meeti">
         </div>

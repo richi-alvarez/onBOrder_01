@@ -24,7 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if(checkPago) {
         checkPago.addEventListener('change', checkPagos);
     }
-    
+    const checkPagosss=document.querySelector('#epaycos')
+    if(checkPagosss) {
+        checkPagosss.addEventListener('submit', addToCart);
+    }
 });
 
 function confirmarAsistencia(e) {
@@ -56,31 +59,20 @@ function confirmarAsistencia(e) {
                 btn.value = 'Cancelar';
                 btn.classList.remove('btn-azul');
                 btn.classList.add('btn-rojo');
-                var button = document.querySelector('#sisas');
-                button.hidden= false;
+                
                   // mostrar un mensaje
                   
                 mensaje.appendChild(document.createTextNode(respuesta.data));
                 mensaje.appendChild(document.createTextNode(''));
-
-                var link = document.querySelector('#sisas');
-                
-                var linkPay = document.querySelector('#linkPay');
                  var button = document.querySelector('#epayco');
-                 //button.setAttribute('hidden', 'false');
                  button.hidden= false;
-                 linkPay.hidden= false;
-                link.hidden= false;
-
+             
             } else {
-                var link = document.querySelector('#sisas');
-                link.hidden= false;
-                var linkPay = document.querySelector('#linkPay');
+
                 var button = document.querySelector('#epayco');
                 // button.hidden= false;
                 button.hidden= true;
-                link.hidden= true;
-                linkPay.hidden= true;
+
                 document.querySelector('#accion').value = 'confirmar';
                 btn.value = 'Si';
                 btn.classList.remove('btn-rojo');
@@ -88,23 +80,18 @@ function confirmarAsistencia(e) {
                   // mostrar un mensaje
             mensaje.appendChild(document.createTextNode(respuesta.data));
             }
-          
-
         })
 }
 
 function pagarWithEpayco (e){
 
-// document.querySelector('#epayco').addEventListener('submit', function(e){
+    debugger
     e.preventDefault();
-  
-    let meetiId = document.getElementById('meetId').value;
-    let usuarioId = document.getElementById('usuarioId').value;
-    let grupoId = document.getElementById('grupoId').value;
-    let titulo = document.getElementById('titulo').value;
-    let slug = document.getElementById('slug').value;
+  console.log('sdasd')
+    let meetiId = document.getElementById('add-to-cart').value;
+
     const datos = {
-        meetiId,titulo,usuarioId,grupoId,slug
+        meetiId
     }
 
 // console.log('click..');
@@ -114,7 +101,7 @@ function pagarWithEpayco (e){
         //})
         $.ajax({
             type:"POST",
-            url:this.action,
+           // url:this.action,
             data:datos,
             beforeSend:function(){
 
@@ -176,59 +163,7 @@ function pagarWithEpayco (e){
 
  function verZoom(e){
     e.preventDefault();
-   // console.log('checkSystemRequirements');
-  //  console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
-   ZoomMtg.preLoadWasm();
-   ZoomMtg.prepareJssdk();
-
-   var API_KEY = '621jRVeLS8CPLK9cPG_wTQ';
-
-   var API_SECRET = 'gJfEc3pJ5BfKsJLZX57FFQhLdZjG4wnChfIW';
-   var meetConfig = {
-    apiKey: API_KEY,
-    apiSecret: API_SECRET,
-    meetingNumber: parseInt(document.getElementById('meeting_number').value),
-    userName: document.getElementById('display_name').value,
-    passWord: document.getElementById('meeting_pwd').value,
-    leaveUrl: "https://zoom.us",
-    role: parseInt(document.getElementById('meeting_role').value, 10)
-};
-var signature = ZoomMtg.generateSignature({
-    meetingNumber: meetConfig.meetingNumber,
-    apiKey: meetConfig.apiKey,
-    apiSecret: meetConfig.apiSecret,
-    role: meetConfig.role,
-    success: function(res){
-        console.log("signature",res.result);
-    }
-});
-console.log(signature);
-ZoomMtg.init({
-    leaveUrl: 'http://www.zoom.us',
-    isSupportAV: true,
-    success: function () {
-        ZoomMtg.join(
-            {
-                meetingNumber: meetConfig.meetingNumber,
-                userName: meetConfig.userName,
-                signature: signature,
-                apiKey: meetConfig.apiKey,
-                passWord: meetConfig.passWord,
-                success: function(res){
-                    $('#nav-tool').hide();
-                    console.log('join meeting success');
-                },
-                error: function(res) {
-                    console.log(res);
-                }
-            }
-        );
-    },
-    error: function(res) {
-        console.log(res);
-    }
-});
-
+   
 
 };
 
@@ -253,4 +188,10 @@ function checkPagos(e){
        document.getElementById("epayco_secretkey").required = false;
        document.getElementById("epayco_publickey").required = false;
       }
+}
+
+
+function addToCart(e){
+    e.preventDefault();
+console.log("sasas")
 }

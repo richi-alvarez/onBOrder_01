@@ -13,9 +13,7 @@ exports.home = async (req, res) => {
     consultas.push( Categorias.findAll({}) );
     consultas.push( Meeti.findAll ({
             attributes : ['slug', 'titulo', 'fecha', 'hora','imagen', 'id', 'valorMeeti'],
-            where :{
-                fecha : { [Op.gte] : moment(new Date()).format("YYYY-MM-DD") }
-            },
+
             limit: 3,
             order : [
                 ['fecha', 'ASC']
@@ -39,7 +37,7 @@ exports.home = async (req, res) => {
     }else{  
         var stock = req.session.cart.totalQty;
     }
-
+    console.log(":::::::::body::::::::",meetis)
 
     res.render('home', {
         nombrePagina : 'Inicio',

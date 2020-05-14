@@ -6,7 +6,7 @@ const fs = require('fs');
 
 const uuid = require('uuid/v4');
 const configuracionMulter = {
-    limits : { fileSize : 100000 },
+   // limits : { fileSize : 100000 },
     storage: fileStorage = multer.diskStorage({
         destination: (req, file, next) => {
             next(null, __dirname+'/../public/uploads/productos/');
@@ -27,7 +27,10 @@ const configuracionMulter = {
     }
 }
 
-const upload = multer(configuracionMulter).single('imagen');
+// const upload = multer(configuracionMulter).single('imagen');
+//var storage = multer.diskStorage({})
+
+const upload = multer(configuracionMulter).array("imagen", 12);
 
 // sube imagen en el servidor
 exports.subirImagen = (req, res, next) => {
@@ -71,10 +74,45 @@ exports.crearMeti = async (req, res) => {
     // asignar el usuario
     meeti.usuarioId = req.user.id;
     
-       // leer la imagen
-       if(req.file) {
-        meeti.imagen = req.file.filename;
-    }
+
+
+if(req.files) {
+           // leer la imagen
+           var keys = [];
+           for (let value of Object.values(req.files)) {
+               keys.push(value.filename);
+             }
+      
+       if(keys.length==1){
+      //  console.log(":::::1:::::::::::",keys[0],keys[1],keys[2]);
+        meeti.imagen=keys[0];
+        meeti.imagen1=null;
+        meeti.imagen2=null;
+       }else{
+        if(keys.length==2){
+        //    console.log("::::::::2:::::::::",keys[0],keys[1],keys[2])
+            meeti.imagen=keys[0];
+            meeti.imagen1=keys[1];
+            meeti.imagen2=null;
+           }
+           else{
+            if(keys.length==3){
+           //     console.log(":::::::3::::::::::",keys[0],keys[1],keys[2])
+                meeti.imagen=keys[0];
+                meeti.imagen1=keys[1];
+                meeti.imagen2=keys[2];
+               }else{
+            //    console.log(":::::::mayor a 3::::::::::",keys[0],keys[1],keys[2])
+                meeti.imagen=keys[0];
+                meeti.imagen1=keys[1];
+                meeti.imagen2=keys[2];
+               }
+
+           }
+       }
+     
+   // meeti.imagen = req.file.filename;
+}
 
     // cupo opcional
     if(req.body.cupo === '') {
@@ -85,15 +123,13 @@ exports.crearMeti = async (req, res) => {
     }else{
         meeti.pagada = 1;
     }
-    var re = /-/g;
-   // var meetZommId = meeti.zoomId.replace(re, '');
-    var meetZommId = meeti.zoomId;
-    meeti.zoomId=meetZommId;
+    let date = new Date()
+
     meeti.id = uuid();
 
     // almacenar en la BD
     try {
-      await Meeti.create(meeti);
+    await Meeti.create(meeti);
         req.flash('exito', 'Se ha creado el Meeti Correctamente');
         res.redirect('/administracion');
     } catch (error) {
@@ -165,14 +201,10 @@ exports.editarMeeti = async (req, res, next) => {
 if(valorMeeti){
  pagada_ = 1;
 }
-var re = /-/g;
-var meetZommId = zoomId.replace(re, '');
 
     meeti.grupoId = grupoId;
     meeti.titulo = titulo;
     meeti.invitado = invitado;
-    meeti.fecha = fecha;
-    meeti.hora = hora;
     meeti.cupo = cupo;
     meeti.pagada = pagada_;
     meeti.ciudad = ciudad;
@@ -183,8 +215,7 @@ var meetZommId = zoomId.replace(re, '');
     meeti.epayco_secretkey= epayco_secretkey;
     meeti.epayco_publickey = epayco_publickey;
     meeti.descripcion = descripcion;
-    meeti.zoomId = meetZommId;
-    meeti.zoomPassword = zoomPassword;
+ 
 
    // console.log("==================",meeti);
   

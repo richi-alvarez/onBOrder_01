@@ -40,12 +40,6 @@ const Meeti = db.define(
             type: Sequelize.INTEGER,
             defaultValue : 0
         },
-        zoomId : {
-            type : Sequelize.TEXT
-        },
-        zoomPassword : {
-            type : Sequelize.TEXT
-        },
         epayco_customerid : {
             type : Sequelize.TEXT
         },
@@ -64,7 +58,16 @@ const Meeti = db.define(
                 }
             }
         },
-        fecha : {
+      
+        ciudad : {
+            type : Sequelize.STRING, 
+            allowNull : false,
+            validate : {
+                notEmpty : {
+                    msg : 'Agrega una Ciudad'
+                }
+            }
+        },        fecha : {
             type : Sequelize.DATEONLY, 
             allowNull : false,
             validate : {
@@ -79,15 +82,6 @@ const Meeti = db.define(
             validate : {
                 notEmpty : {
                     msg : 'Agrega una hora para el Meeti'
-                }
-            }
-        },
-        ciudad : {
-            type : Sequelize.STRING, 
-            allowNull : false,
-            validate : {
-                notEmpty : {
-                    msg : 'Agrega una Ciudad'
                 }
             }
         },
@@ -110,7 +104,8 @@ const Meeti = db.define(
             }
         },   
         imagen: Sequelize.TEXT,
-
+        imagen1: Sequelize.TEXT,
+        imagen2: Sequelize.TEXT,
         interesados : {
             type: Sequelize.INTEGER,
             defaultValue : 0
