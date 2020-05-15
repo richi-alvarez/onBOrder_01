@@ -14,7 +14,7 @@ exports.home = async (req, res) => {
     consultas.push( Meeti.findAll ({
             attributes : ['slug', 'titulo', 'fecha', 'hora','imagen', 'id', 'valorMeeti'],
 
-            limit: 3,
+           // limit: 3,
             order : [
                 ['fecha', 'ASC']
             ], 
@@ -37,7 +37,7 @@ exports.home = async (req, res) => {
     }else{  
         var stock = req.session.cart.totalQty;
     }
-    console.log(":::::::::body::::::::",meetis)
+   // console.log(":::::::::body::::::::",meetis)
 
     res.render('home', {
         nombrePagina : 'Inicio',

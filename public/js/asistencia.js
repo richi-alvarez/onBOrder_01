@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $("#snoA").fadeOut();
     const pago = document.querySelector('#meeting_form') 
     if(pago) {
-        pago.addEventListener('submit', verZoom);
+        pago.addEventListener('click', verZoom);
     }
     
     const pagarEpayco=document.querySelector('#epayco')
