@@ -58,10 +58,15 @@ exports.subirImagen = (req, res, next) => {
 // Muestra el formulario para nuevos Meeti
 exports.formNuevoMeeti = async (req, res) => {
     const grupos = await Grupos.findAll({ where : { usuarioId : req.user.id }});
-
+    if(!req.session.cart){
+        var stock = 0;
+    }else{  
+        var stock = req.session.cart.totalQty;
+    }
     res.render('nuevo-meeti', {
         nombrePagina : 'Crear Nuevo Meeti',
-        grupos
+        grupos,
+        stocks : stock
     })
 }
 // Inserta nuevos Meeti en la BD
@@ -174,12 +179,17 @@ exports.formEditarMeeti = async (req, res, next) => {
         res.redirect('/administracion');
         return next();
     }
-
+    if(!req.session.cart){
+        var stock = 0;
+    }else{  
+        var stock = req.session.cart.totalQty;
+    }
     // mostramos la vista
     res.render('editar-meeti', {
         nombrePagina : `Editar Meeti : ${meeti.titulo}`,
         grupos, 
-        meeti
+        meeti,
+        stocks : stock
     })
 
 }
@@ -237,10 +247,15 @@ exports.formEliminarMeeti = async ( req, res, next) => {
         res.redirect('/administracion');
         return next();
     }
-
+    if(!req.session.cart){
+        var stock = 0;
+    }else{  
+        var stock = req.session.cart.totalQty;
+    }
     // mostrar la vista
     res.render('eliminar-meeti', {
-        nombrePagina : `Eliminar Meeti : ${meeti.titulo}`
+        nombrePagina : `Eliminar Meeti : ${meeti.titulo}`,
+        stocks : stock
     })
 }
 
@@ -274,10 +289,15 @@ exports.eliminarMeeti = async (req, res) => {
 // Muestra el formulario para editar una imagen de grupo
 exports.formEditarImagen = async (req, res) => {
     const meeti = await Meeti.findOne({ where : { id : req.params.productoId, usuarioId : req.user.id }});
-
+    if(!req.session.cart){
+        var stock = 0;
+    }else{  
+        var stock = req.session.cart.totalQty;
+    }
     res.render('imagen-grupo', {
         nombrePagina : `Editar Imagen producto : ${meeti.titulo}`,
-        meeti
+        meeti,
+        stocks : stock
     })
 }
 

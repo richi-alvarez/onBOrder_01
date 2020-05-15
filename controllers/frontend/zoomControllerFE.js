@@ -26,20 +26,31 @@ if(ordenes.length<=0){
         req.flash('error', 'No se encontro la reunion');
         res.redirect('/administracion');
         return next();}
+        if(!req.session.cart){
+            var stock = 0;
+        }else{  
+            var stock = req.session.cart.totalQty;
+        }
         res.render('zoom',{
             nombrePagina : 'zoom',
             userCount,
-            meeti
+            meeti,
+            stocks : stock
         });
 
         }else{
             if(meeti.usuarioId===req.user.id){
                 userCount = true;
-                        
+                if(!req.session.cart){
+                    var stock = 0;
+                }else{  
+                    var stock = req.session.cart.totalQty;
+                }    
         res.render('zoom',{
             nombrePagina : 'zoom',
             userCount,
-            meeti
+            meeti,
+            stocks : stock
         });
             }
         }
@@ -60,11 +71,16 @@ if(ordenes.length<=0){
         
         try {
           
-          
+            if(!req.session.cart){
+                var stock = 0;
+            }else{  
+                var stock = req.session.cart.totalQty;
+            }    
             res.render('zoom',{
                 nombrePagina : 'zoom',
                 userCount,
-                meeti
+                meeti,
+                stocks : stock
             });
              
         } catch (error) {

@@ -22,12 +22,21 @@ exports.panelAdministracion = async (req, res) => {
     }}) );
     // array destructuring
     const [grupos, meeti, anteriores] = await Promise.all(consultas);
-    
+    if(!req.session.cart){
+        var stock = 0;
+    }else{  
+        var stock = req.session.cart.totalQty;
+    }    if(!req.session.cart){
+        var stock = 0;
+    }else{  
+        var stock = req.session.cart.totalQty;
+    }
     res.render('administracion', {
         nombrePagina : 'Panel de Administracion', 
         grupos, 
         meeti,
         anteriores,
-        moment
+        moment,
+        stocks : stock
     })
 }

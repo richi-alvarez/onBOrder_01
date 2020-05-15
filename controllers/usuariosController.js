@@ -52,8 +52,14 @@ exports.subirImagen = (req, res, next) => {
 }
 
 exports.formCrearCuenta = (req, res) => {
+    if(!req.session.cart){
+        var stock = 0;
+      }else{  
+        var stock = req.session.cart.totalQty;
+      }
     res.render('crear-cuenta', {
-        nombrePagina : 'Crea tu Cuenta'
+        nombrePagina : 'Crea tu Cuenta',
+        stocks : stock
     })
 }
 
@@ -133,18 +139,29 @@ exports.confirmarCuenta = async (req, res, next) => {
 
 // Formulario para iniciar sesion
 exports.formIniciarSesion = (req, res) => {
+    if(!req.session.cart){
+        var stock = 0;
+      }else{  
+        var stock = req.session.cart.totalQty;
+      }
     res.render('iniciar-sesion', {
-        nombrePagina : 'Iniciar Sesión'
+        nombrePagina : 'Iniciar Sesión',
+        stocks : stock
     })
 }
 
 // Muestra el formulario para editar el perfil
 exports.formEditarPerfil = async (req, res) => {
     const usuario = await Usuarios.findByPk(req.user.id);
-
+    if(!req.session.cart){
+        var stock = 0;
+      }else{  
+        var stock = req.session.cart.totalQty;
+      }
     res.render('editar-perfil', {
         nombrePagina : 'Editar Perfil',
-        usuario
+        usuario,
+        stocks : stock
     })
 }
 
@@ -172,8 +189,14 @@ exports.editarPerfil = async (req, res) => {
 
 // Muestra el formulario para modificar el password
 exports.formCambiarPassword = (req, res) => {
+    if(!req.session.cart){
+        var stock = 0;
+      }else{  
+        var stock = req.session.cart.totalQty;
+      }
     res.render('cambiar-password', {
-        nombrePagina : 'Cambiar Password'
+        nombrePagina : 'Cambiar Password',
+        stocks : stock
     })
 }
 
@@ -207,11 +230,16 @@ exports.cambiarPassword = async (req, res, next) => {
 // Muestra el formulario para subir una imagen de perfil
 exports.formSubirImagenPerfil = async (req, res) => {
     const usuario = await Usuarios.findByPk(req.user.id);
-
+    if(!req.session.cart){
+        var stock = 0;
+      }else{  
+        var stock = req.session.cart.totalQty;
+      }
     // mostrar la vista
     res.render('imagen-perfil', {
         nombrePagina : 'Subir Imagen perfil',
-        usuario
+        usuario,
+        stocks : stock
     });
 
 }

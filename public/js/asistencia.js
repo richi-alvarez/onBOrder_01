@@ -11,10 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         asistencia.addEventListener('submit', confirmarAsistencia);
     }   
     $("#snoA").fadeOut();
-    const pago = document.querySelector('#meeting_form') 
-    if(pago) {
-        pago.addEventListener('click', verZoom);
-    }
+   
     
     const pagarEpayco=document.querySelector('#epayco')
     if(pagarEpayco) {
@@ -64,14 +61,11 @@ function confirmarAsistencia(e) {
                   
                 mensaje.appendChild(document.createTextNode(respuesta.data));
                 mensaje.appendChild(document.createTextNode(''));
-                 var button = document.querySelector('#epayco');
-                 button.hidden= false;
+                
              
             } else {
 
-                var button = document.querySelector('#epayco');
-                // button.hidden= false;
-                button.hidden= true;
+             
 
                 document.querySelector('#accion').value = 'confirmar';
                 btn.value = 'Si';
@@ -159,13 +153,6 @@ function pagarWithEpayco (e){
         })
 };
 
-
-
- function verZoom(e){
-    e.preventDefault();
-   
-
-};
 
 function checkPagos(e){
     e.preventDefault();

@@ -31,6 +31,7 @@ var messages = [{
 const app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+require('./models/Chat');
 io.on('connection', function(socket){
 	console.log(' alguien se h conectado con socket');
 	socket.emit('messagesr',messages);
@@ -54,9 +55,8 @@ app.set('view engine', 'ejs');
 // Ubicación vistas
 app.set('views', path.join(__dirname, './views'));
 
-// archivos staticos
-app.use(express.static('public'));
 
+app.use(express.static('public'));
 // habilitar cookie parser
 app.use(cookieParser());
 

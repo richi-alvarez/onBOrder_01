@@ -43,10 +43,16 @@ exports.resultadosBusqueda = async (req, res) => {
     });
     // console.log("--------------------------------",meetis)
     // pasar los resultados a la vista
+    if(!req.session.cart){
+        var stock = 0;
+      }else{  
+        var stock = req.session.cart.totalQty;
+      }
     res.render('busqueda', {
         nombrePagina : 'Resultados Búsqueda',
         meetis, 
-        moment
+        moment,
+        stocks : stock
     })
 
 }

@@ -13,9 +13,15 @@ exports.response= async (req, res, next) => {
     const data = response.data.data;
    // console.log('data reponse',response.data.data);
         // mostramos la vista
+        if(!req.session.cart){
+          var stock = 0;
+        }else{  
+          var stock = req.session.cart.totalQty;
+        }
         res.render('thank-you', {
           nombrePagina : `thank you Meeti`,
-          data
+          data,
+          stocks : stock
       })
   })
   .catch(function (error) {
@@ -75,8 +81,10 @@ exports.addCart = async (req, res, next) => {
 exports.showCart= async (req, res, next) => {
 
   if(!req.session.cart){
+    var stock = 0;
     return res.render('cart', {
-      products:null,totalPrice:0, nombrePagina : 'Carrito de compras'
+      products:null,totalPrice:0, nombrePagina : 'Carrito de compras',
+      stocks : stock
     });
   }
   var cart = new Cart(req.session.cart);
@@ -86,7 +94,13 @@ exports.showCart= async (req, res, next) => {
   for (var key in alg) {
     orden_ = alg[key];
 }
-
-  res.render('cart', {products: cart.generateArray(), totalPrice: cart.totalPrice,  nombrePagina : 'Carrito de compras'});
+console.log('_____________________________')
+if(!req.session.cart){
+  var stock = 0;
+}else{  
+  var stock = req.session.cart.totalQty;
+}
+  res.render('cart', {products: cart.generateArray(), totalPrice: cart.totalPrice,  nombrePagina : 'Carrito de compras',
+  stocks : stock});
 
 }

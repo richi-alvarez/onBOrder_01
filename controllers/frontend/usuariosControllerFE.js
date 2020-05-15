@@ -15,11 +15,16 @@ exports.mostrarUsuario = async (req, res, next) => {
         res.redirect('/');
         return next();
     }
-
+    if(!req.session.cart){
+        var stock = 0;
+    }else{  
+        var stock = req.session.cart.totalQty;
+    }
     // mostrar la vista
     res.render('mostar-perfil', {
         nombrePagina : `Perfil Usuario: ${usuario.nombre}`,
         usuario,
-        grupos
+        grupos,
+        stocks : stock
     })
 }

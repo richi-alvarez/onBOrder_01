@@ -53,10 +53,15 @@ exports.subirImagen = (req, res, next) => {
 
 exports.formNuevoGrupo = async (req, res) => {
     const categorias = await Categorias.findAll();
-
+    if(!req.session.cart){
+        var stock = 0;
+    }else{  
+        var stock = req.session.cart.totalQty;
+    }
     res.render('nuevo-grupo', {
         nombrePagina : 'Crea un nuevo grupo',
-        categorias
+        categorias,
+        stocks : stock
     })
 }
 
@@ -105,11 +110,16 @@ exports.formEditarGrupo = async (req, res) => {
 
     // Promise con await
     const [grupo, categorias] = await Promise.all(consultas);
-
+    if(!req.session.cart){
+        var stock = 0;
+    }else{  
+        var stock = req.session.cart.totalQty;
+    }
     res.render('editar-grupo', {
         nombrePagina : `Editar Grupo : ${grupo.nombre}`,
         grupo,
-        categorias
+        categorias,
+        stocks : stock
     })
 }
 
@@ -143,10 +153,15 @@ exports.editarGrupo = async (req, res, next) => {
 // Muestra el formulario para editar una imagen de grupo
 exports.formEditarImagen = async (req, res) => {
     const grupo = await Grupos.findOne({ where : { id : req.params.grupoId, usuarioId : req.user.id }});
-
+    if(!req.session.cart){
+        var stock = 0;
+    }else{  
+        var stock = req.session.cart.totalQty;
+    }
     res.render('imagen-grupo', {
         nombrePagina : `Editar Imagen Grupo : ${grupo.nombre}`,
-        grupo
+        grupo,
+        stocks : stock
     })
 }
 
@@ -205,10 +220,15 @@ exports.formEliminarGrupo = async (req, res, next) => {
         res.redirect('/administracion');
         return next();
     }
-
+    if(!req.session.cart){
+        var stock = 0;
+    }else{  
+        var stock = req.session.cart.totalQty;
+    }
     // todo bien, ejecutar la vista
     res.render('eliminar-grupo', {
-        nombrePagina : `Eliminar Grupo : ${grupo.nombre}`
+        nombrePagina : `Eliminar Grupo : ${grupo.nombre}`,
+        stocks : stock
     })
 }
 

@@ -38,14 +38,20 @@ try {
 } catch (error) {
     const comentarios={};
     const orden={};
- 
+    if(!req.session.cart){
+        var stock = 0;
+      }else{  
+        var stock = req.session.cart.totalQty;
+      }
+      console.log("stock",stock,req.session.cart)
     res.render('mostrar-meeti', {
         nombrePagina : meeti.titulo,
         meeti, 
         comentarios, 
         orden,
         moment,
-        userCount
+        userCount,
+        stocks : stock
     })
     //res.redirect('/administracion');
 }
@@ -89,14 +95,19 @@ if(ordenes.length===0)
      orden = Object.assign(orden_, url_);
 
     // pasar el resultado hacia la vista
-    
+    if(!req.session.cart){
+        var stock = 0;
+      }else{  
+        var stock = req.session.cart.totalQty;
+      }
     res.render('mostrar-meeti', {
         nombrePagina : meeti.titulo,
         meeti, 
         comentarios, 
         orden,
         moment,
-        userCount
+        userCount,
+        stocks : stock
     })
 }else
     {
@@ -114,14 +125,19 @@ if(userCount)
      orden = Object.assign(orden_, url_);
 }
     // pasar el resultado hacia la vista
-    
+    if(!req.session.cart){
+        var stock = 0;
+      }else{  
+        var stock = req.session.cart.totalQty;
+      }
     res.render('mostrar-meeti', {
         nombrePagina : meeti.titulo,
         meeti, 
         comentarios, 
         orden,
         moment,
-        userCount
+        userCount,
+        stocks : stock
     })
  }
 
@@ -251,11 +267,16 @@ exports.mostrarAsistentes = async (req, res) => {
         attributes: ['nombre', 'imagen'],
         where : { id : interesados }
     });
-
+    if(!req.session.cart){
+        var stock = 0;
+      }else{  
+        var stock = req.session.cart.totalQty;
+      }
     // crear la vista y pasar datos
     res.render('asistentes-meeti', {
         nombrePagina : 'Listado Asistentes Meeti',
-        asistentes
+        asistentes,
+        stocks : stock
     })
 }
 
@@ -282,11 +303,16 @@ exports.mostrarCategoria = async (req, res, next) => {
                                         }
                                     ]
     });
-
+    if(!req.session.cart){
+        var stock = 0;
+      }else{  
+        var stock = req.session.cart.totalQty;
+      }
     res.render('categoria', {
         nombrePagina : `Categoria: ${categoria.nombre}`,
         meetis,
-        moment
+        moment,
+        stocks : stock
     })
 
     console.log(categoria.id);

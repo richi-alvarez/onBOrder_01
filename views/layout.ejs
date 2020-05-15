@@ -184,8 +184,12 @@
 
 					<div class="header-wrapicon2">
 						<img src="/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						<span class="header-icons-noti"><%= %></span>
+						<% if(stocks) { %> 
+							<span class="header-icons-noti"><%= stocks %></span>
+						<% } else {%>
 						<span class="header-icons-noti">0</span>
-
+						<% } %>
 						<!-- Header cart noti -->
 						<div class="header-cart header-dropdown">
 							<ul class="header-cart-wrapitem">
@@ -608,6 +612,33 @@
 				swal(nameProduct, "is added to wishlist !", "success");
 			});
 		});
+		$('.btn-addcart-product-detail').each(function(){
+	
+			var nameProduct = $('.product-detail-name').html();
+			$(this).on('click', function(){
+				var url = $(this).parent().prevObject[0].dataset.id;
+				var url_completed=window.location.origin+url;
+				console.log(url_completed)
+				const datos = {
+					url_completed
+    			}
+				$.ajax({
+            type:"get",
+            url: url_completed,
+            data:datos,
+            beforeSend:function(){
+				swal(nameProduct, "is added to cart !", "success");
+			}, success: function(datos){  
+				// localStorage.setItem("orden", datos.data.totalQty);
+				console.log(datos.data.totalQty)
+				$('.header-icons-noti').html(`<b>${datos.data.totalQty}</b>` );
+				
+			}
+		})
+			});
+		});
+
+
 	</script>
 
 
@@ -634,14 +665,13 @@
 		</script>
 
     <% if(usuario.id) { %>
-        <script src="/dist/bundle.js"></script>
+        <script src="/dist/main.bundle.js"></script>
     <% } %>
-    <script src="/js/meeti.js"></script>
+     <script src="/dist/asistencia.bundle.js"></script> 
 
 <script src="/js/tool.js"></script>
 
 <!-- <script src="/js/main.js"></script> -->
-<script src="/dist/main.bundle.js"></script>
 <script src="/dist/meeti.bundle.js"></script>
 </body>
 </html>
