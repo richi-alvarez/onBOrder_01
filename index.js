@@ -22,10 +22,24 @@ const db = require('./config/db');
 // Variables de Desarrollo
 require('dotenv').config({path: 'variables.env'});
 
-
+var messages = [{
+    id:1,
+    text: 'hola soy un mensaje',
+    author: 'richi'
+}]
 // Aplicación Principal
 const app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+io.on('connection', function(socket){
+	console.log(' alguien se h conectado con socket');
+	socket.emit('messagesr',messages);
+	socket.on('new-message',function(data){
+		messages.push(data);
 
+		io.sockets.emit('messagesr',messages)
+	});
+});
 // Body parser, leer formularios
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true }));
@@ -80,6 +94,6 @@ const host= process.env.HOST || '0.0.0.0';
 // const host= '127.0.0.2';
  const port = process.env.PORT || 5000;
 //Agrega el puerto
-app.listen(port,host, () => {
+server.listen(port,host, () => {
     console.log('El servidor esta funcionando');
 });

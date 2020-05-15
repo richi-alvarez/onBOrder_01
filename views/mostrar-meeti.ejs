@@ -6,7 +6,7 @@
             <h1><%= meeti.titulo %></h1>
             <div class="info-autor">
                 <div class="imagen">
-                    <% if(meeti.imagen ) { %> 
+                    <% if(meeti.usuario.imagen ) { %> 
                         <img src="/uploads/perfiles/<%= meeti.usuario.imagen %>">
                     <% } %>
                 </div>
@@ -172,15 +172,15 @@
 									<i class="fs-12 fa fa-plus" aria-hidden="true"></i>
 								</button>
 							</div>
-  <!-- <form id="epayco" method="GET" action="/add-to-cart/<%= meeti.id %>">
-      <input type="text" name="add-to-cart" id="add-to-cart" value="/add-to-cart/<%= meeti.id %>" hidden> -->
+  <form id="addto-cart" method="GET" action="/add-to-cart/<%= meeti.id %>">
+      <input type="text" name="add-to-cart" id="add-to-cart" value="/add-to-cart/<%= meeti.id %>" hidden>
 							<div class="btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10 " data-id="add-to-cart/<%= meeti.id %>">
 								<!-- Button -->
-								<button type ="submit" id="meeting_form"class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+								<button type ="submit" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
 									Add to Cart
 								</button>
                             </div>
-         <!-- </form> -->
+         </form>
       
 						</div>
 					</div>
@@ -325,6 +325,7 @@
                 <% const fecha = meeti.fecha + ' ' + meeti.hora; %>
                 <p><%= moment(fecha).format('LLLL') %> Horas</p>
             </div>
+            <div id="messagesCHat"></div>
             <div class="ubicacion">
                 <p> <%= meeti.direccion %>, <%= meeti.ciudad %>, <%= meeti.estado %>, <%= meeti.pais %> </p>
             </div>

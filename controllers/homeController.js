@@ -37,7 +37,7 @@ exports.home = async (req, res) => {
     }else{  
         var stock = req.session.cart.totalQty;
     }
-   // console.log(":::::::::body::::::::",meetis)
+    console.log(":::::::::body::::::::",res.locals.usuario)
 
     res.render('home', {
         nombrePagina : 'Inicio',

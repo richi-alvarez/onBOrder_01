@@ -1,26 +1,48 @@
 document.addEventListener('DOMContentLoaded', () => {
-    if(document.querySelector('#ubicacion-meeti')) {
-        mostrarMapa();
+    var socket = io.connect('http://localhost:5000',{ 'forceNew':true });
+    socket.on('messagesr', function (data) {
+        console.log(data);
+        render(data)
+    })
+    
+    function render(data){
+        var htm =data.map(function(data, index){
+        return	(`<div>
+                <strong>${data.author}</strong>
+                <em>${data.text}</em>
+                </div>`)
+        }).join(" "); 
+        document.getElementById('messagesCHat').innerHTML = htm;
     }
+
+    
+    function addMessage(e){
+        var payload = {
+            author: document.getElementById('usernameChat').value,
+            text: document.getElementById('textoChat').value
+        };
+        socket.emit('new-message',payload);
+        return false;
+    }
+
+
+
+    
+  const addT=document.querySelector('#addto-cart');
+        if(addT) {
+            asistencia.addEventListener('submit', mostrarMapa);
+        }   
+    
 })
 
 
 function mostrarMapa() {
-
+debugger
+console.log('agregar al carrito')
     // obtener los valores
-    const lat = document.querySelector('#lat').value,
-          lng = document.querySelector('#lng').value,
-          direccion = document.querySelector('#direccion').value;
-
-    var map = L.map('ubicacion-meeti').setView([lat, lng], 16);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-    
-    L.marker([lat, lng]).addTo(map)
-        .bindPopup(direccion)
-        .openPopup();
+ 
 }
+
+
 
 
