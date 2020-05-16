@@ -87,7 +87,13 @@
 					<div class="header-wrapicon2">
 						<img src="/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
 					
+				
+							
+						<% if(stocks) { %> 
+							<span class="header-icons-noti"><%= stocks %></span>
+						<% } else {%>
 						<span class="header-icons-noti">0</span>
+						<% } %>
 						<!-- Header cart noti -->
 						<div class="header-cart header-dropdown">
 							<ul class="header-cart-wrapitem">
@@ -184,7 +190,7 @@
 
 					<div class="header-wrapicon2">
 						<img src="/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
-						<span class="header-icons-noti"><%= %></span>
+						
 						<% if(stocks) { %> 
 							<span class="header-icons-noti"><%= stocks %></span>
 						<% } else {%>
@@ -587,7 +593,8 @@
 			$(this).on('click', function(){
 				
 				var url = $(this).parent().prevObject[0].dataset.id;
-				var url_completed=window.location.href+url;
+			//	var url_completed=window.location.href+url;
+				var url_completed=window.location.origin+url;
 				console.log(url_completed)
 				const datos = {
 					url_completed
@@ -609,7 +616,7 @@
 			});
 		});
 
-	
+
 
 		$('.block2-btn-addwishlist').each(function(){
 			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
@@ -669,14 +676,41 @@
 		}, false);
 		</script>
 
-    <% if(usuario.id) { %>
-        <script src="/dist/main.bundle.js"></script>
-    <% } %>
+	  <script src="/dist/main.bundle.js"></script>
      <script src="/dist/asistencia.bundle.js"></script> 
 
 <script src="/js/tool.js"></script>
 
 <!-- <script src="/js/main.js"></script> -->
 <script src="/dist/meeti.bundle.js"></script>
+	<script>
+		$(document).ready(function(){
+//Menu Toggle Script
+$("#menu-toggle").click(function(e) {
+e.preventDefault();
+$("#wrapper").toggleClass("toggled");
+});
+
+// For highlighting activated tabs
+$("#tab1").click(function () {
+$(".tabs").removeClass("active1");
+$(".tabs").addClass("bg-light");
+$("#tab1").addClass("active1");
+$("#tab1").removeClass("bg-light");
+});
+$("#tab2").click(function () {
+$(".tabs").removeClass("active1");
+$(".tabs").addClass("bg-light");
+$("#tab2").addClass("active1");
+$("#tab2").removeClass("bg-light");
+});
+$("#tab3").click(function () {
+$(".tabs").removeClass("active1");
+$(".tabs").addClass("bg-light");
+$("#tab3").addClass("active1");
+$("#tab3").removeClass("bg-light");
+});
+})
+	</script>
 </body>
 </html>
