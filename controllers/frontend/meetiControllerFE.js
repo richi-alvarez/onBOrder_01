@@ -29,6 +29,31 @@ exports.mostrarMeeti = async (req, res,next) => {
     if(!meeti) {
         res.redirect('/');
     }
+    const categoriaId = await Grupos.findOne({ 
+                attributes: ['id', 'nombre','categoriaId'],
+                where: { id : meeti.grupoId}
+        });
+          // Si no existe
+    if(!categoriaId) {
+        res.redirect('/');
+    }
+
+const meetisDos = await Meeti.findAll({
+    order: [
+        ['fecha', 'ASC'], 
+        ['hora', 'ASC']
+    ],
+    include: [
+        {
+            model: Grupos,
+            where : { categoriaId : categoriaId.categoriaId}
+        }, 
+        {
+            model : Usuarios
+        }
+    ]
+});
+
     var userCount=false;
 try {
     if(meeti.usuarioId===req.user.id){
@@ -43,7 +68,7 @@ try {
       }else{  
         var stock = req.session.cart.totalQty;
       }
-      console.log("stock",stock,req.session.cart)
+      //console.log("________stock___________",meetisDos)
     res.render('mostrar-meeti', {
         nombrePagina : meeti.titulo,
         meeti, 
@@ -51,7 +76,8 @@ try {
         orden,
         moment,
         userCount,
-        stocks : stock
+        stocks : stock,
+        meetisDos
     })
     //res.redirect('/administracion');
 }
@@ -107,7 +133,8 @@ if(ordenes.length===0)
         orden,
         moment,
         userCount,
-        stocks : stock
+        stocks : stock,
+        meetisDos
     })
 }else
     {
@@ -315,5 +342,5 @@ exports.mostrarCategoria = async (req, res, next) => {
         stocks : stock
     })
 
-    console.log(categoria.id);
+ 
 }
