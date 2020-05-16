@@ -63,14 +63,48 @@ if(estado_ === 'Aceptada'){
 
 exports.addCart = async (req, res, next) => {
   var prodcutId = req.params.id;
+  var id__ = 0;
+if(req.user){
+
+
+id__ = req.user.id;
+
+}else{
+  id__ = 0;
+}
   var cart = new Cart(req.session.cart ? req.session.cart : {});
    const producto = await Meeti.findByPk(prodcutId);
     if(!producto){
       console.log(':::::::::::::::::::',err)
       return res.redirect('/');
     }else{
+  
      cart.add(producto, producto.id);
      req.session.cart = cart;
+
+
+
+var totalprice= cart.totalPrice;
+var totalcantidad= cart.totalQty;
+ var alg = cart.generateArray();
+  var orden_ ={};
+  for (var key in alg) {
+    orden_ = alg[key];
+}
+alg.forEach(element => {
+console.log('________ id producto _______',element.item.id );
+console.log('________ titulo _______',element.item.titulo );
+console.log('________ usuario id _______',element.item.usuarioId );
+console.log('________ grupo id _______',element.item.grupoId );
+console.log('________ precio _______',element.item.valorMeeti );
+console.log('________ cantidad________',element.qty);
+console.log('_____________________________________');
+});
+console.log(totalcantidad,totalprice,'________--cart - add',id__);
+
+
+
+
      res.send({data:req.session.cart})
     }
 }

@@ -565,8 +565,7 @@
 	<script type="text/javascript">
 		$(".selection-1").select2({
 			minimumResultsForSearch: 20,
-			d
-			ropdownParent: $('#dropDownSelect1')
+			dropdownParent: $('#dropDownSelect1')
 		});
 		$(".selection-2").select2({
 			minimumResultsForSearch: 20,
@@ -589,6 +588,7 @@
 				
 				var url = $(this).parent().prevObject[0].dataset.id;
 				var url_completed=window.location.href+url;
+				console.log(url_completed)
 				const datos = {
 					url_completed
     			}

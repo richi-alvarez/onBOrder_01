@@ -230,7 +230,7 @@ module.exports = function() {
     );
 
     router.get('/cart', 
-    // authController.usuarioAutenticado,
+    authController.usuarioAutenticado,
     pagosController.showCart
 );
 
