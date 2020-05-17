@@ -96,59 +96,41 @@
 						<% } %>
 						<!-- Header cart noti -->
 						<div class="header-cart header-dropdown">
-							<ul class="header-cart-wrapitem">
+							<ul class="header-cart-wrapitem" id="carrito">
+								<% if(alg) { %> 
+								<% alg.forEach(data => {  %>
 								<li class="header-cart-item">
 									<div class="header-cart-item-img">
 										<img src="/images/item-cart-01.jpg" alt="IMG">
 									</div>
-
 									<div class="header-cart-item-txt">
 										<a href="#" class="header-cart-item-name">
-											White Shirt With Pleat Detail Back
+											<%= data.item.titulo %>
 										</a>
 
 										<span class="header-cart-item-info">
-											1 x $19.00
+											<%= data.qty %> x $<%= data.item.valorMeeti %>
 										</span>
 									</div>
-								</li>
-
+									</li>
+							<% }) %>
+								<% } else {%>
 								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="/images/item-cart-02.jpg" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											Converse All Star Hi Black Canvas
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $39.00
-										</span>
-									</div>
 								</li>
+								<% } %>
 
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="/images/item-cart-03.jpg" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											Nixon Porter Leather Watch In Tan
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $17.00
-										</span>
-									</div>
-								</li>
 							</ul>
 
-							<div class="header-cart-total">
-								Total: $75.00
+					
+							<% if(totalprice) { %> 
+							<div class="header-cart-total" id="header-cart-total">
+								Total: $<%= totalprice %>
 							</div>
+							<% } else {%>
+								<div class="header-cart-total" id="header-cart-total">
+								Total: $0
+							</div>
+								<% } %>
 
 							<div class="header-cart-buttons">
 								<div class="header-cart-wrapbtn">
@@ -198,59 +180,42 @@
 						<% } %>
 						<!-- Header cart noti -->
 						<div class="header-cart header-dropdown">
-							<ul class="header-cart-wrapitem">
+						
+								<ul class="header-cart-wrapitem" id="carrito">
+								<% if(alg) { %> 
+								<% alg.forEach(data => {  %>
 								<li class="header-cart-item">
 									<div class="header-cart-item-img">
 										<img src="/images/item-cart-01.jpg" alt="IMG">
 									</div>
-
 									<div class="header-cart-item-txt">
 										<a href="#" class="header-cart-item-name">
-											White Shirt With Pleat Detail Back
+											<%= data.item.titulo %>
 										</a>
 
 										<span class="header-cart-item-info">
-											1 x $19.00
+											<%= data.qty %> x $<%= data.item.valorMeeti %>
 										</span>
 									</div>
-								</li>
-
+									</li>
+							<% }) %>
+								<% } else {%>
 								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="/images/item-cart-02.jpg" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											Converse All Star Hi Black Canvas
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $39.00
-										</span>
-									</div>
 								</li>
+								<% } %>
 
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="/images/item-cart-03.jpg" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											Nixon Porter Leather Watch In Tan
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $17.00
-										</span>
-									</div>
-								</li>
 							</ul>
 
-							<div class="header-cart-total">
-								Total: $75.00
+							<% if(totalprice) { %> 
+							<div class="header-cart-total" id="header-cart-total">
+								Total: $<%= totalprice %>
 							</div>
+							<% } else {%>
+								<div class="header-cart-total" id="header-cart-total">
+								Total: $0
+							</div>
+								<% } %>
+
 
 							<div class="header-cart-buttons">
 								<div class="header-cart-wrapbtn">
@@ -588,14 +553,15 @@
 			// if(localStorage.getItem("orden")){
 			// 	$('.header-icons-noti').html(`<b>${localStorage.getItem("orden")}</b>` );
 			// }
-		
+			const carrito = document.getElementById('carrito');
 			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+
 			$(this).on('click', function(){
-				
+				var path =$(this).parent().parent().parent().find('.block2-name')[0].pathname;
+			var price_ = $(this).parent().parent().parent().find('.block2-price').html();	
 				var url = $(this).parent().prevObject[0].dataset.id;
 			//	var url_completed=window.location.href+url;
-				var url_completed=window.location.origin+url;
-				console.log(url_completed)
+				var url_completed=window.location.origin+url;			
 				const datos = {
 					url_completed
     			}
@@ -604,12 +570,32 @@
             url: url_completed,
             data:datos,
             beforeSend:function(){
+			const row = document.createElement('li');
+					row.classList.add('header-cart-item');
+			        row.innerHTML = `
+									<div class="header-cart-item-img">
+										<img src="/images/item-cart-01.jpg" alt="IMG">
+									</div>
+									<div class="header-cart-item-txt">
+										<a href="${path}" class="header-cart-item-name">
+											${nameProduct}
+										</a>
+										<span class="header-cart-item-info">
+											1 x $ ${price_}
+										</span>
+									</div>
+			        `;
+        carrito.appendChild(row);
 				swal(nameProduct, "is added to cart !", "success");
 			}, success: function(datos){  
 				// localStorage.setItem("orden", datos.data.totalQty);
-				console.log(datos.data.totalQty)
+				//console.log(datos.data.items, typeof(datos.data.items));
+				for (let value of Object.values(datos.data.items)) {
+					// console.log(value.qty);
+					// console.log(value);
+					}
 				$('.header-icons-noti').html(`<b>${datos.data.totalQty}</b>` );
-				
+				$('.header-cart-total').html(`<b>$ ${datos.data.totalPrice}</b>` );
 			}
 		})
 			
@@ -625,12 +611,16 @@
 			});
 		});
 		$('.btn-addcart-product-detail').each(function(){
-	
+	const carrito = document.getElementById('carrito');
 			var nameProduct = $('.product-detail-name').html();
+			var precio = $('.m-text17').html();
 			$(this).on('click', function(){
+				//var path =$(this).parent().parent().parent().find('.block2-name');
+				var path =$(this).parent().baseURI;
+			console.log(precio,path)
+			
 				var url = $(this).parent().prevObject[0].dataset.id;
 				var url_completed=window.location.origin+url;
-				console.log(url_completed)
 				const datos = {
 					url_completed
     			}
@@ -639,6 +629,22 @@
             url: url_completed,
             data:datos,
             beforeSend:function(){
+				const row = document.createElement('li');
+					row.classList.add('header-cart-item');
+			        row.innerHTML = `
+									<div class="header-cart-item-img">
+										<img src="/images/item-cart-01.jpg" alt="IMG">
+									</div>
+									<div class="header-cart-item-txt">
+										<a href="#" class="header-cart-item-name">
+											${nameProduct}
+										</a>
+										<span class="header-cart-item-info">
+											1 x $19.00
+										</span>
+									</div>
+			        `;
+       // carrito.appendChild(row);
 				swal(nameProduct, "is added to cart !", "success");
 			}, success: function(datos){  
 				// localStorage.setItem("orden", datos.data.totalQty);

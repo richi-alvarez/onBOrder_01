@@ -87,20 +87,17 @@ id__ = req.user.id;
 var totalprice= cart.totalPrice;
 var totalcantidad= cart.totalQty;
  var alg = cart.generateArray();
-  var orden_ ={};
-  for (var key in alg) {
-    orden_ = alg[key];
-}
-alg.forEach(element => {
-console.log('________ id producto _______',element.item.id );
-console.log('________ titulo _______',element.item.titulo );
-console.log('________ usuario id _______',element.item.usuarioId );
-console.log('________ grupo id _______',element.item.grupoId );
-console.log('________ precio _______',element.item.valorMeeti );
-console.log('________ cantidad________',element.qty);
-console.log('_____________________________________');
-});
-console.log(totalcantidad,totalprice,'________--cart - add',id__);
+
+// alg.forEach(element => {
+// console.log('________ id producto _______',element.item.id );
+// console.log('________ titulo _______',element.item.titulo );
+// console.log('________ usuario id _______',element.item.usuarioId );
+// console.log('________ grupo id _______',element.item.grupoId );
+// console.log('________ precio _______',element.item.valorMeeti );
+// console.log('________ cantidad________',element.qty);
+// console.log('_____________________________________');
+// });
+// console.log(totalcantidad,totalprice,'________--cart - add',id__);
 
 
 
@@ -123,11 +120,7 @@ exports.showCart= async (req, res, next) => {
   }
   var cart = new Cart(req.session.cart);
 
-  var alg = cart.generateArray();
-  var orden_ ={};
-  for (var key in alg) {
-    orden_ = alg[key];
-}
+
 console.log('_____________________________')
 if(!req.session.cart){
   var stock = 0;
@@ -137,4 +130,16 @@ if(!req.session.cart){
   res.render('cart', {products: cart.generateArray(), totalPrice: cart.totalPrice,  nombrePagina : 'Carrito de compras',
   stocks : stock});
 
+}
+
+
+exports.checkout = async (req, res, next) =>{
+  if(!req.session.cart){
+  var stock = 0;
+}else{  
+  var stock = req.session.cart.totalQty;
+}
+    res.render('checkout', {
+        nombrePagina : 'Inicio',
+  stocks : stock})
 }
