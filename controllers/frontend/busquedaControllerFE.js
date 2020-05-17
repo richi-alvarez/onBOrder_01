@@ -1,7 +1,7 @@
 const Meeti = require('../../models/Meeti');
 const Grupos = require('../../models/Grupos');
 const Usuarios = require('../../models/Usuarios');
-
+const Cart = require('../../models/Cart');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const moment = require('moment');
@@ -45,14 +45,21 @@ exports.resultadosBusqueda = async (req, res) => {
     // pasar los resultados a la vista
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
       }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
       }
     res.render('busqueda', {
         nombrePagina : 'Resultados Búsqueda',
         meetis, 
         moment,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 
 }

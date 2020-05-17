@@ -4,6 +4,7 @@ const Usuarios = require('../../models/Usuarios');
 const Categorias = require('../../models/Categorias');
 const Comentarios = require('../../models/Comentarios');
 const Ordenes = require('../../models/Ordenes');
+const Cart = require('../../models/Cart');
 const moment = require('moment');
 const Sequelize = require('sequelize');
 const uuid = require('uuid/v4');
@@ -65,8 +66,13 @@ try {
     const orden={};
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
       }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
       }
       //console.log("________stock___________",meetisDos)
     res.render('mostrar-meeti', {
@@ -77,7 +83,9 @@ try {
         moment,
         userCount,
         stocks : stock,
-        meetisDos
+        meetisDos,
+        totalprice: totalprice,
+        alg
     })
     //res.redirect('/administracion');
 }
@@ -123,8 +131,13 @@ if(ordenes.length===0)
     // pasar el resultado hacia la vista
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
       }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
       }
     res.render('mostrar-meeti', {
         nombrePagina : meeti.titulo,
@@ -134,7 +147,9 @@ if(ordenes.length===0)
         moment,
         userCount,
         stocks : stock,
-        meetisDos
+        meetisDos,
+        totalprice: totalprice,
+        alg
     })
 }else
     {
@@ -154,8 +169,13 @@ if(userCount)
     // pasar el resultado hacia la vista
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
       }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
       }
     res.render('mostrar-meeti', {
         nombrePagina : meeti.titulo,
@@ -164,7 +184,9 @@ if(userCount)
         orden,
         moment,
         userCount,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
  }
 
@@ -296,14 +318,21 @@ exports.mostrarAsistentes = async (req, res) => {
     });
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
       }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
       }
     // crear la vista y pasar datos
     res.render('asistentes-meeti', {
         nombrePagina : 'Listado Asistentes Meeti',
         asistentes,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 }
 
@@ -332,14 +361,21 @@ exports.mostrarCategoria = async (req, res, next) => {
     });
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
       }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
       }
     res.render('categoria', {
         nombrePagina : `Categoria: ${categoria.nombre}`,
         meetis,
         moment,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 
  

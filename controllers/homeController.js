@@ -41,20 +41,8 @@ exports.home = async (req, res) => {
          var totalprice= cart.totalPrice;
         var totalcantidad= cart.totalQty;
         var alg = cart.generateArray();
-         alg.forEach(element => {
-
-        console.log('________ id producto _______',element.item.id);
-        console.log('________ titulo _______',element.item.titulo );
-        console.log('________ usuario id _______',element.item.usuarioId );
-        console.log('________ grupo id _______',element.item.grupoId );
-        console.log('________ precio _______',element.item.valorMeeti );
-        console.log('________ slug _______',element.item.slug );
-        console.log('________ cantidad________',element.qty);
-        console.log('_____________________________________');
-        });
-       // console.log(totalcantidad,totalprice,'________--cart - add');
     }
-    console.log(typeof(alg),":::::::::body::::::::",res.locals.usuario)
+    console.log(":::::::::body::::::::",res.locals.usuario)
 
     res.render('home', {
         nombrePagina : 'Inicio',

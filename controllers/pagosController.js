@@ -15,13 +15,20 @@ exports.response= async (req, res, next) => {
         // mostramos la vista
         if(!req.session.cart){
           var stock = 0;
+          var totalprice = 0;
         }else{  
           var stock = req.session.cart.totalQty;
+          var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
         }
         res.render('thank-you', {
           nombrePagina : `thank you Meeti`,
           data,
-          stocks : stock
+          stocks : stock,
+        totalprice: totalprice,
+        alg
       })
   })
   .catch(function (error) {
@@ -113,6 +120,7 @@ exports.showCart= async (req, res, next) => {
 
   if(!req.session.cart){
     var stock = 0;
+    var totalprice = 0;
     return res.render('cart', {
       products:null,totalPrice:0, nombrePagina : 'Carrito de compras',
       stocks : stock
@@ -124,11 +132,18 @@ exports.showCart= async (req, res, next) => {
 console.log('_____________________________')
 if(!req.session.cart){
   var stock = 0;
+  var totalprice = 0;
 }else{  
   var stock = req.session.cart.totalQty;
+  var cart = new Cart(req.session.cart ? req.session.cart : {});
+  var totalprice= cart.totalPrice;
+  var totalcantidad= cart.totalQty;
+  var alg = cart.generateArray();
 }
   res.render('cart', {products: cart.generateArray(), totalPrice: cart.totalPrice,  nombrePagina : 'Carrito de compras',
-  stocks : stock});
+  stocks : stock,
+        totalprice: totalprice,
+        alg});
 
 }
 
@@ -136,10 +151,17 @@ if(!req.session.cart){
 exports.checkout = async (req, res, next) =>{
   if(!req.session.cart){
   var stock = 0;
+  var totalprice = 0;
 }else{  
   var stock = req.session.cart.totalQty;
+  var cart = new Cart(req.session.cart ? req.session.cart : {});
+  var totalprice= cart.totalPrice;
+  var totalcantidad= cart.totalQty;
+  var alg = cart.generateArray();
 }
     res.render('checkout', {
         nombrePagina : 'Inicio',
-  stocks : stock})
+  stocks : stock,
+        totalprice: totalprice,
+        alg})
 }

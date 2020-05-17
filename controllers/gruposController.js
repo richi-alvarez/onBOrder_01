@@ -1,6 +1,6 @@
 const Categorias = require('../models/Categorias');
 const Grupos = require('../models/Grupos');
-
+const Cart = require('../models/Cart');
 const multer = require('multer');
 const shortid = require('shortid');
 const fs = require('fs');
@@ -55,13 +55,20 @@ exports.formNuevoGrupo = async (req, res) => {
     const categorias = await Categorias.findAll();
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
     }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
     }
     res.render('nuevo-grupo', {
         nombrePagina : 'Crea un nuevo grupo',
         categorias,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 }
 
@@ -112,14 +119,21 @@ exports.formEditarGrupo = async (req, res) => {
     const [grupo, categorias] = await Promise.all(consultas);
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
     }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
     }
     res.render('editar-grupo', {
         nombrePagina : `Editar Grupo : ${grupo.nombre}`,
         grupo,
         categorias,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 }
 
@@ -155,13 +169,21 @@ exports.formEditarImagen = async (req, res) => {
     const grupo = await Grupos.findOne({ where : { id : req.params.grupoId, usuarioId : req.user.id }});
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
     }else{  
         var stock = req.session.cart.totalQty;
+        var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
     }
     res.render('imagen-grupo', {
         nombrePagina : `Editar Imagen Grupo : ${grupo.nombre}`,
         grupo,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 }
 
@@ -222,13 +244,20 @@ exports.formEliminarGrupo = async (req, res, next) => {
     }
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
     }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
     }
     // todo bien, ejecutar la vista
     res.render('eliminar-grupo', {
         nombrePagina : `Eliminar Grupo : ${grupo.nombre}`,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 }
 

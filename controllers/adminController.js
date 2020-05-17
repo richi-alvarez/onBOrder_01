@@ -3,6 +3,7 @@ const Meeti = require('../models/Meeti');
 const moment = require('moment');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const Cart = require('../models/Cart');
 
 exports.panelAdministracion = async (req, res) => {
 
@@ -24,19 +25,22 @@ exports.panelAdministracion = async (req, res) => {
     const [grupos, meeti, anteriores] = await Promise.all(consultas);
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
     }else{  
         var stock = req.session.cart.totalQty;
-    }    if(!req.session.cart){
-        var stock = 0;
-    }else{  
-        var stock = req.session.cart.totalQty;
-    }
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
+    }   
     res.render('administracion', {
         nombrePagina : 'Panel de Administracion', 
         grupos, 
         meeti,
         anteriores,
         moment,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 }

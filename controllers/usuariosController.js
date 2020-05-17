@@ -1,6 +1,7 @@
 const Usuarios = require('../models/Usuarios');
 const enviarEmail = require('../handlers/emails');
 
+const Cart = require('../models/Cart');
 
 const multer = require('multer');
 const shortid = require('shortid');
@@ -54,12 +55,19 @@ exports.subirImagen = (req, res, next) => {
 exports.formCrearCuenta = (req, res) => {
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
       }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
       }
     res.render('crear-cuenta', {
         nombrePagina : 'Crea tu Cuenta',
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 }
 
@@ -141,12 +149,19 @@ exports.confirmarCuenta = async (req, res, next) => {
 exports.formIniciarSesion = (req, res) => {
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
       }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
       }
     res.render('iniciar-sesion', {
         nombrePagina : 'Iniciar Sesión',
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 }
 
@@ -155,13 +170,20 @@ exports.formEditarPerfil = async (req, res) => {
     const usuario = await Usuarios.findByPk(req.user.id);
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
       }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
       }
     res.render('editar-perfil', {
         nombrePagina : 'Editar Perfil',
         usuario,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 }
 
@@ -191,12 +213,19 @@ exports.editarPerfil = async (req, res) => {
 exports.formCambiarPassword = (req, res) => {
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
       }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
       }
     res.render('cambiar-password', {
         nombrePagina : 'Cambiar Password',
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 }
 
@@ -232,14 +261,21 @@ exports.formSubirImagenPerfil = async (req, res) => {
     const usuario = await Usuarios.findByPk(req.user.id);
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
       }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
       }
     // mostrar la vista
     res.render('imagen-perfil', {
         nombrePagina : 'Subir Imagen perfil',
         usuario,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     });
 
 }

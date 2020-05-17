@@ -1,5 +1,6 @@
 const Grupos = require('../../models/Grupos');
 const Meeti = require('../../models/Meeti');
+const Cart = require('../../models/Cart');
 const moment = require('moment');
 
 exports.mostrarGrupo = async (req, res, next) => {
@@ -22,8 +23,13 @@ exports.mostrarGrupo = async (req, res, next) => {
     }
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
       }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
       }
     // mostrar la vista
     res.render('mostrar-grupo', {
@@ -31,6 +37,8 @@ exports.mostrarGrupo = async (req, res, next) => {
         grupo,
         meetis,
         moment,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     });
 }

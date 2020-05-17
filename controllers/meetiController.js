@@ -3,6 +3,7 @@ const Meeti = require('../models/Meeti');
 const multer = require('multer');
 const shortid = require('shortid');
 const fs = require('fs');
+const Cart = require('../models/Cart');
 
 const uuid = require('uuid/v4');
 const configuracionMulter = {
@@ -60,13 +61,20 @@ exports.formNuevoMeeti = async (req, res) => {
     const grupos = await Grupos.findAll({ where : { usuarioId : req.user.id }});
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
     }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
     }
     res.render('nuevo-meeti', {
         nombrePagina : 'Crear Nuevo Meeti',
         grupos,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 }
 // Inserta nuevos Meeti en la BD
@@ -181,15 +189,22 @@ exports.formEditarMeeti = async (req, res, next) => {
     }
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
     }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
     }
     // mostramos la vista
     res.render('editar-meeti', {
         nombrePagina : `Editar Meeti : ${meeti.titulo}`,
         grupos, 
         meeti,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 
 }
@@ -249,13 +264,20 @@ exports.formEliminarMeeti = async ( req, res, next) => {
     }
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
     }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
     }
     // mostrar la vista
     res.render('eliminar-meeti', {
         nombrePagina : `Eliminar Meeti : ${meeti.titulo}`,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 }
 
@@ -291,13 +313,20 @@ exports.formEditarImagen = async (req, res) => {
     const meeti = await Meeti.findOne({ where : { id : req.params.productoId, usuarioId : req.user.id }});
     if(!req.session.cart){
         var stock = 0;
+        var totalprice = 0;
     }else{  
         var stock = req.session.cart.totalQty;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        var totalprice= cart.totalPrice;
+        var totalcantidad= cart.totalQty;
+        var alg = cart.generateArray();
     }
     res.render('imagen-grupo', {
         nombrePagina : `Editar Imagen producto : ${meeti.titulo}`,
         meeti,
-        stocks : stock
+        stocks : stock,
+        totalprice: totalprice,
+        alg
     })
 }
 
