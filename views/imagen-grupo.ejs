@@ -4,18 +4,34 @@
     <form class="default-form" method="POST" enctype="multipart/form-data">
         <div class="campo">
             <label>Imagen</label>
-            <input type="file" name="imagen">
+            <input type="file" name="imagen"  multiple>
         </div>
         <% if(meeti.imagen) { %>
         <div class="campo">
-            <label>Imagen Actual</label>
+            <label>Imagen Actual Portada</label>
             <img src="/uploads/productos/<%= meeti.imagen %>" width="400">
         </div>
         <% } else { %>
-            <p>No hay imagen actual</p>
+            <p>No hay imagen actual de portada</p>
         <% } %> 
+        <% if(meeti.imagen1) { %>
+            <div class="campo">
+                <label>segunda imagen</label>
+                <img src="/uploads/productos/<%= meeti.imagen1 %>" width="400">
+            </div>
+            <% } else { %>
+                <p>No hay  segunda imagen actual</p>
+            <% } %> 
+            <% if(meeti.imagen2) { %>
+                <div class="campo">
+                    <label>tercera imagen</label>
+                    <img src="/uploads/productos/<%= meeti.imagen2 %>" width="400">
+                </div>
+                <% } else { %>
+                    <p>No hay  tercera imagen actual</p>
+                <% } %> 
         <div class="campo enviar">
-            <input type="submit" value="Subir Imagen" class="btn btn-rosa">
+            <input type="submit" value="Subir Imagenes" class="btn btn-rosa">
         </div>
     </form>
 </main>

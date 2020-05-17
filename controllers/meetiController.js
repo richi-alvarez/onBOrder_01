@@ -70,7 +70,7 @@ exports.formNuevoMeeti = async (req, res) => {
         var alg = cart.generateArray();
     }
     res.render('nuevo-meeti', {
-        nombrePagina : 'Crear Nuevo Meeti',
+        nombrePagina : 'Crear Nuevo Producto',
         grupos,
         stocks : stock,
         totalprice: totalprice,
@@ -199,7 +199,7 @@ exports.formEditarMeeti = async (req, res, next) => {
     }
     // mostramos la vista
     res.render('editar-meeti', {
-        nombrePagina : `Editar Meeti : ${meeti.titulo}`,
+        nombrePagina : `Editar Producto : ${meeti.titulo}`,
         grupos, 
         meeti,
         stocks : stock,
@@ -274,7 +274,7 @@ exports.formEliminarMeeti = async ( req, res, next) => {
     }
     // mostrar la vista
     res.render('eliminar-meeti', {
-        nombrePagina : `Eliminar Meeti : ${meeti.titulo}`,
+        nombrePagina : `Eliminar Prodcuto : ${meeti.titulo}`,
         stocks : stock,
         totalprice: totalprice,
         alg
@@ -303,7 +303,7 @@ exports.eliminarMeeti = async (req, res) => {
         }
     });
 
-    req.flash('exito', 'Meeti Eliminado');
+    req.flash('exito', 'Producto Eliminado');
     res.redirect('/administracion');
 
 }
@@ -340,11 +340,17 @@ exports.editarImagen = async (req, res, next) => {
         res.redirect('/iniciar-sesion');
         return next();
     }
-
-    // Si hay imagen anterior y nueva, significa que vamos a borrar la anterior
-    if(req.file && meeti.imagen) {
-        const imagenAnteriorPath = __dirname + `/../public/uploads/productos/${meeti.imagen}`;
-
+   
+    if(req.files) {
+        // leer la imagen
+        var keys = [];
+        for (let value of Object.values(req.files)) {
+            keys.push(value.filename);
+          }
+    if(keys.length==1){
+        console.log(":::::::: borar una imagen:::::::::")
+     if(meeti.imagen){
+        let imagenAnteriorPath = __dirname + `/../public/uploads/productos/${meeti.imagen}`;
         // eliminar archivo con filesystem
         fs.unlink(imagenAnteriorPath, (error) => {
             if(error) {
@@ -352,15 +358,84 @@ exports.editarImagen = async (req, res, next) => {
             }
             return;
         })
+     }
+ 
+    }else{
+        console.log("::::::::mayor a borar:::::::::",keys[0],keys[1],keys[2])
+        for (var i = 1; i <= keys.length; i++) {
+            if(meeti.imagen[i]){
+                let imagenAnteriorPath = __dirname + `/../public/uploads/productos/${meeti.imagen[i]}`;
+                // eliminar archivo con filesystem
+                fs.unlink(imagenAnteriorPath, (error) => {
+                    if(error) {
+                        console.log(error);
+                    }
+                    return;
+                })
+             }
+        }
+        let imagenAnteriorPath = __dirname + `/../public/uploads/productos/${meeti.imagen}`;
+        fs.unlink(imagenAnteriorPath, (error) => {
+            if(error) {
+                console.log(error);
+            }
+            return;
+        })
     }
+}
+    // // Si hay imagen anterior y nueva, significa que vamos a borrar la anterior
+    // if(req.file && meeti.imagen) {
+    //     const imagenAnteriorPath = __dirname + `/../public/uploads/productos/${meeti.imagen}`;
+    //     // eliminar archivo con filesystem
+    //     fs.unlink(imagenAnteriorPath, (error) => {
+    //         if(error) {
+    //             console.log(error);
+    //         }
+    //         return;
+    //     })
+    // }
 
     // Si hay una imagen nueva, la guardamos
-    if(req.file) {
-        meeti.imagen = req.file.filename;
+
+    if(req.files) {
+        // leer la imagen
+        var keys = [];
+        for (let value of Object.values(req.files)) {
+            keys.push(value.filename);
+          }
+   
+    if(keys.length==1){
+     console.log(meeti.imagen,":::::1:::::::::::",keys[0],keys[1],keys[2]);
+     meeti.imagen=keys[0];
+     meeti.imagen1=null;
+     meeti.imagen2=null;
+    }else{
+     if(keys.length==2){
+        console.log("::::::::2:::::::::",keys[0],keys[1],keys[2])
+         meeti.imagen=keys[0];
+         meeti.imagen1=keys[1];
+         meeti.imagen2=null;
+        }
+        else{
+         if(keys.length==3){
+            console.log(":::::::3::::::::::",keys[0],keys[1],keys[2])
+             meeti.imagen=keys[0];
+             meeti.imagen1=keys[1];
+             meeti.imagen2=keys[2];
+            }else{
+           console.log(":::::::mayor a 3::::::::::",keys[0],keys[1],keys[2])
+             meeti.imagen=keys[0];
+             meeti.imagen1=keys[1];
+             meeti.imagen2=keys[2];
+            }
+        }
     }
+  
+}
+  
 
     // guardar en la BD
-    await meeti.save();
+  //  await meeti.save();
     req.flash('exito', 'Cambios Almacenados Correctamente');
     res.redirect('/administracion');
 
