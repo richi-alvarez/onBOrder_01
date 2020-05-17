@@ -233,10 +233,15 @@ module.exports = function() {
     authController.usuarioAutenticado,
     pagosController.showCart
 );
+router.get('/deseo', 
+authController.usuarioAutenticado,
+pagosController.showWishi
+);
 
     router.get('/add-to-cart/:id',pagosController.addCart);
+    router.get('/add-to-wish/:id',pagosController.addWish);
 
-      router.get('/checkout',pagosController.checkout);
+    router.get('/checkout',pagosController.checkout);
 
     return router;
 }

@@ -17,8 +17,6 @@ const db = require('./config/db');
     require('./models/Grupos');
     require('./models/Meeti');
     require('./models/Ordenes');
-    require('./models/Stock');
-    require('./models/Wish');
     db.sync().then(() => console.log('DB Conectada')).catch((error) => console.log(error));
 
 // Variables de Desarrollo

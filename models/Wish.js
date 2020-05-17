@@ -1,24 +1,24 @@
-const Sequelize = require('sequelize');
-const db = require('../config/db');
-const uuid = require('uuid/v4');
-const slug = require('slug');
-const shortid = require('shortid');
-const Usuarios = require('../models/Usuarios');
-const Meeti = require('../models/Meeti');
+module.exports = function Wish(oldCart) {
+  this.items = oldCart.items || {};
+  this.totalQty = oldCart.totalQty || 0;
+  this.totalPrice = oldCart.totalPrice || 0;
 
-const Wish = db.define(
-      'wish', {
-        id  : {
-            type: Sequelize.UUID,
-            primaryKey : true,
-            allowNull : false
-        },
-        email: {
-        type: Sequelize.STRING(30)
-        },
-        nombre : Sequelize.STRING(60),
-      });
-      Wish.belongsTo(Usuarios);
-      Wish.belongsTo(Meeti);
-
-module.exports = Wish;
+  this.add = function(item, id){
+      var storedItem = this.items[id];
+   
+      if(!storedItem){
+      storedItem = this.items[id] = {item: item, qty:0, valorMeeti:0};
+      }
+      storedItem.qty++;
+      storedItem.valorMeeti = storedItem.item.valorMeeti * storedItem.qty;
+      this.totalQty++;
+      this.totalPrice += storedItem.item.valorMeeti;
+  }
+  this.generateArray = function(){
+      var arr = [];
+      for(var id in this.items){
+          arr.push(this.items[id]);
+      }
+      return arr;
+  }
+};

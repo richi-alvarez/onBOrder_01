@@ -42,7 +42,7 @@ exports.home = async (req, res) => {
         var totalcantidad= cart.totalQty;
         var alg = cart.generateArray();
     }
-    console.log(":::::::::body::::::::",res.locals.usuario)
+    console.log(":::::::::body::::::::",res.locals.usuario,typeof(alg),alg)
 
     res.render('home', {
         nombrePagina : 'Inicio',
