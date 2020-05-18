@@ -7,11 +7,13 @@
 				<div class="item-slick1 item1-slick1" style="background-image: url(images/slide/master-slide-02.jpg);">
 					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
 						<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15" data-appear="fadeInDown">
-							Vende, Compra 
+							<!-- Vende, Compra  -->
+							Women Collection 2020
 						</span>
 
 						<h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="fadeInUp">
-							Intercambia
+							<!-- Intercambia -->
+							New arrivals
 						</h2>
 
 						<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="zoomIn">
@@ -26,7 +28,7 @@
 				<div class="item-slick1 item2-slick1" style="background-image: url(images/slide/master-slide-03.jpg);">
 					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
 						<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15" data-appear="rollIn">
-							Women Collection 2018
+							Women Collection 2020
 						</span>
 
 						<h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="lightSpeedIn">
@@ -45,7 +47,7 @@
 				<div class="item-slick1 item3-slick1" style="background-image: url(images/slide/master-slide-04.jpg);">
 					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
 						<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15" data-appear="rotateInDownLeft">
-							Women Collection 2018
+							Women Collection 2020
 						</span>
 						<h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="rotateInUpRight">
 							New arrivals
@@ -69,22 +71,44 @@
     <div class="contenedor">
 		<div class="sec-title">
 			<h2 style="padding: 0;">Busca algo</h2>
-            <h3 class="m-text5 t-center">
+            <h3 class="m-text5 t-center" style="color: #ef9128;">
                  que te guste!!
 			</h3>
 			
-        </div>
-        <form action="/busqueda" method="GET">
-            <select name="categoria">
-                    <option value="" selected>-- Todas --</option>
+		</div>
+		<div>
+        <form action="/busqueda" method="GET" style="
+		border: solid 1px #e5e5e5;
+		border-radius: 5px;
+	">
+            <select name="categoria" style="
+			padding: 10px;
+			margin: 10px;
+			height: 41px;
+			border: solid 2px #e5e5e5 !important;
+		">
+                    <option value="" selected>Categoria</option>
                     <% categorias.forEach(categoria => {  %>
                         <option value="<%= categoria.id %>"> <%= categoria.nombre %> </option>
                     <% }) %>
             </select>
-            <input type="text" name="titulo" placeholder="Nombre del producto">
-            <input type="text" name="ciudad" placeholder="Ciudad">
-            <select name="pais">
-                <option value="" selected>-- Todos --</option>
+            <input type="text" name="titulo" placeholder="Nombre del producto" style="
+			margin: 10px;
+			height: 41px;
+			border: solid 2px #e5e5e5 !important;
+		">
+            <input type="text" name="ciudad" placeholder="Ciudad" style="
+			margin: 10px;
+			height: 41px;
+			border: solid 2px #e5e5e5 !important;
+		">
+            <select name="pais" style="
+			padding: 10px;
+			margin: 10px;
+			height: 41px;
+			border: solid 2px #e5e5e5 !important;
+		">
+                <option value="" selected>Pais</option>
                 <option value="MEX">México</option>
                 <option value="COL">Colombia</option>
                 <option value="ARG">Argentina</option>
@@ -92,8 +116,14 @@
                 <option value="USA">Estados Unidos</option>
                 <option value="PER">Perú</option>
             </select>
-            <input type="submit" value="Buscar" class="btn btn-rosa">
-        </form>
+            <input type="submit" value="Buscar" class="btn btn-rosa" style="
+			adding: 10px;
+			margin: 10px;
+			height: 41px;
+			background-color: #797979;
+		">
+		</form>
+	</div>
     </div>
 </div>
 
@@ -128,7 +158,7 @@
 	</div>
 </section>
 	<!-- Banner video -->
-	<section class="parallax0 parallax100" style="background-image: url(/images/bg-video-01.jpg);">
+	<section class="parallax0 parallax100" style="background-image: url(/images/shop_background.jpg);">
 		<div class="overlay0 p-t-190 p-b-200">
 			<div class="flex-col-c-m p-l-15 p-r-15">
 				<span class="m-text9 p-t-45 fs-20-sm">
@@ -167,7 +197,7 @@
 
 
 
-<div class="meeti-bg">
+<!-- <div class="meeti-bg">
     <div class="contenedor meeti grid columnas-md-2">
         <section>
             <h3>Crea un grupo</h3>
@@ -178,5 +208,5 @@
             <p>Conoce personas con tus mismos gustos y pasiones, únete a un grupo ya existente y recibe notificaciones sobre próximos eventos</p>
         </section>
     </div>
-</div>
+</div> -->
 </div>

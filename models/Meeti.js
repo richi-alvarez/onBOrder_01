@@ -6,6 +6,7 @@ const shortid = require('shortid');
 
 const Usuarios = require('../models/Usuarios');
 const Grupos = require('../models/Grupos');
+const Categorias = require('../models/Categorias');
 
 
 const Meeti = db.define(
@@ -120,5 +121,6 @@ const Meeti = db.define(
     } );
 Meeti.belongsTo(Usuarios);
 Meeti.belongsTo(Grupos);
+Meeti.belongsTo(Categorias);
 
 module.exports = Meeti;
