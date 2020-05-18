@@ -674,13 +674,14 @@
 										</span>
 									</div>
 			        `;
-       // carrito.appendChild(row);
+       //carrito.appendChild(row);
 				swal(nameProduct, "is added to cart !", "success");
 			}, success: function(datos){  
 				// localStorage.setItem("orden", datos.data.totalQty);
 				console.log(datos.data.totalQty)
 				$('.header-icons-noti').html(`<b>${datos.data.totalQty}</b>` );
 				
+				// setTimeout(function(){ location.href=window.location.origin+"/cart"; }, 1000);
 			}
 		})
 			});

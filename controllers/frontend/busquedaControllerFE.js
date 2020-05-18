@@ -13,8 +13,8 @@ exports.resultadosBusqueda = async (req, res) => {
     const { categoria, titulo, ciudad, pais } = req.query;
 
     // si la categoria esta vacia
-    let query;
-  
+    var query;
+  console.log("categoria ===>",categoria)
     if(categoria === ''){
         query = '';
     } else {
@@ -22,7 +22,7 @@ exports.resultadosBusqueda = async (req, res) => {
             categoriaId : { [Op.eq] :  ${categoria}  },
         }`
     }
-    
+    console.log("query ===>",query)
     // filtrar los meetis por los terminos de busqueda
     const meetis = await Meeti.findAll({ 
         where :  { 

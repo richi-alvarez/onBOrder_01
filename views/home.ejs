@@ -75,12 +75,12 @@
 			
         </div>
         <form action="/busqueda" method="GET">
-            <!-- <select name="categoria">
+            <select name="categoria">
                     <option value="" selected>-- Todas --</option>
                     <% categorias.forEach(categoria => {  %>
                         <option value="<%= categoria.id %>"> <%= categoria.nombre %> </option>
                     <% }) %>
-            </select> -->
+            </select>
             <input type="text" name="titulo" placeholder="Nombre del producto">
             <input type="text" name="ciudad" placeholder="Ciudad">
             <select name="pais">

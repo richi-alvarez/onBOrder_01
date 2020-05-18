@@ -54,7 +54,7 @@ function confirmarAsistencia(e) {
                 // modifica los elementos del boton
                 document.querySelector('#accion').value = 'cancelar';
                 btn.value = 'Cancelar';
-                btn.classList.remove('btn-azul');
+                btn.classList.remove('flex-c-m size2');
                 btn.classList.add('btn-rojo');
                 
                   // mostrar un mensaje
@@ -174,6 +174,9 @@ function checkPagos(e){
        document.getElementById("epayco_customerid").required = false;
        document.getElementById("epayco_secretkey").required = false;
        document.getElementById("epayco_publickey").required = false;
+       document.getElementById("epayco_customerid").value = '';
+       document.getElementById("epayco_secretkey").value = '';
+       document.getElementById("epayco_publickey").value = '';
       }
 }
 
