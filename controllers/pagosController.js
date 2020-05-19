@@ -215,3 +215,8 @@ if(!req.session.wish){
         totalprice: totalprice,
         alg});
 }
+
+
+exports.pay= async (req, res, next) => {
+console.log("____pay___",req.body)
+}

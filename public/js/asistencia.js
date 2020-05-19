@@ -21,10 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(checkPago) {
         checkPago.addEventListener('change', checkPagos);
     }
-    const checkPagosss=document.querySelector('#epaycos')
-    if(checkPagosss) {
-        checkPagosss.addEventListener('submit', addToCart);
-    }
+
 });
 
 function confirmarAsistencia(e) {
@@ -81,6 +78,7 @@ function pagarWithEpayco (e){
 
     debugger
     e.preventDefault();
+    
   console.log('sdasd')
     let meetiId = document.getElementById('add-to-cart').value;
 
@@ -181,7 +179,3 @@ function checkPagos(e){
 }
 
 
-function addToCart(e){
-    e.preventDefault();
-console.log("sasas")
-}

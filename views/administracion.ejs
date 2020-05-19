@@ -27,7 +27,7 @@
                     </div>
                     <div class="acciones contenedor-botones">
                         <a href="/editar-grupo/<%= grupo.id %>" class="btn btn-verde">Editar</a>
-                        <a href="/imagen-grupo/<%= grupo.id %>" class="btn btn-azul2">Imagen</a>
+                        <a href="#" class="btn btn-azul2">Ver</a>
                         <a href="/eliminar-grupo/<%= grupo.id %>" class="btn btn-rojo">Eliminar</a>
                     </div>
                 </li>
@@ -75,7 +75,12 @@
 
 
     <div class="seccion-admin">
-        <h2>Productos Anteriores</h2>
+        <div class="sec-title">
+            <h3 class="m-text5 t-center">
+                Productos Anteriores
+            </h3>
+        </div>
+    
         <% if(anteriores.length > 0 ) { %>
         <ul>
             <% anteriores.forEach(meet => { %>
@@ -97,7 +102,7 @@
             <% }) %>
         </ul>
         <% } else { %>
-            <p>No hay Meeti's Anteriores</p>
+            <p>No hay productos Anteriores</p>
         <% } %>
     </div>
 

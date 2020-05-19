@@ -242,6 +242,7 @@ pagosController.showWishi
     router.get('/add-to-wish/:id',pagosController.addWish);
 
     router.get('/checkout',pagosController.checkout);
+    router.post('/checkout-pay',pagosController.pay);
 
     return router;
 }
