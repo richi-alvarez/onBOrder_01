@@ -41,6 +41,10 @@ function pagoTc (event){
 
 }
 
-function pagoPse (e){
+function pagoPse (event){
     debugger
+    event.preventDefault();
+    var $form = $(this);
+    var numero_documento=document.getElementById('p_k').value;
+    $form.get(0).submit();
 }
