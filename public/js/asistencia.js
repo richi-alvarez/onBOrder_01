@@ -87,6 +87,7 @@ function pagarWithEpayco (e){
     }
 
 // console.log('click..');
+//   action=> /confirmar-pago
  console.log('llego', this.action)
 //axios.post(this.action, datos)
         // .then(respuesta => {

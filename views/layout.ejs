@@ -109,7 +109,12 @@
 								<% alg.forEach(data => {  %>
 								<li class="header-cart-item">
 									<div class="header-cart-item-img">
-										<img src="/images/item-cart-01.jpg" alt="IMG">
+										<% if(data.item.imagen) { %>
+											<img src="/uploads/productos/<%= data.item.imagen %>" alt="IMG">
+										<% } else { %>
+											<img src="/images/item-cart-01.jpg" alt="IMG">
+										<% } %>
+										
 									</div>
 									<div class="header-cart-item-txt">
 										<a href="#" class="header-cart-item-name">
@@ -194,7 +199,12 @@
 								<% alg.forEach(data => {  %>
 								<li class="header-cart-item">
 									<div class="header-cart-item-img">
-										<img src="/images/item-cart-01.jpg" alt="IMG">
+										<% if(data.item.imagen) { %>
+											<img src="/uploads/productos/<%= data.item.imagen %>" alt="IMG">
+										<% } else { %>
+											<img src="/images/item-cart-01.jpg" alt="IMG">
+										<% } %>
+										
 									</div>
 									<div class="header-cart-item-txt">
 										<a href="#" class="header-cart-item-name">
@@ -567,7 +577,8 @@
 			$(this).on('click', function(){
 				console.log('click en block2-btn-addcart');
 				var path =$(this).parent().parent().parent().find('.block2-name')[0].pathname;
-			var price_ = $(this).parent().parent().parent().find('.block2-price').html();	
+			var price_ = $(this).parent().parent().parent().find('.block2-price').html();
+			var img=$(this).parent().parent().parent().find('.block2-img ')[0].children[0].src;	
 				var url = $(this).parent().prevObject[0].dataset.id;
 			//	var url_completed=window.location.href+url;
 				var url_completed=window.location.origin+url;			
@@ -583,7 +594,7 @@
 					row.classList.add('header-cart-item');
 			        row.innerHTML = `
 									<div class="header-cart-item-img">
-										<img src="/images/item-cart-01.jpg" alt="IMG">
+										<img src="${img}" alt="IMG">
 									</div>
 									<div class="header-cart-item-txt">
 										<a href="${path}" class="header-cart-item-name">
@@ -601,7 +612,8 @@
 				//console.log(datos.data.items, typeof(datos.data.items));
 				for (let value of Object.values(datos.data.items)) {
 					// console.log(value.qty);
-					// console.log(value);
+					 //console.log(value.item.imagen);
+					 const imagen=value.item.imagen;
 					}
 				$('.header-icons-noti').html(`<b>${datos.data.totalQty}</b>` );
 				$('.header-cart-total').html(`<b>$ ${datos.data.totalPrice}</b>` );
@@ -681,7 +693,7 @@
 				swal(nameProduct, "agregador al carrito!", "success");
 			}, success: function(datos){  
 				// localStorage.setItem("orden", datos.data.totalQty);
-				console.log(datos.data.totalQty)
+				console.log(datos.data)
 				$('.header-icons-noti').html(`<b>${datos.data.totalQty}</b>` );
 				
 				// setTimeout(function(){ location.href=window.location.origin+"/cart"; }, 1000);
