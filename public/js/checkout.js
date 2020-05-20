@@ -1,6 +1,7 @@
 // Autenticación con su public_key (Requerido)
 document.addEventListener('DOMContentLoaded', () => {
-    const asistencia = document.querySelector('#customer-form-tc');
+ 
+    const tc = document.querySelector('#customer-form-tc');
     if(tc) {
         tc.addEventListener('submit', pagoTc);
     }   
@@ -14,10 +15,12 @@ function pagoTc (event){
     debugger
 
     //detiene el evento automático del formulario
-    ePayco.setPublicKey('c84ad754c728bfb10af2c1c3d1594106');
+   
     event.preventDefault();
     //captura el contenido del formulario
     var $form = $(this);
+    var numero_documento=document.getElementById('p_k').value;
+    ePayco.setPublicKey(numero_documento);
     //deshabilita el botón para no acumular peticiones
     $form.find("button").prop("disabled", true);
     //hace el llamado al servicio de tokenización

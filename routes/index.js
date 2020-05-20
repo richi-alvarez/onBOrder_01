@@ -241,7 +241,9 @@ pagosController.showWishi
     router.get('/add-to-cart/:id',pagosController.addCart);
     router.get('/add-to-wish/:id',pagosController.addWish);
 
-    router.get('/checkout',pagosController.checkout);
+    router.get('/checkout',
+    authController.usuarioAutenticado,
+    pagosController.checkout);
     router.post('/checkout-pay',pagosController.pay);
 
     return router;

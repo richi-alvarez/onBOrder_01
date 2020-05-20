@@ -6,7 +6,8 @@ module.exports = {
         app:'./public/js/app.js',
         main:'./public/js/main.js',
         meeti:'./public/js/meeti.js',
-        asistencia:'./public/js/asistencia.js'
+        asistencia:'./public/js/asistencia.js',
+        checkout: './public/js/checkout.js'
         }, 
     output: {
         filename: '[name].bundle.js',

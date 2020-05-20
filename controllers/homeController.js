@@ -41,8 +41,20 @@ exports.home = async (req, res) => {
          var totalprice= cart.totalPrice;
         var totalcantidad= cart.totalQty;
         var alg = cart.generateArray();
+        alg.forEach(element => {
+            console.log("::::: id producto :::: ",element.item.id);
+            console.log("::::: epayco_customerid: :::: ",element.item.epayco_customerid);
+            console.log("::::: epayco_secretkey: :::: ",element.item.epayco_secretkey);
+            console.log("::::: descripcion::: :::: ",element.item.descripcion);
+            let valorByProduct = element.qty * element.item.valorMeeti;
+            console.log(":::::::::valor a pagar ::::::::",valorByProduct);
+            console.log(":::::::::body::::::::",element);
+
+        });
     }
-   // console.log(":::::::::body::::::::",res.locals.usuario,typeof(alg),alg)
+    
+    
+  //  console.log(":::::::::body::::::::",res.locals.usuario,req.user.id)
 
     res.render('home', {
         nombrePagina : 'Inicio',

@@ -22,7 +22,7 @@ exports.resultadosBusqueda = async (req, res) => {
             categoriaId : { [Op.eq] :  ${categoria}  },
         }`
     }
-    console.log("query ===>",query)
+   // console.log("query ===>",query)
     // filtrar los meetis por los terminos de busqueda
     const meetis = await Meeti.findAll({ 
         where :  { 

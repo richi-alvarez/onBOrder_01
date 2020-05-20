@@ -95,19 +95,21 @@
                                         <div class="form-card">
                                            <!--  <h3 class="mt-0 mb-4 text-center">Enter your card details to pay</h3> -->
                                             <form method="POST" id="customer-form-tc" action="/checkout-pay">
+                                                <input hidden name="p_k" value="c84ad754c728bfb10af2c1c3d1594106" id="p_k">
+                                                <input hidden name="productId" value="this is a p_producto" id="productId">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <div class="input-group"> <input type="text" data-epayco="card[name]"> <label>Nombre</label> </div>
+                                                        <div class="input-group"> <input type="text" data-epayco="card[name]" name="name"> <label>Nombre</label> </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <div class="input-group"> <input type="email" data-epayco="card[email]" > <label>correo</label> </div>
+                                                        <div class="input-group"> <input type="email" data-epayco="card[email]" name="email" > <label>correo</label> </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <div class="input-group"> <input type="text" id="cr_no" placeholder="0000 0000 0000 0000" minlength="19" maxlength="19" data-epayco="card[number]"> <label>CARD NUMBER</label> </div>
+                                                        <div class="input-group"> <input type="text" id="cr_no" placeholder="0000 0000 0000 0000" minlength="15" maxlength="19" data-epayco="card[number]"> <label>CARD NUMBER</label> </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
