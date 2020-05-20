@@ -49,8 +49,14 @@ exports.home = async (req, res) => {
             let valorByProduct = element.qty * element.item.valorMeeti;
             console.log(":::::::::valor a pagar ::::::::",valorByProduct);
             console.log(":::::::::body::::::::",element);
-
+            var cadena = element.item.descripcion;
+            var re = /<div>/g;
+            var resultado = cadena.replace(re, '');
+            var re2 = /div>/g;
+            var resultado2 = resultado.replace(re2, '');
+          
         });
+        
     }
     
     

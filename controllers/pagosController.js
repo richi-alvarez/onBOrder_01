@@ -239,63 +239,76 @@ var stock = req.session.cart.totalQty;
 var cart = new Cart(req.session.cart ? req.session.cart : {});
 var totalprice= cart.totalPrice;
 var totalcantidad= cart.totalQty;
-var alg = cart.generateArray();
+var alg =  cart.generateArray();
+const consultas = [];
 alg.forEach(element => {
-  console.log("::::: id producto :::: ",element.item.id);
-  console.log("::::: epayco_customerid: :::: ",element.item.epayco_customerid);
-  console.log("::::: epayco_secretkey: :::: ",element.item.epayco_secretkey);
-  console.log("::::: descripcion::: :::: ",element.item.descripcion);
-  let valorByProduct = element.qty * element.item.valorMeeti;
-  console.log(":::::::::valor a pagar ::::::::",valorByProduct);
+  var id_producto = element.item.id;
+  var usuarioId=element.item.usuarioId;
   //console.log(":::::::::body::::::::",element);
+//llamar a la base de datos para traerme los datos del producto id del ccarito
+consultas.push( Meeti.findAll ({ 
+  where :  { id : id_producto, usuarioId : usuarioId},
+  include: [
+      { 
+          model: Usuarios, 
+          attributes : ['id',  'nombre', 'imagen']
+      }
+  ]
+}));
 
+var epayco_customerid = element.item.epayco_customerid;
+var epayco_secretkey = element.item.epayco_secretkey;
+var descripcion = element.item.descripcion;
+var cadena = descripcion;
+var re = /<div>/g;
+var resultado = cadena.replace(re, '');
+var re2 = /div>/g;
+var resultado2 = resultado.replace(re2, '');
+var valorByProduct = element.qty * element.item.valorMeeti;
+
+  // var epayco = require('epayco-sdk-node')({
+  //   apiKey: req.body.p_k,
+  //   privateKey: epayco_secretkey,
+  //   lang: 'ES',
+  //   test: true
+  // });
+  // var payment_info = {
+  //   token_card: req.body.epaycoToken,
+  //   customer_id:  req.body.name,
+  //   doc_type: "CC",
+  //   doc_number: "1035851980",
+  //   name: req.body.name,
+  //   last_name:  req.body.name,
+  //   email:  req.body.email,
+  //   bill: "OR-".resultado2,
+  //   description:resultado2,
+  //   value: valorByProduct,
+  //   tax: "0",
+  //   tax_base: valorByProduct,
+  //   currency: "COP",
+  //   dues: "1",
+  //   ip:"190.000.000.000", /*This is the client's IP, it is required */
+  //   url_response: 'hhtps://onbor.confirmation_payment',
+  //   url_confirmation: 'hhtps://onbor.confirmation_payment',
+  //   method_confirmation: "POST"
+  // }
+
+  // epayco.charge.create(payment_info)
+  //     .then(function(charge) {
+  //         console.log(charge);
+  //     })
+  //     .catch(function(err) {
+  //         console.log("err::::::::::::::::::::::::: " + err);
+  //     });
+
+  
 });
-// const meetis = await Meeti.findAll({ 
-//   where :  { id : req.body.productId},
-//   include: [
-//       { 
-//           model: Usuarios, 
-//           attributes : ['id',  'nombre', 'imagen']
-//       }
-//   ]
-// });
+const [  meetis  ] = await Promise.all(consultas);
 // var usuarioId = meetis.usuario;
 //se guarda el pedido
+console.log(":::::::::valor a pagar ::::::::",meetis);
+res.send({data:meetis})
 
 
-var epayco = require('epayco-sdk-node')({
-  apiKey: req.body.p_k,
-  privateKey: '448897b08db8a1ae6e72441fb6101a8b',
-  lang: 'ES',
-  test: true
-});
-
-var payment_info = {
-  token_card: req.body.epaycoToken,
-  customer_id:  req.body.name,
-  doc_type: "CC",
-  doc_number: "1035851980",
-  name: req.body.name,
-  last_name:  req.body.name,
-  email:  req.body.email,
-  bill: "OR-123dgdf4",
-  description: "Test Payment",
-  value: "116000",
-  tax: "16000",
-  tax_base: "100000",
-  currency: "COP",
-  dues: "12",
-  ip:"190.000.000.000", /*This is the client's IP, it is required */
-  url_response: "https://ejemplo.com/respuesta.html",
-  url_confirmation: "https://ejemplo.com/confirmacion",
-  method_confirmation: "GET",
-}
-epayco.charge.create(payment_info)
-    .then(function(charge) {
-        console.log(charge);
-    })
-    .catch(function(err) {
-        console.log("err::::::::::::::::::::::::: " + err);
-    });
 
 }
