@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
  
 function pagoTc (event){
-    debugger
+    //debugger
 
     //detiene el evento automático del formulario
    
@@ -30,34 +30,32 @@ var result = Object.keys(obj).map(function(key) {
   
  // console.log(result);
  var count = 0;
-  result.forEach(element => {
-      console.log("count", count);
-        element.map(grupo => {
-                console.log(grupo)
-            ePayco.setPublicKey(grupo.epayco_publickey);
-            ePayco.token.create($form, function(error, token) {
-                if(!error) {
-                    console.log("token=>",token)
-                    //si la petición es correcta agrega un input "hidden" con el token como valor
-                    $form.append($(`<input type="hidden" name="custiId${count}">`).val(grupo.epayco_customerid));
-                    $form.append($(`<input type="hidden" name="epaycoToken${count}">`).val(token));
-                    //envia el formulario para que sea procesado
-                } else {
-                    console.log(error.data.description)
-                    //muestra errores que hayan sucedido en la transacción
-                }
-            });
-        });
-        count++
+ var interval = 2000; 
+ result.forEach(function (el, index){
+   //  console.log(el)
+    setTimeout(function () {
+    const p_k = el.map(grupo => {
+            return grupo.epayco_publickey
     });
-
+    const c_i = el.map(grupo => {
+        return grupo.epayco_customerid
+});
+   // console.log(p_k[1],c_i[1]);
+    ePayco.setPublicKey(p_k[1]);
+    ePayco.token.create($form, function(error, token) {
+        if(!error) {
+            console.log("token=>",token)  
+            $form.append($(`<input type="hidden" name="custiId${count}">`).val(c_i[1]));
+            $form.append($(`<input type="hidden" name="epaycoToken${count}">`).val(token));
+        } else {
+            console.log(error.data.description)
+               }
+    })
+    },index * interval);
+    count++
+ });
+ console.log('Loop finished.');
    // $form.get(0).submit();
-    // const p_k = result.map(data => {
-    //     return data.epayco_publickey
-    // });
-    // console.log(p_k);
-  
-
 }
 
 function pagoPse (event){
