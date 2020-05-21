@@ -1,4 +1,5 @@
 const Grupos = require('../models/Grupos');
+const Categorias = require('../models/Categorias');
 const Meeti = require('../models/Meeti');
 const multer = require('multer');
 const shortid = require('shortid');
@@ -58,7 +59,8 @@ exports.subirImagen = (req, res, next) => {
 
 // Muestra el formulario para nuevos Meeti
 exports.formNuevoMeeti = async (req, res) => {
-    const grupos = await Grupos.findAll({ where : { usuarioId : req.user.id }});
+    const grupos = await Grupos.findAll({ where : { usuarioId : req.user.id }
+    });
     if(!req.session.cart){
         var stock = 0;
         var totalprice = 0;
@@ -69,6 +71,7 @@ exports.formNuevoMeeti = async (req, res) => {
         var totalcantidad= cart.totalQty;
         var alg = cart.generateArray();
     }
+
     res.render('nuevo-meeti', {
         nombrePagina : 'Crear Nuevo Producto',
         grupos,
@@ -83,12 +86,20 @@ exports.crearMeti = async (req, res) => {
     req.sanitizeBody('titulo');
     // obtener los datos
     const meeti = req.body;
+    const grupoIda =req.body.grupoId;
 
     // asignar el usuario
-    meeti.usuarioId = req.user.id;
-    
+    meeti.usuarioId = req.user.id; 
+    const consultas = [];
+     consultas.push( Grupos.findAll({ where : {id :grupoIda }}) );
+     // return un promise
+     const [ grupos ] = await Promise.all(consultas);
 
-
+    const gruposs = grupos.map(grupo => {
+        return grupo.categoriaId
+    });
+    //console.log("================0",gruposs)
+  meeti.categoriaId = gruposs;
 if(req.files) {
            // leer la imagen
            var keys = [];

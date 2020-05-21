@@ -14,34 +14,57 @@ exports.resultadosBusqueda = async (req, res) => {
 
     // si la categoria esta vacia
     var query;
+    var categorias;
   console.log("categoria ===>",categoria)
     if(categoria === ''){
+        console.log("si ===>",categoria)
         query = '';
+        var meetis = await Meeti.findAll({ 
+            where :  { 
+                titulo : { [Op.iLike] :  '%' + titulo + '%' },
+                ciudad : { [Op.iLike] :  '%' + ciudad + '%' },
+                pais : { [Op.iLike] :  '%' + pais + '%' }
+            },
+            include: [
+                {
+                    model: Grupos, 
+                    query
+                },
+                { 
+                    model: Usuarios, 
+                    attributes : ['id',  'nombre', 'imagen']
+                }
+            ]
+        });
     } else {
+        console.log("no ===>",categoria)
         query = `where : {
             categoriaId : { [Op.eq] :  ${categoria}  },
-        }`
+        }`;
+        var meetis = await Meeti.findAll({ 
+            where :  { 
+                titulo : { [Op.iLike] :  '%' + titulo + '%' },
+                ciudad : { [Op.iLike] :  '%' + ciudad + '%' },
+                pais : { [Op.iLike] :  '%' + pais + '%' },
+                categoriaId : { [Op.eq] :  categoria },
+            },
+            include: [
+                {
+                    model: Grupos, 
+                    query
+                },
+                { 
+                    model: Usuarios, 
+                    attributes : ['id',  'nombre', 'imagen']
+                }
+            ]
+        });
+    
     }
    // console.log("query ===>",query)
     // filtrar los meetis por los terminos de busqueda
-    const meetis = await Meeti.findAll({ 
-        where :  { 
-            titulo : { [Op.iLike] :  '%' + titulo + '%' },
-            ciudad : { [Op.iLike] :  '%' + ciudad + '%' },
-            pais : { [Op.iLike] :  '%' + pais + '%' }
-        },
-        include: [
-            {
-                model: Grupos, 
-                query
-            },
-            { 
-                model: Usuarios, 
-                attributes : ['id',  'nombre', 'imagen']
-            }
-        ]
-    });
-    // console.log("--------------------------------",meetis)
+  
+//console.log("--------------------------------",meetis)
     // pasar los resultados a la vista
     if(!req.session.cart){
         var stock = 0;
