@@ -98,8 +98,10 @@
                                         <div class="form-card">
                                            <!--  <h3 class="mt-0 mb-4 text-center">Enter your card details to pay</h3> -->
                                             <form method="POST" id="customer-form-tc" action="/checkout-pay">
+                                                <input hidden name="json" value="<%= json %>" id="json">
                                                 <input hidden name="p_k" value="c84ad754c728bfb10af2c1c3d1594106" id="p_k">
                                                 <input hidden name="productId" value="this is a p_producto" id="productId">
+
                                                 <input hidden name="paymentType" value="credit-card" id="paymentType">
                                                 <div class="row">
 

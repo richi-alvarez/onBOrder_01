@@ -148,6 +148,24 @@ exports.checkout = async (req, res, next) =>{
   var totalprice= cart.totalPrice;
   var totalcantidad= cart.totalQty;
   var alg = cart.generateArray();
+  var cars = new Array();
+  alg.forEach(element => {
+      // console.log("::::: id producto :::: ",element.item.id);
+      // console.log("::::: epayco_customerid: :::: ",element.item.epayco_customerid);
+      // console.log("::::: epayco_publickey: :::: ",element.item.epayco_publickey);
+      // console.log("::::: descripcion::: :::: ",element.item.descripcion);
+      let valorByProduct = element.qty * element.item.valorMeeti;
+      // console.log(":::::::::valor a pagar ::::::::",valorByProduct);
+      // console.log(":::::::::body::::::::");
+      var cadena = element.item.descripcion;
+      var re = /<div>/g;
+      var resultado = cadena.replace(re, '');
+      var re2 = /div>/g;
+      var resultado2 = resultado.replace(re2, '');
+
+      var myArray = {'epayco_customerid': element.item.epayco_customerid, 'epayco_publickey': element.item.epayco_publickey, 'productoID':element.item.id};
+      cars.push(myArray);
+  });
 }
 try {
   var uderId = req.user.id;
@@ -157,12 +175,20 @@ try {
   next()
 }
 
-console.log(":::::::::body::::::::",res.locals.usuario,uderId);
-    res.render('checkout', {
-        nombrePagina : 'Inicio',
-  stocks : stock,
-        totalprice: totalprice,
-        alg})
+var myJSON = JSON.stringify(cars);
+//console.log(":::::::::body::::::::",myJSON);
+  //   res.render('checkout', {
+  //       nombrePagina : 'Inicio',
+  // stocks : stock,
+  //       totalprice: totalprice,
+  //       alg})
+
+        res.render('checkout', {products: cart.generateArray(), totalPrice: cart.totalPrice,  nombrePagina : 'Carrito de compras',
+        stocks : stock,
+              totalprice: totalprice,
+              alg,
+              json:myJSON
+            });
 }
 
 
