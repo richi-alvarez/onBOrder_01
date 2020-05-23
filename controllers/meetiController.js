@@ -123,10 +123,14 @@ if(req.body.epayco_customerid == '' && req.body.zoomId  == '')
             typo= 'venta'
             meeti.fecha= formatoFecha;
             meeti.hora= formatHours;
+            meeti.stock= req.body.stock;
+            meeti.adicionalDescription= req.body.adicionalDescription;
         }
         else{
             if(req.body.epayco_customerid != '' && req.body.zoomId  != ''){
                 typo = 'venta-reunion'
+                meeti.stock= req.body.stock;
+                meeti.adicionalDescription= req.body.adicionalDescription;
             }
         }
     }
@@ -138,8 +142,7 @@ var meetZommId = meeti.zoomId.replace(re, '');
 meeti.zoomId=meetZommId;
 meeti.zoomPassword=req.body.zommPassword;
 
-meeti.stock= req.body.stock;
-meeti.adicionalDescription= req.body.adicionalDescription;
+
     // asignar el usuario
     meeti.usuarioId = req.user.id; 
     const consultas = [];
@@ -498,7 +501,7 @@ exports.editarImagen = async (req, res, next) => {
   
 
     // guardar en la BD
-  //  await meeti.save();
+   await meeti.save();
     req.flash('exito', 'Cambios Almacenados Correctamente');
     res.redirect('/administracion');
 

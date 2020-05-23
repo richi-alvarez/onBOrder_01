@@ -92,41 +92,7 @@
                 <input type="text" id="adicionalDescription" name="adicionalDescription" placeholder="brinda una descripcion del producto si requieres ampliar la información del producto" >
             </div>
                 <br>
-            <p style="
-    font-weight: bold;
-    color: #333;
-    font-size: 1rem;
-    text-align: center;
-">los siguientes valores debe de validarlos en la cuenta de ePayco:</p>
-
-
-            <div class="campo">
-                <label>P_CUST_ID</label>
-                <input type="text" id="epayco_customerid" name="epayco_customerid" placeholder="ID de cliente que lo identifica en ePayco. Lo puede encontrar en su panel de clientes en la opción configuración" >
-            </div>
-            <div class="campo">
-                <label>P_KEY</label>
-                <input type="text" id="epayco_secretkey" name="epayco_secretkey" placeholder="LLave para firmar la información enviada y recibida de ePayco." >
-            </div>
-
-            <div class="campo">
-                <label>PUBLIC_KEY</label>
-                <input type="text" id="epayco_publickey" name="epayco_publickey" placeholder="LLave para autenticar y consumir los servicios de ePayco." >
-            </div>
-
-            <div class="campo">
-                <label>modo</label>
-                <div>
-                    <label>
-                      <input type="radio" class="checkB-input radio" name="checkoutTest" id="checkoutTest" value="test" checked />
-                      Prueba
-                    </label>
-                    <label>
-                      <input type="radio" class="checkB-input radio" name="checkoutTest" id="checkoutTest" value="prod" />
-                      Producción
-                    </label>
-                  </div>
-            </div>
+    
         </div>
 
 
@@ -161,10 +127,44 @@ text-align: center;
     </div>
 
 
+    <div class="pago"  style="display: block;">
+        <p style="
+    font-weight: bold;
+    color: #333;
+    font-size: 1rem;
+    text-align: center;
+">los siguientes valores debe de validarlos en la cuenta de ePayco:</p>
 
 
+            <div class="campo">
+                <label>P_CUST_ID</label>
+                <input type="text" id="epayco_customerid" name="epayco_customerid" placeholder="ID de cliente que lo identifica en ePayco. Lo puede encontrar en su panel de clientes en la opción configuración" required>
+            </div>
+            <div class="campo">
+                <label>P_KEY</label>
+                <input type="text" id="epayco_secretkey" name="epayco_secretkey" placeholder="LLave para firmar la información enviada y recibida de ePayco." required>
+            </div>
 
+            <div class="campo">
+                <label>PUBLIC_KEY</label>
+                <input type="text" id="epayco_publickey" name="epayco_publickey" placeholder="LLave para autenticar y consumir los servicios de ePayco." >
+            </div required>
 
+            <div class="campo">
+                <label>modo</label>
+                <div>
+                    <label>
+                      <input type="radio" class="checkB-input radio" name="checkoutTest" id="checkoutTest" value="test" checked />
+                      Prueba
+                    </label>
+                    <label>
+                      <input type="radio" class="checkB-input radio" name="checkoutTest" id="checkoutTest" value="prod" />
+                      Producción
+                    </label>
+                  </div>
+            </div>
+
+    </div>
         <br>
         <p class="informacion">Confirma que los siguientes campos sean correctos:</p>
         <div class="campo">
