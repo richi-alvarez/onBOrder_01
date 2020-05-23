@@ -84,6 +84,8 @@ exports.formNuevoMeeti = async (req, res) => {
 exports.crearMeti = async (req, res) => {
     // sanitizar    
     req.sanitizeBody('titulo');
+    req.sanitizeBody('zoomId');
+    req.sanitizeBody('zoomPassword');
     // obtener los datos
     const meeti = req.body;
     const grupoIda =req.body.grupoId;
@@ -117,6 +119,9 @@ if(req.body.stock == '' && req.body.zoomId  == '')
 }else{
     if(req.body.stock == '' && req.body.zoomId  != '' ){
         typo= 'reunion'
+        meeti.fecha= req.body.fecha;
+        meeti.hora= req.body.hora;
+        meeti.stock= 0;
     }else{
         if(req.body.stock != '' && req.body.zoomId  == '')
         {
@@ -142,7 +147,7 @@ var meetZommId = meeti.zoomId.replace(re, '');
 meeti.zoomId=meetZommId;
 meeti.zoomPassword=req.body.zommPassword;
 
-console.log(":::::::::::::::::::::::::",req.body)
+//console.log(":::::::::::::::::::::::::",req.body)
     // asignar el usuario
     meeti.usuarioId = req.user.id; 
     const consultas = [];
@@ -236,6 +241,8 @@ exports.sanitizarMeeti = (req, res, next) => {
     req.sanitizeBody('estado');
     req.sanitizeBody('pais');
     req.sanitizeBody('grupoId');
+    req.sanitizeBody('zoomId');
+    req.sanitizeBody('zoomPassword');
     next();
 }
 
