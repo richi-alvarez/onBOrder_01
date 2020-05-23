@@ -171,6 +171,8 @@ function checkPagos(e){
         document.getElementById("epayco_customerid").required = true; 
         document.getElementById("epayco_secretkey").required = true;
         document.getElementById("epayco_publickey").required = true;
+        document.getElementById("stock").required = true;
+        document.getElementById("adicionalDescription").required = true;
 
        // text.style.display = "block";
       } else {
@@ -184,6 +186,10 @@ function checkPagos(e){
        document.getElementById("epayco_customerid").value = '';
        document.getElementById("epayco_secretkey").value = '';
        document.getElementById("epayco_publickey").value = '';
+       document.getElementById("stock").required = false;
+       document.getElementById("stock").value = 0;
+       document.getElementById("adicionalDescription").required = false;
+       document.getElementById("adicionalDescription").value = '';
       }
 }
 

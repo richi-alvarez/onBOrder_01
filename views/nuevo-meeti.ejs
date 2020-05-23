@@ -83,6 +83,14 @@
 
 
         <div class="pago" id="pagoCheck" style="display: none;">
+            <div class="campo">
+                <label>stock</label>
+                <input type="text" id="stock" name="stock" placeholder="catindad del producto"onkeypress='return event.charCode >= 48 && event.charCode <= 57' >
+            </div>
+            <div class="campo">
+                <label>Información adicional</label>
+                <input type="text" id="adicionalDescription" name="adicionalDescription" placeholder="brinda una descripcion del producto si requieres ampliar la información del producto" >
+            </div>
                 <br>
             <p style="
     font-weight: bold;
@@ -90,6 +98,7 @@
     font-size: 1rem;
     text-align: center;
 ">los siguientes valores debe de validarlos en la cuenta de ePayco:</p>
+
 
             <div class="campo">
                 <label>P_CUST_ID</label>

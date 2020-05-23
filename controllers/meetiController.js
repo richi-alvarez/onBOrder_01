@@ -138,6 +138,8 @@ var meetZommId = meeti.zoomId.replace(re, '');
 meeti.zoomId=meetZommId;
 meeti.zoomPassword=req.body.zommPassword;
 
+meeti.stock= req.body.stock;
+meeti.adicionalDescription= req.body.adicionalDescription;
     // asignar el usuario
     meeti.usuarioId = req.user.id; 
     const consultas = [];
