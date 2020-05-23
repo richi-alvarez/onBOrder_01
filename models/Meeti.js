@@ -28,7 +28,20 @@ const Meeti = db.define(
         slug : {
             type: Sequelize.STRING,
         },
+        tipo : {
+            type: Sequelize.STRING,
+        },
+        nuevo : {
+            type: Sequelize.STRING,
+        },
+        adicionalDescription : {
+            type: Sequelize.STRING,
+        },
         invitado : Sequelize.STRING,
+        stock : {
+            type: Sequelize.INTEGER,
+            defaultValue : 0
+        },
         cupo : {
             type: Sequelize.INTEGER,
             defaultValue : 0
@@ -40,6 +53,12 @@ const Meeti = db.define(
         valorMeeti : {
             type: Sequelize.INTEGER,
             defaultValue : 0
+        },
+        zoomId : {
+            type : Sequelize.TEXT
+        },
+        zoomPassword : {
+            type : Sequelize.TEXT
         },
         epayco_customerid : {
             type : Sequelize.TEXT

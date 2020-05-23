@@ -21,6 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if(checkPago) {
         checkPago.addEventListener('change', checkPagos);
     }
+    const checkReunion=document.querySelector('#checkReunion')
+    if(checkReunion) {
+        checkReunion.addEventListener('change', checkReunions);
+    }
+    const checkTrueque=document.querySelector('#checkTrueque')
+    if(checkTrueque) {
+        checkTrueque.addEventListener('change', checkTrueques);
+    }
 
 });
 
@@ -179,4 +187,31 @@ function checkPagos(e){
       }
 }
 
+function checkReunions(e){
+    e.preventDefault();
+    debugger
+    var checkBox = document.getElementById("checkReunion");
+    if (checkBox.checked == true){
+        document.getElementById("Reunioncheck").style.display = "block";
+        document.getElementById("zoomId").required = true; 
+        document.getElementById("zommPassword").required = true;
+        document.getElementById("fecha").required = true; 
+        document.getElementById("hora").required = true;
+    }else{
+        document.getElementById("Reunioncheck").style.display = "none";
+        document.getElementById("zommPassword").required = false;
+        document.getElementById("zoomId").required = false;
+        document.getElementById("zoomId").value = '';
+        document.getElementById("zommPassword").value = '';
+        document.getElementById("fecha").value = ''; 
+        document.getElementById("hora").value = '';
+        document.getElementById("fecha").required = false; 
+        document.getElementById("hora").required = false;
+    }
 
+}
+
+function checkTrueques(e){
+    e.preventDefault();
+
+}

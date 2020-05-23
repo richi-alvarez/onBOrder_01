@@ -87,6 +87,56 @@ exports.crearMeti = async (req, res) => {
     // obtener los datos
     const meeti = req.body;
     const grupoIda =req.body.grupoId;
+   function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+    return [year, month, day].join('-');
+}
+function formatH(){
+    var d = new Date(),
+    minutes = d.getMinutes(),
+    hours = d.getHours();
+    return [hours, minutes].join(':');
+}
+
+   var ts = new Date();
+   var formatoFecha= formatDate(ts.toDateString());
+   var formatHours = formatH();
+   console.log(formatoFecha,typeof(formatoFecha));
+   console.log(formatHours,typeof(formatHours));
+var tipo;
+if(req.body.epayco_customerid == '' && req.body.zoomId  == '')
+{
+    typo= 'not'
+}else{
+    if(req.body.epayco_customerid == '' && req.body.zoomId  != '' ){
+        typo= 'reunion'
+    }else{
+        if(req.body.epayco_customerid != '' && req.body.zoomId  == '')
+        {
+            typo= 'venta'
+            meeti.fecha= formatoFecha;
+            meeti.hora= formatHours;
+        }
+        else{
+            if(req.body.epayco_customerid != '' && req.body.zoomId  != ''){
+                typo = 'venta-reunion'
+            }
+        }
+    }
+}
+
+meeti.tipo=typo;
+var re = /-/g;
+var meetZommId = meeti.zoomId.replace(re, '');
+meeti.zoomId=meetZommId;
+meeti.zoomPassword=req.body.zommPassword;
 
     // asignar el usuario
     meeti.usuarioId = req.user.id; 
@@ -153,7 +203,7 @@ if(req.files) {
 
     // almacenar en la BD
     try {
-    await Meeti.create(meeti);
+   await Meeti.create(meeti);
         req.flash('exito', 'Se ha creado el Meeti Correctamente');
         res.redirect('/administracion');
     } catch (error) {

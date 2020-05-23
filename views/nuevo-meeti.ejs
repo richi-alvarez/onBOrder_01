@@ -13,7 +13,7 @@
                 <% } %>
             </select>
         </div>
-        <div class="columnas-2 grid">
+        <!-- <div class="columnas-2 grid">
             <div class="campo">
                 <label>Fecha</label>
                 <input type="date" name="fecha" placeholder="Fecha Meeti" required>
@@ -22,7 +22,7 @@
                 <label>Hora</label>
                 <input type="time" name="hora" placeholder="Hora Meeti"required>
             </div>
-        </div>
+        </div> -->
         <div class="campo">
             <label>Nombre</label>
             <input type="text" name="titulo" placeholder="Nombre del producto" required>
@@ -48,7 +48,7 @@
 
             <div class="campo">
                 <label>Valor producto</label>
-                <input type="text" id="valorMeeti" name="valorMeeti" placeholder="Valor Producto" >
+                <input type="text" id="valorMeeti" name="valorMeeti" placeholder="Valor Producto"  onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
             </div>
             <div class="campo">
                 <label></label>
@@ -56,12 +56,32 @@
                         <div>
                             <label>
                                 <input type="checkbox"  class="checkB-input checkbox" id="checkPago" />
-                                vender producto?
+                                producto a vender
                              </label>
                         </div>
                 </div>
+                <div class="contenedor-input">
+                    <div>
+                        <label>
+                            <input type="checkbox"  class="checkB-input checkbox" id="checkReunion" />
+                            reunion
+                         </label>
+                    </div>
+            </div>
+            <div class="contenedor-input">
+                <div>
+                    <label>
+                        <input type="checkbox"  class="checkB-input checkbox" id="checkTrueque" />
+                        producto trueque
+                     </label>
+                </div>
+        </div>
             </div>
         </div>
+
+
+
+
         <div class="pago" id="pagoCheck" style="display: none;">
                 <br>
             <p style="
@@ -99,6 +119,43 @@
                   </div>
             </div>
         </div>
+
+
+
+
+        <div class="pago" id="Reunioncheck" style="display: none;">
+            <br>
+        <p style="
+font-weight: bold;
+color: #333;
+font-size: 1rem;
+text-align: center;
+">los siguientes valores se obtienen de zoom al momento de crear una reunion:</p>
+<div class="columnas-2 grid">
+    <div class="campo">
+        <label>Fecha</label>
+        <input type="date" name="fecha" placeholder="Fecha Meeti" id="fecha">
+    </div>
+    <div class="campo">
+        <label>Hora</label>
+        <input type="time" name="hora" placeholder="Hora Meeti" id="hora">
+    </div>
+</div>
+        <div class="campo">
+            <label>ID de la reunión</label>
+            <input type="text" id="zoomId" name="zoomId" placeholder="ID de la reunión" >
+        </div>
+        <div class="campo">
+            <label>Contraseña de la reunión</label>
+            <input type="text" id="zommPassword" name="zommPassword" placeholder="Contraseña de la reunión" >
+        </div>
+    </div>
+
+
+
+
+
+
         <br>
         <p class="informacion">Confirma que los siguientes campos sean correctos:</p>
         <div class="campo">
