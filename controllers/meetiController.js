@@ -111,14 +111,14 @@ function formatH(){
    console.log(formatoFecha,typeof(formatoFecha));
    console.log(formatHours,typeof(formatHours));
 var tipo;
-if(req.body.epayco_customerid == '' && req.body.zoomId  == '')
+if(req.body.stock == '' && req.body.zoomId  == '')
 {
     typo= 'not'
 }else{
-    if(req.body.epayco_customerid == '' && req.body.zoomId  != '' ){
+    if(req.body.stock == '' && req.body.zoomId  != '' ){
         typo= 'reunion'
     }else{
-        if(req.body.epayco_customerid != '' && req.body.zoomId  == '')
+        if(req.body.stock != '' && req.body.zoomId  == '')
         {
             typo= 'venta'
             meeti.fecha= formatoFecha;
@@ -127,7 +127,7 @@ if(req.body.epayco_customerid == '' && req.body.zoomId  == '')
             meeti.adicionalDescription= req.body.adicionalDescription;
         }
         else{
-            if(req.body.epayco_customerid != '' && req.body.zoomId  != ''){
+            if(req.body.stock != '' && req.body.zoomId  != ''){
                 typo = 'venta-reunion'
                 meeti.stock= req.body.stock;
                 meeti.adicionalDescription= req.body.adicionalDescription;
@@ -142,7 +142,7 @@ var meetZommId = meeti.zoomId.replace(re, '');
 meeti.zoomId=meetZommId;
 meeti.zoomPassword=req.body.zommPassword;
 
-
+console.log(":::::::::::::::::::::::::",req.body)
     // asignar el usuario
     meeti.usuarioId = req.user.id; 
     const consultas = [];
