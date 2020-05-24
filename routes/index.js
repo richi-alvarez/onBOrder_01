@@ -241,6 +241,9 @@ pagosController.showWishi
     router.get('/add-to-cart/:id',pagosController.addCart);
     router.get('/add-to-wish/:id',pagosController.addWish);
 
+    router.get('/delete/add-to-cart/:id',pagosController.deleteByOneCart);
+
+
     router.get('/checkout',
     authController.usuarioAutenticado,
     pagosController.checkout);

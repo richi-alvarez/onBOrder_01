@@ -104,7 +104,38 @@ var totalcantidad= cart.totalQty;
 }
 
 
-
+exports.deleteByOneCart = async (req, res, next) => {
+  var prodcutId = req.params.id;
+  var id__ = 0;
+if(req.user){
+id__ = req.user.id;
+}else{
+  id__ = 0;
+}
+  var cart = new Cart(req.session.cart ? req.session.cart : {});
+   const producto = await Meeti.findByPk(prodcutId);
+    if(!producto){
+      console.log(':::::::::::::::::::',err)
+      return res.redirect('/');
+    }else{
+     cart.reduceByOne(producto.id);
+     req.session.cart = cart;
+    // var totalprice= cart.totalPrice;
+    // var totalcantidad= cart.totalQty;
+    // var alg = cart.generateArray();
+    // alg.forEach(element => {
+    // console.log('________ id producto _______',element.item.id );
+    // console.log('________ titulo _______',element.item.titulo );
+    // console.log('________ usuario id _______',element.item.usuarioId );
+    // console.log('________ grupo id _______',element.item.grupoId );
+    // console.log('________ precio _______',element.item.valorMeeti );
+    // console.log('________ cantidad________',element.qty);
+    // console.log('_____________________________________');
+    // });
+    // console.log(totalcantidad,totalprice,'________--cart - add',id__);
+     res.send({data:req.session.cart})
+    }
+}
 
 exports.showCart= async (req, res, next) => {
 
@@ -328,11 +359,12 @@ if(req.body.paymentType=='pse'){
 epayco.bank.create(pse_info)
     .then(function(bank) {
         console.log(bank);
-      //  res.send({data:bank})
+        req.session.cart=null;
+       res.send({data:bank})
     })
     .catch(function(err) {
         console.log("err: " + err);
-      //  res.send({data:err})
+        res.send({data:err})
     });
 }else{
   if(req.body.paymentType=='credit-card'){
@@ -361,6 +393,7 @@ epayco.bank.create(pse_info)
     epayco.charge.create(payment_info)
         .then(function(charge) {
             console.log(charge);
+            req.session.cart=null;
             res.send({data:charge})
         })
         .catch(function(err) {
