@@ -242,7 +242,7 @@ pagosController.showWishi
     router.get('/add-to-wish/:id',pagosController.addWish);
 
     router.get('/delete/add-to-cart/:id',pagosController.deleteByOneCart);
-
+    router.get('/deleteall/add-to-cart/:id',pagosController.deleteAllCart);
 
     router.get('/checkout',
     authController.usuarioAutenticado,

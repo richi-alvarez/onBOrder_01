@@ -45,13 +45,11 @@ exports.response= async (req, res, next) => {
 
 exports.confirmation= async (req, res, next) => {
     const response = req.body;
-//    console.log("confirmation",req.body)
   var id_ = response.x_extra1.trim();
   var usuarioId_ = response.x_extra2.trim();
   var estado_ = response.x_transaction_state.trim();
     console.log("confirm data 2 =>",response.x_ref_payco )
    const orden = await Ordenes.findOne({ where : { id: id_, usuarioId : usuarioId_ }});
-
    if(!orden) {
     req.flash('error', 'Operación no valida');
     res.redirect('/administracion');
@@ -62,8 +60,6 @@ if(estado_ === 'Aceptada'){
   await orden.save();
   console.log("confirm orden estado_ 3=>",estado_ )
 }
-  
-
     console.log("confirm orden estado_=>",estado_ )
     res.send('Has confirmado tu asistencia');
 }
@@ -81,7 +77,6 @@ id__ = req.user.id;
   var cart = new Cart(req.session.cart ? req.session.cart : {});
    const producto = await Meeti.findByPk(prodcutId);
     if(!producto){
-      console.log(':::::::::::::::::::',err)
       return res.redirect('/');
     }else{
      cart.add(producto, producto.id);
@@ -89,16 +84,6 @@ id__ = req.user.id;
 var totalprice= cart.totalPrice;
 var totalcantidad= cart.totalQty;
  var alg = cart.generateArray();
-// alg.forEach(element => {
-// console.log('________ id producto _______',element.item.id );
-// console.log('________ titulo _______',element.item.titulo );
-// console.log('________ usuario id _______',element.item.usuarioId );
-// console.log('________ grupo id _______',element.item.grupoId );
-// console.log('________ precio _______',element.item.valorMeeti );
-// console.log('________ cantidad________',element.qty);
-// console.log('_____________________________________');
-// });
-// console.log(totalcantidad,totalprice,'________--cart - add',id__);
      res.send({data:req.session.cart})
     }
 }
@@ -115,24 +100,29 @@ id__ = req.user.id;
   var cart = new Cart(req.session.cart ? req.session.cart : {});
    const producto = await Meeti.findByPk(prodcutId);
     if(!producto){
-      console.log(':::::::::::::::::::',err)
       return res.redirect('/');
     }else{
      cart.reduceByOne(producto.id);
      req.session.cart = cart;
-    // var totalprice= cart.totalPrice;
-    // var totalcantidad= cart.totalQty;
-    // var alg = cart.generateArray();
-    // alg.forEach(element => {
-    // console.log('________ id producto _______',element.item.id );
-    // console.log('________ titulo _______',element.item.titulo );
-    // console.log('________ usuario id _______',element.item.usuarioId );
-    // console.log('________ grupo id _______',element.item.grupoId );
-    // console.log('________ precio _______',element.item.valorMeeti );
-    // console.log('________ cantidad________',element.qty);
-    // console.log('_____________________________________');
-    // });
-    // console.log(totalcantidad,totalprice,'________--cart - add',id__);
+     res.send({data:req.session.cart})
+    }
+}
+
+exports.deleteAllCart = async (req, res, next) => {
+  var prodcutId = req.params.id;
+  var id__ = 0;
+if(req.user){
+id__ = req.user.id;
+}else{
+  id__ = 0;
+}
+  var cart = new Cart(req.session.cart ? req.session.cart : {});
+   const producto = await Meeti.findByPk(prodcutId);
+    if(!producto){
+      return res.redirect('/');
+    }else{
+     cart.removeItem(producto.id);
+     req.session.cart = cart;
      res.send({data:req.session.cart})
     }
 }
@@ -181,19 +171,12 @@ exports.checkout = async (req, res, next) =>{
   var alg = cart.generateArray();
   var cars = new Array();
   alg.forEach(element => {
-      // console.log("::::: id producto :::: ",element.item.id);
-      // console.log("::::: epayco_customerid: :::: ",element.item.epayco_customerid);
-      // console.log("::::: epayco_publickey: :::: ",element.item.epayco_publickey);
-      // console.log("::::: descripcion::: :::: ",element.item.descripcion);
       let valorByProduct = element.qty * element.item.valorMeeti;
-      // console.log(":::::::::valor a pagar ::::::::",valorByProduct);
-      // console.log(":::::::::body::::::::");
       var cadena = element.item.descripcion;
       var re = /<div>/g;
       var resultado = cadena.replace(re, '');
       var re2 = /div>/g;
       var resultado2 = resultado.replace(re2, '');
-
       var myArray = {'epayco_customerid': element.item.epayco_customerid, 'epayco_publickey': element.item.epayco_publickey, 'productoID':element.item.id};
       cars.push(myArray);
   });
@@ -235,7 +218,6 @@ id__ = req.user.id;
   var wish = new Wish(req.session.wish ? req.session.wish : {});
    const producto = await Meeti.findByPk(prodcutId);
     if(!producto){
-      console.log(':::::::::::::::::::',err)
       return res.redirect('/');
     }else{
       wish.add(producto, producto.id);
