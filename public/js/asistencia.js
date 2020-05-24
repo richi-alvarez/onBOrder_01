@@ -168,9 +168,7 @@ function checkPagos(e){
     if (checkBox.checked == true){
         document.getElementById("pagoCheck").style.display = "block";
         document.getElementById("valorMeeti").required = true; 
-        // document.getElementById("epayco_customerid").required = true; 
-        // document.getElementById("epayco_secretkey").required = true;
-        // document.getElementById("epayco_publickey").required = true;
+        document.getElementById("productoType").required = true; 
         document.getElementById("stock").required = true;
         document.getElementById("adicionalDescription").required = true;
 
@@ -180,12 +178,9 @@ function checkPagos(e){
        // text.style.display = "none";
        document.getElementById("valorMeeti").required = false;
        document.getElementById("valorMeeti").value = '';
-    //    document.getElementById("epayco_customerid").required = false;
-    //    document.getElementById("epayco_secretkey").required = false;
-    //    document.getElementById("epayco_publickey").required = false;
-    //    document.getElementById("epayco_customerid").value = '';
-    //    document.getElementById("epayco_secretkey").value = '';
-    //    document.getElementById("epayco_publickey").value = '';
+       document.getElementById("productoType").required = false;
+
+    //    document.getElementById("productoType").value = '';
        document.getElementById("stock").required = false;
        document.getElementById("stock").value = 0;
        document.getElementById("adicionalDescription").required = false;

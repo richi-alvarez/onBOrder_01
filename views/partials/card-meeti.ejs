@@ -1,7 +1,12 @@
 <div class="col-sm-12 col-md-6 col-lg-3 p-b-50">
     <!-- Block2 -->
     <div class="block2">
-        <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+             <% if(meeti.nuevo == 'nuevo') { %>
+         <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+            <% } else { %>
+                <div class="block2-img wrap-pic-w of-hidden pos-relative">
+                <% } %>
+       
             <% if(meeti.imagen) { %>
                 <img src="/uploads/productos/<%= meeti.imagen %>" alt="IMG-PRODUCT" style="height: 327px;">
             <% } else { %>
@@ -32,4 +37,7 @@
             </span>
         </div>
     </div>
+
+
+
 </div>

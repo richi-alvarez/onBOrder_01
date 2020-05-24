@@ -146,6 +146,7 @@ var re = /-/g;
 var meetZommId = meeti.zoomId.replace(re, '');
 meeti.zoomId=meetZommId;
 meeti.zoomPassword=req.body.zommPassword;
+meeti.nuevo=req.body.productoType;
 
 //console.log(":::::::::::::::::::::::::",req.body)
     // asignar el usuario
@@ -207,14 +208,14 @@ if(req.files) {
     }else{
         meeti.pagada = 1;
     }
-    let date = new Date()
+
 
     meeti.id = uuid();
 
     // almacenar en la BD
     try {
    await Meeti.create(meeti);
-        req.flash('exito', 'Se ha creado el Meeti Correctamente');
+        req.flash('exito', 'cambios guardados exitosamente!');
         res.redirect('/administracion');
     } catch (error) {
         // extraer el message de los errores

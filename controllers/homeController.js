@@ -12,7 +12,7 @@ exports.home = async (req, res) => {
     const consultas = [];
     consultas.push( Categorias.findAll({}) );
     consultas.push( Meeti.findAll ({
-            attributes : ['slug', 'titulo', 'fecha', 'hora','imagen', 'id', 'valorMeeti'],
+            attributes : ['slug', 'titulo', 'fecha', 'hora','imagen', 'id', 'valorMeeti','tipo', 'nuevo', 'stock'],
 
            // limit: 3,
             order : [
@@ -60,9 +60,9 @@ exports.home = async (req, res) => {
             cars.push(myArray);
         });
         
-//console.log("========================>",cars)
+
     }
- 
+    //console.log("========================>",meetis)
     
   //  
 
