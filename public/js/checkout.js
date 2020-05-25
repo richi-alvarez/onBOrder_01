@@ -19,7 +19,6 @@ function pagoTc (event){
     event.preventDefault();
     //captura el contenido del formulario
     var $form = $(this);
-    var numero_documento=document.getElementById('p_k').value;
     var json=document.getElementById('json').value;
 
     var obj = JSON.parse(json);
@@ -62,6 +61,33 @@ function pagoPse (event){
     debugger
     event.preventDefault();
     var $form = $(this);
-    var numero_documento=document.getElementById('p_k').value;
-    $form.get(0).submit();
+    var json=document.getElementById('json').value;
+    var obj = JSON.parse(json);
+    typeof(obj);
+    var result = Object.keys(obj).map(function(key) {
+    return [Number(key), obj[key]];
+  });
+  var count = 0;
+  var interval = 2000; 
+  var countTotal = result.length;
+  result.forEach(function (el, index){
+    setTimeout(function () {
+    const c_i = el.map(grupo => {
+        return grupo.epayco_customerid
+        });
+        $form.append($(`<input type="hidden" name="custiId${count}">`).val(c_i[1]));
+        console.log(c_i);
+    },index * interval);
+    count++
+
+    if(countTotal==count){
+        setTimeout(function () {
+      console.log('temrino',count)
+      $form.get(0).submit();
+        },3000)
+    }
+  });
+ 
+
+    //$form.get(0).submit();
 }

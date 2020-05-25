@@ -280,10 +280,12 @@ var totalprice= cart.totalPrice;
 var totalcantidad= cart.totalQty;
 var alg =  cart.generateArray();
 const consultas = [];
+var pse_info;
+var pagos = new Array();
 alg.forEach(element => {
   var id_producto = element.item.id;
   var usuarioId=element.item.usuarioId;
-  console.log(":::::::::body::::::::",element);
+  //console.log(":::::::::body::::::::",element);
 //llamar a la base de datos para traerme los datos del producto id del ccarito
 // consultas.push( Meeti.findAll ({ 
 //   where :  { id : id_producto, usuarioId : usuarioId},
@@ -307,7 +309,7 @@ var resultado2 = resultado.replace(re2, '');
 var valorByProduct = element.qty * element.item.valorMeeti;
 console.log(":::::::::epayco_publickey::::::::",epayco_publickey);
 console.log(":::::::::epayco_secretkey::::::::",epayco_secretkey);
-var epayco = require('epayco-sdk-node')({
+const epayco = require('epayco-sdk-node')({
   apiKey: epayco_publickey,
   privateKey: epayco_secretkey,
   lang: 'ES',
@@ -316,7 +318,7 @@ var epayco = require('epayco-sdk-node')({
 
 if(req.body.paymentType=='pse'){
   console.log(":::::::::pse::::::::");
-  var pse_info = {
+    pse_info = {
     bank: "1007",
     invoice: "13213",
     description: "resultado2",
@@ -336,57 +338,20 @@ if(req.body.paymentType=='pse'){
     url_response: "https://ejemplo.com/respuesta.html",
     url_confirmation: "https://ejemplo.com/confirmacion",
     method_confirmation: "GET",
-  
 }
-epayco.bank.create(pse_info)
-    .then(function(bank) {
-        console.log(bank);
-        req.session.cart=null;
-       res.send({data:bank})
-    })
-    .catch(function(err) {
-        console.log("err: " + err);
-        res.send({data:err})
-    });
-}else{
-  if(req.body.paymentType=='credit-card'){
+pagos.push(pse_info);
 
-    var payment_info = {
-      token_card: req.body.epaycoToken,
-      customer_id:  req.body.name,
-      doc_type: "CC",
-      doc_number: "1035851980",
-      name: req.body.name,
-      last_name:  req.body.name,
-      email:  req.body.email,
-      bill: "OR-".resultado2,
-      description:resultado2,
-      value: valorByProduct,
-      tax: "0",
-      tax_base: valorByProduct,
-      currency: "COP",
-      dues: "1",
-      ip:"190.000.000.000", /*This is the client's IP, it is required */
-      url_response: 'hhtps://onbor.confirmation_payment',
-      url_confirmation: 'hhtps://onbor.confirmation_payment',
-      method_confirmation: "POST"
-    }
-  
-    epayco.charge.create(payment_info)
-        .then(function(charge) {
-            console.log(charge);
-            req.session.cart=null;
-            res.send({data:charge})
-        })
-        .catch(function(err) {
-            console.log("err::::::::::::::::::::::::: " + err);
-            res.send({data:err})
-        });
-  }
+}else{
+ 
     
 }
 
 });
+if(req.body.paymentType=='pse'){
+res.send({data:pagos})
+}else{
+  res.send({data:"{otra: data}"})
+}
 //const [  meetis  ] = await Promise.all(consultas);
 // var usuarioId = meetis.usuario;
 //se guarda el pedido
