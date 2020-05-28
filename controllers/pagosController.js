@@ -266,7 +266,7 @@ if(!req.session.wish){
 }
 
 
-exports.pay= async (req, res, next) => {
+exports.pay=  (req, res, next) => {
 console.log("____pay___",req.body)
 var obj2 = req.body.custiId2;
 var obj3 = req.body.bank;
@@ -275,13 +275,56 @@ var bank_ = req.body.banks;
 //   console.log(key + ' ' + value);   
 
 // });
-var banks = Object.keys(obj2).map(function(key) {
-  return Object.keys(obj3).map(function(keys) {
-     return [ obj2[key], obj3[key] ];
-   });
+// var banks = Object.keys(obj2).map(function(key) {
+//   return Object.keys(obj3).map(function(keys) {
+//      return [ obj2[key], obj3[key] ];
+//    });
+// });
+
+// console.log("__bank__",banks)
+//CREAR TRANSACCION CON TARJETA DE CREDITO
+const createPaymentPse = function(epayco,resultado2,valorByProduct){
+  var pse_info = {
+    //   bank: bank_,
+    //  // invoice: "13213",
+    //   description: resultado2,
+    //   value: valorByProduct,
+    //   tax: "0",
+    //   tax_base: valorByProduct,
+    bank: bank_,
+     description: resultado2,
+     value: valorByProduct.toString(),
+     tax: "0",
+     tax_base: valorByProduct.toString(),
+      currency: "COP",
+      type_person: "0",
+      doc_type: "CC",
+      doc_number: "10358519",
+      name: 'ricardo',
+      last_name: 'saldarriaga',
+      email: 'ricardo.saldarriaga@payco.co',
+      country: "CO",
+      cell_phone: "3010000001",
+      ip:"190.000.000.000", /*This is the client's IP, it is required */
+      url_response: "https://ejemplo.com/respuesta.html",
+      url_confirmation: "https://ejemplo.com/confirmacion",
+      method_confirmation: "GET",
+  }
+
+epayco.bank.create(pse_info)
+.then(function(charge) {
+      console.log('SUCCESS::::::::::::::::: ',charge.data);
+      pagos.push(charge.data)
+      res.send({data:pagos})
+})
+.catch(function(err) {
+    console.log("ERROR_CATCH:::::::::::::::::::::::::::::: " + err);
+    pagos.push(err.data)
+    res.send({data:pagos})
 });
 
-console.log("__bank__",typeof(banks))
+
+}
 
 if(!req.session.cart){
   var stock = 0;
@@ -299,17 +342,6 @@ var pagos = new Array();
 alg.forEach(element => {
   var id_producto = element.item.id;
   var usuarioId=element.item.usuarioId;
-  //console.log(":::::::::body::::::::",element);
-//llamar a la base de datos para traerme los datos del producto id del ccarito
-// consultas.push( Meeti.findAll ({ 
-//   where :  { id : id_producto, usuarioId : usuarioId},
-//   include: [
-//       { 
-//           model: Usuarios, 
-//           attributes : ['id',  'nombre', 'imagen']
-//       }
-//   ]
-// }));
 
 var epayco_customerid = element.item.epayco_customerid;
 var epayco_secretkey = element.item.epayco_secretkey;
@@ -328,7 +360,7 @@ var obj = req.body.custiId2;
     // console.log(":::::::::epayco_customerid::::::::",epayco_customerid);
     // console.log(":::::::::epayco_publickey::::::::",epayco_publickey);
     // console.log(":::::::::epayco_secretkey::::::::",epayco_secretkey);
-     console.log(":::::::::valorByProduct::::::::",valorByProduct);
+     console.log(":::::::::valorByProduct::::::::", typeof(valorByProduct));
     // console.log(":::::::::descripcion::::::::",resultado2);
     // console.log(":::::::::id_producto::::::::",id_producto);
     var epayco = require('epayco-sdk-node')({
@@ -340,44 +372,10 @@ var obj = req.body.custiId2;
     if(req.body.paymentType=='pse'){
  
       console.log(":::::::::pse::::::::");
-    var pse_info = {
-    //   bank: bank_,
-    //  // invoice: "13213",
-    //   description: resultado2,
-    //   value: valorByProduct,
-    //   tax: "0",
-    //   tax_base: valorByProduct,
-    bank: bank_,
-    // invoice: "13213",
-     description: resultado2,
-     value: "10000",
-     tax: "0",
-     tax_base: "10000",
-      currency: "COP",
-      type_person: "0",
-      doc_type: "CC",
-      doc_number: "10358519",
-      name: 'ricardo',
-      last_name: 'saldarriaga',
-      email: 'ricardo.saldarriaga@payco.co',
-      country: "CO",
-      cell_phone: "3010000001",
-      ip:"190.000.000.000", /*This is the client's IP, it is required */
-      url_response: "https://ejemplo.com/respuesta.html",
-      url_confirmation: "https://ejemplo.com/confirmacion",
-      method_confirmation: "GET",
-  }
+    
+  createPaymentPse(epayco,resultado2,valorByProduct)
  // console.log(pse_info)
-      epayco.bank.create(pse_info)
-        .then(function(bank) {
-            console.log(bank);
-            pagos.push(bank);
-        })
-        .catch(function(err) {
-            console.log("err ===: " + err);
-            pagos.push(err);
-        });
-  
+
     }
   }
 });
