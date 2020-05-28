@@ -1,181 +1,4 @@
 
-<div class="container-fluid px-0" id="bg-div">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-12">
-            <div class="card card0">
-                <div id="error"></div>
-                 <div class="d-flex" id="wrapper">
-                    <!-- Sidebar -->
-                    <div  id="sidebar-wrapper"style="
-    background-color: #eee;
-    height: 500px !important;">
-                        <div class="sidebar-heading pt-5 pb-4"><strong>PAY WITH</strong></div>
-                        <div class="list-group list-group-flush"> <a data-toggle="tab" href="#menu1" id="tab1" class="tabs list-group-item bg-light">
-                                <div class="list-div my-2">
-                                    <div class="fa fa-home"></div> &nbsp;&nbsp; Bank
-                                </div>
-                            </a> 
-                            <a data-toggle="tab" href="#menu2" id="tab2" class="tabs list-group-item active1">
-                                <div class="list-div my-2">
-                                    <div class="fa fa-credit-card"></div> &nbsp;&nbsp; Card
-                                </div>
-                            </a>
-                             <a data-toggle="tab" href="#menu3" id="tab3" class="tabs list-group-item bg-light">
-                                <div class="list-div my-2">
-                                    <div class="fa fa-qrcode"></div> &nbsp;&nbsp;&nbsp; Visa QR <span id="new-label">NEW</span>
-                                </div>
-                            </a> 
-                                 <a data-toggle="tab" href="#menu4" id="tab4" class="tabs list-group-item bg-light">
-                                <div class="list-div my-2">
-                                    <div class="fa fa-qrcode"></div> &nbsp;&nbsp;&nbsp; Visa QR <span id="new-label">NEW</span>
-                                </div>
-                            </a> 
-                        </div>
-                    </div> <!-- Page Content -->
-                    <div id="page-content-wrapper">
-                        <div class="row pt-3" id="border-btm">
-                            <div style="margin-left: inherit;">
-                             <button class="btn btn-success mt-4 ml-3 mb-3" id="menu-toggle" style="width: 60px;height: 53px;">
-                                    <div class="bar4"></div>
-                                    <div class="bar4"></div>
-                                    <div class="bar4"></div>
-                                </button> </div>
-                            <div class="col-8">
-                                <div class="row justify-content-right">
-                                    <div class="col-12">
-                                        <p class="mb-0 mt-4 text-right">customer@email.com</p>
-                                    </div>
-                                </div>
-                                <div class="row justify-content-right">
-                                    <div class="col-12">
-                                        <p class="mb-0 mr-4 text-right">Pay <span class="top-highlight">$ 100</span> </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-               <!--          <div class="row justify-content-center">
-                            <div class="text-center" id="test">Pay</div>
-                        </div> -->
-                        <div class="tab-content">
-                            <div id="menu1" class="tab-pane">
-                                <div class="row justify-content-center">
-                                    <div class="col-11">
-                                        <div class="form-card">
-                                         <!--    <h3 class="mt-0 mb-4 text-center">Enter bank details to pay</h3> -->
-                                            <form method="POST" id="customer-form-pse" action="/checkout-pay">
-                                                <input hidden name="p_k" value="c84ad754c728bfb10af2c1c3d1594106" id="p_k">
-                                                <input hidden name="productId" value="this is a p_producto" id="productId">
-                                                <input hidden name="paymentType" value="pse" id="paymentType">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="input-group"> <input type="text" id="bk_nm" placeholder="BBB Bank"> <label>BANK NAME</label> </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="input-group"> <input type="text" name="ben_nm" id="ben-nm" placeholder="John Smith"> <label>BENEFICIARY NAME</label> </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="input-group"> <input type="text" name="scode" placeholder="ABCDAB1S" class="placeicon" minlength="8" maxlength="11"> <label>SWIFT CODE</label> </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12"> <input type="submit" value="Pay $ 100" class="btn btn-success placeicon"> </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <p class="text-center mb-5" id="below-btn"><a href="#">Use a test card</a></p>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="menu2" class="tab-pane in active">
-                                <div class="row justify-content-center">
-                                    <div class="col-11">
-                                        <div class="form-card">
-                                           <!--  <h3 class="mt-0 mb-4 text-center">Enter your card details to pay</h3> -->
-                                            <form method="POST" id="customer-form-tc" action="/checkout-pay">
-                                                <input hidden name="json" value="<%= json %>" id="json">
-                                                <input hidden name="p_k" value="c84ad754c728bfb10af2c1c3d1594106" id="p_k">
-                                                <input hidden name="productId" value="this is a p_producto" id="productId">
-
-                                                <input hidden name="paymentType" value="credit-card" id="paymentType">
-                                                <div class="row">
-
-                                                    <div class="col-12">
-                                                        <div class="input-group"> <input type="text" data-epayco="card[name]" name="name"> <label>Nombre</label> </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="input-group"> <input type="email" data-epayco="card[email]" name="email" > <label>correo</label> </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="input-group"> <input type="text" id="cr_no" placeholder="0000 0000 0000 0000" minlength="15" maxlength="19" data-epayco="card[number]"> <label>CARD NUMBER</label> </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <div class="input-group"> <input type="text" name="exp" id="expm" placeholder="" minlength="2" maxlength="2" data-epayco="card[exp_month]"> <label>Month</label> </div>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <div class="input-group"> <input type="text" name="exp" id="expy" placeholder="YYYY" minlength="4" maxlength="4" data-epayco="card[exp_year]"> <label>Year</label> 
-                                                       </div>
-                                                    </div>
-                                                   
-                                                </div>
-                                                   <div class="row">
-                                                    <div class="col-12">
-                                                    <div class="input-group"> <input type="password" name="cvcpwd" placeholder="&#9679;&#9679;&#9679;" class="placeicon" minlength="3" maxlength="4" data-epayco="card[cvc]"> <label>CVV</label> </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12"> 
-                                                        <button  type="submit" value="Pay $ 100" class="btn btn-success placeicon"> PAGO</button >
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <p class="text-center mb-5" id="below-btn"><a href="#">Use a test card</a></p>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="menu3" class="tab-pane">
-                                <div class="row justify-content-center">
-                                    <div class="col-11">
-                                        <h3 class="mt-0 mb-4 text-center">Scan the QR code to pay</h3>
-                                        <div class="row justify-content-center">
-                                            <div id="qr"> <img src="https://i.imgur.com/DD4Npfw.jpg" width="200px" height="200px"> </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="menu4" class="tab-pane">
-                                <div class="row justify-content-center">
-                                    <div class="col-11">
-                                        <h3 class="mt-0 mb-4 text-center">Scan the QR code to pay</h3>
-                                        <div class="row justify-content-center">
-                                            <div id="qr"> <img src="https://i.imgur.com/DD4Npfw.jpg" width="200px" height="200px"> </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <br>
 <br>
@@ -194,24 +17,33 @@
                     <div class="bg-white shadow-sm pt-4 pl-2 pr-2 pb-2">
                         <!-- Credit card form tabs -->
                         <ul role="tablist" class="nav bg-light nav-pills rounded nav-fill mb-3">
-                            <li class="nav-item"> <a data-toggle="pill" href="#credit-card" class="nav-link active "> <i class="fas fa-credit-card mr-2"></i> Credit Card </a> </li>
-                            <li class="nav-item"> <a data-toggle="pill" href="#paypal" class="nav-link "> <i class="fab fa-paypal mr-2"></i> Paypal </a> </li>
-                            <li class="nav-item"> <a data-toggle="pill" href="#net-banking" class="nav-link "> <i class="fas fa-mobile-alt mr-2"></i> Net Banking </a> </li>
+                            <li class="nav-item"> <a data-toggle="pill" href="#credit-card" class="nav-link active "> <i class="fa fa-credit-card mr-2"></i> Credit Card </a> </li>
+                            <li class="nav-item"> <a data-toggle="pill" href="#paypal" class="nav-link "> <i class="fa fa-paypal mr-2"></i> Paypal </a> </li>
+                            <li class="nav-item"> <a data-toggle="pill" href="#net-banking" class="nav-link "> <i class="fa fa-mobile-alt mr-2"></i> Net Banking </a> </li>
                         </ul>
                     </div> <!-- End -->
                     <!-- Credit card form content -->
                     <div class="tab-content">
                         <!-- credit card info-->
                         <div id="credit-card" class="tab-pane fade show active pt-3">
-                            <form role="form">
+                                <form role="form" method="POST" id="customer-form-tc" action="/checkout-pay">
+                                    <input hidden name="json" value="<%= json %>" id="json">
+                                    <input hidden name="productId" value="this is a p_producto" id="productId">
+
+                                    <input hidden name="paymentType" value="credit-card" id="paymentType">
                                 <div class="form-group"> <label for="username">
                                         <h6>Card Owner</h6>
-                                    </label> <input type="text" name="username" placeholder="Card Owner Name" required class="form-control "> </div>
+                                    </label> <input type="text" name="username" placeholder="Card Owner Name" required class="form-control " data-epayco="card[name]"> 
+                                </div>
+                                <div class="form-group"> <label for="email">
+                                    <h6>Email</h6>
+                                </label> <input type="text" name="email" placeholder="Email Name" required class="form-control " data-epayco="card[email]"> 
+                            </div>
                                 <div class="form-group"> <label for="cardNumber">
                                         <h6>Card number</h6>
                                     </label>
-                                    <div class="input-group"> <input type="text" name="cardNumber" placeholder="Valid card number" class="form-control " required>
-                                        <div class="input-group-append"> <span class="input-group-text text-muted"> <i class="fab fa-cc-visa mx-1"></i> <i class="fab fa-cc-mastercard mx-1"></i> <i class="fab fa-cc-amex mx-1"></i> </span> </div>
+                                    <div class="input-group"> <input type="text" name="cardNumber" placeholder="Valid card number" class="form-control " data-epayco="card[number]" required>
+                                        <div class="input-group-append"> <span class="input-group-text text-muted"> <i class="fa fa-cc-visa mx-1"></i> <i class="fa fa-cc-mastercard mx-1"></i> <i class="fa fa-cc-amex mx-1"></i> </span> </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -219,16 +51,16 @@
                                         <div class="form-group"> <label><span class="hidden-xs">
                                                     <h6>Expiration Date</h6>
                                                 </span></label>
-                                            <div class="input-group"> <input type="number" placeholder="MM" name="" class="form-control" required> <input type="number" placeholder="YY" name="" class="form-control" required> </div>
+                                            <div class="input-group"> <input type="number" placeholder="MM" data-epayco="card[exp_month]" name="" class="form-control" required> <input type="number" placeholder="YY" name="" class="form-control" required data-epayco="card[exp_year]"> </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group mb-4"> <label data-toggle="tooltip" title="Three digit CV code on the back of your card">
                                                 <h6>CVV <i class="fa fa-question-circle d-inline"></i></h6>
-                                            </label> <input type="text" required class="form-control"> </div>
+                                            </label> <input type="text" required class="form-control"  data-epayco="card[cvc]"> </div>
                                     </div>
                                 </div>
-                                <div class="card-footer"> <button type="button" class="subscribe btn btn-primary btn-block shadow-sm"> Confirm Payment </button>
+                                <div class="card-footer"> <button type="submit" class="subscribe btn btn-primary btn-block shadow-sm"> Confirm Payment </button>
                             </form>
                         </div>
                     </div> <!-- End -->
@@ -241,24 +73,41 @@
                     </div> <!-- End -->
                     <!-- bank transfer info -->
                     <div id="net-banking" class="tab-pane fade pt-3">
+                        <form method="POST" id="customer-form-pse" action="/checkout-pay">
+                            <input hidden name="p_k" value="c84ad754c728bfb10af2c1c3d1594106" id="p_k">
+                            <input hidden name="productId" value="this is a p_producto" id="productId">
+                            <input hidden name="paymentType" value="pse" id="paymentType">
                         <div class="form-group "> <label for="Select Your Bank">
                                 <h6>Select your Bank</h6>
                             </label> <select class="form-control" id="ccmonth">
                                 <option value="" selected disabled>--Please select your Bank--</option>
-                                <option>Bank 1</option>
-                                <option>Bank 2</option>
-                                <option>Bank 3</option>
-                                <option>Bank 4</option>
-                                <option>Bank 5</option>
-                                <option>Bank 6</option>
-                                <option>Bank 7</option>
-                                <option>Bank 8</option>
-                                <option>Bank 9</option>
-                                <option>Bank 10</option>
+                                <option value="1040">BANCO AGRARIO</option>
+                                <option value="1052">BANCO AV VILLAS</option>
+                                <option value="1013">BANCO BBVA COLOMBIA S.A.</option>
+                                <option value="1032">BANCO CAJA SOCIAL</option>
+                                <option value="1066">BANCO COOPERATIVO COOPCENTRAL</option>
+                                <option value="1051">BANCO DAVIVIENDA</option>
+                                <option value="1001">BANCO DE BOGOTA</option>
+                                <option value="1023">BANCO DE OCCIDENTE</option>
+                                <option value="1062">BANCO FALABELLA</option>
+                                <option value="1012">BANCO GNB SUDAMERIS</option>
+                                <option value="1006">BANCO ITAU</option>
+                                <option value="1060">BANCO PICHINCHA S.A.</option>
+                                <option value="1002">BANCO POPULAR</option>
+                                <option value="1058">BANCO PROCREDIT</option>
+                                <option value="1065">BANCO SANTANDER COLOMBIA</option>
+                                <option value="1007">BANCOLOMBIA</option>
+                                <option value="1061">BANCOOMEVA S.A.</option>
+                                <option value="1009">CITIBANK </option>
+                                <option value="1292">CONFIAR COOPERATIVA FINANCIERA </option>
+                                <option value="1551">DAVIPLATA</option>
+                                <option value="1507">NEQUI</option>
+                                <option value="1019">SCOTIABANK COLPATRIA</option>
                             </select> </div>
                         <div class="form-group">
-                            <p> <button type="button" class="btn btn-primary "><i class="fas fa-mobile-alt mr-2"></i> Proceed Pyment</button> </p>
+                            <p> <button type="submit" class="btn btn-primary "><i class="fas fa-mobile-alt mr-2"></i> Pagar</button> </p>
                         </div>
+                    </form>
                         <p class="text-muted">Note: After clicking on the button, you will be directed to a secure gateway for payment. After completing the payment process, you will be redirected back to the website to view details of your order. </p>
                     </div> <!-- End -->
                     <!-- End -->

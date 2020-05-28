@@ -268,6 +268,21 @@ if(!req.session.wish){
 
 exports.pay= async (req, res, next) => {
 console.log("____pay___",req.body)
+var obj2 = req.body.custiId2;
+var obj3 = req.body.bank;
+var bank_ = req.body.banks;
+//  var banks = Object.entries(obj2).forEach(([key, value]) => {
+//   console.log(key + ' ' + value);   
+
+// });
+var banks = Object.keys(obj2).map(function(key) {
+  return Object.keys(obj3).map(function(keys) {
+     return [ obj2[key], obj3[key] ];
+   });
+});
+
+console.log("__bank__",typeof(banks))
+
 if(!req.session.cart){
   var stock = 0;
   var totalprice = 0;
@@ -280,7 +295,6 @@ var totalprice= cart.totalPrice;
 var totalcantidad= cart.totalQty;
 var alg =  cart.generateArray();
 const consultas = [];
-var pse_info;
 var pagos = new Array();
 alg.forEach(element => {
   var id_producto = element.item.id;
@@ -307,44 +321,69 @@ var resultado = cadena.replace(re, '');
 var re2 = /div>/g;
 var resultado2 = resultado.replace(re2, '');
 var valorByProduct = element.qty * element.item.valorMeeti;
-console.log(":::::::::epayco_publickey::::::::",epayco_publickey);
-console.log(":::::::::epayco_secretkey::::::::",epayco_secretkey);
-const epayco = require('epayco-sdk-node')({
-  apiKey: epayco_publickey,
-  privateKey: epayco_secretkey,
-  lang: 'ES',
-  test: true
+
+var obj = req.body.custiId2;
+ Object.keys(obj).map(function(key) {
+  if(obj[key] == epayco_customerid){
+    // console.log(":::::::::epayco_customerid::::::::",epayco_customerid);
+    // console.log(":::::::::epayco_publickey::::::::",epayco_publickey);
+    // console.log(":::::::::epayco_secretkey::::::::",epayco_secretkey);
+     console.log(":::::::::valorByProduct::::::::",valorByProduct);
+    // console.log(":::::::::descripcion::::::::",resultado2);
+    // console.log(":::::::::id_producto::::::::",id_producto);
+    var epayco = require('epayco-sdk-node')({
+      apiKey: epayco_publickey,
+      privateKey: epayco_secretkey,
+      lang: 'ES',
+      test: false
+    });
+    if(req.body.paymentType=='pse'){
+ 
+      console.log(":::::::::pse::::::::");
+    var pse_info = {
+    //   bank: bank_,
+    //  // invoice: "13213",
+    //   description: resultado2,
+    //   value: valorByProduct,
+    //   tax: "0",
+    //   tax_base: valorByProduct,
+    bank: bank_,
+    // invoice: "13213",
+     description: resultado2,
+     value: "10000",
+     tax: "0",
+     tax_base: "10000",
+      currency: "COP",
+      type_person: "0",
+      doc_type: "CC",
+      doc_number: "10358519",
+      name: 'ricardo',
+      last_name: 'saldarriaga',
+      email: 'ricardo.saldarriaga@payco.co',
+      country: "CO",
+      cell_phone: "3010000001",
+      ip:"190.000.000.000", /*This is the client's IP, it is required */
+      url_response: "https://ejemplo.com/respuesta.html",
+      url_confirmation: "https://ejemplo.com/confirmacion",
+      method_confirmation: "GET",
+  }
+ // console.log(pse_info)
+      epayco.bank.create(pse_info)
+        .then(function(bank) {
+            console.log(bank);
+            pagos.push(bank);
+        })
+        .catch(function(err) {
+            console.log("err ===: " + err);
+            pagos.push(err);
+        });
+  
+    }
+  }
 });
 
-if(req.body.paymentType=='pse'){
-  console.log(":::::::::pse::::::::");
-    pse_info = {
-    bank: "1007",
-    invoice: "13213",
-    description: "resultado2",
-    value: valorByProduct,
-    tax: "0",
-    tax_base: valorByProduct,
-    currency: "COP",
-    type_person: "0",
-    doc_type: "CC",
-    doc_number: "10358519",
-    name: 'ricardo',
-    last_name: 'saldarriaga',
-    email: 'ricardo.saldarriaga@payco.co',
-    country: "CO",
-    cell_phone: "3010000001",
-    ip:"190.000.000.000", /*This is the client's IP, it is required */
-    url_response: "https://ejemplo.com/respuesta.html",
-    url_confirmation: "https://ejemplo.com/confirmacion",
-    method_confirmation: "GET",
-}
-pagos.push(pse_info);
 
-}else{
- 
-    
-}
+
 
 });
 if(req.body.paymentType=='pse'){

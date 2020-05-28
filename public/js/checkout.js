@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
  
 function pagoTc (event){
-    //debugger
+    debugger
 
     //detiene el evento automático del formulario
    
@@ -20,6 +20,7 @@ function pagoTc (event){
     //captura el contenido del formulario
     var $form = $(this);
     var json=document.getElementById('json').value;
+ 
 
     var obj = JSON.parse(json);
 typeof(obj);
@@ -30,6 +31,7 @@ var result = Object.keys(obj).map(function(key) {
  // console.log(result);
  var count = 0;
  var interval = 2000; 
+ var countTotal = result.length;
  result.forEach(function (el, index){
    //  console.log(el)
     setTimeout(function () {
@@ -52,6 +54,12 @@ var result = Object.keys(obj).map(function(key) {
     })
     },index * interval);
     count++
+    if(countTotal==count){
+        setTimeout(function () {
+      console.log('temrino',count)
+    //  $form.get(0).submit();
+        },3000)
+    }
  });
  console.log('Loop finished.');
    // $form.get(0).submit();
@@ -62,6 +70,7 @@ function pagoPse (event){
     event.preventDefault();
     var $form = $(this);
     var json=document.getElementById('json').value;
+    var bank=document.getElementById('ccmonth').value;
     var obj = JSON.parse(json);
     typeof(obj);
     var result = Object.keys(obj).map(function(key) {
@@ -70,11 +79,13 @@ function pagoPse (event){
   var count = 0;
   var interval = 2000; 
   var countTotal = result.length;
+  $form.append($(`<input type="hidden" name="banks">`).val(bank));
   result.forEach(function (el, index){
     setTimeout(function () {
     const c_i = el.map(grupo => {
         return grupo.epayco_customerid
         });
+        $form.append($(`<input type="hidden" name="bank">`).val(bank));
         $form.append($(`<input type="hidden" name="custiId${count}">`).val(c_i[1]));
         console.log(c_i);
     },index * interval);
