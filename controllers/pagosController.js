@@ -296,12 +296,27 @@ const createPaymentPse = function(epayco,resultado2,valorByProduct,bank_){
         epayco.bank.create(pse_info)
         .then(function(charge) {
               console.log('SUCCESS::::::::::::::::: ',charge.data);
-              pagos.push(charge.data)
-             // res.send({data:pagos})
+             // pagos.push(charge.data)
+              res.send(charge.data)
+             //asignas charge.data.nombre = 'null' and direccion,
+             try {
+              charge.data.usuarioId = req.user.id;
+              charge.data.id = uuid();
+              Invoice.create(charge.data);
+                req.session.cart= null;
+               } catch (error) {
+                   // extraer el message de los errores
+                   if(error.errors){  
+                       const erroresSequelize = error.errors.map(err => err.message);
+                       console.log('===============================',erroresSequelize);
+                     req.flash('error', erroresSequelize);
+                     }
+                   res.redirect('/nuevo-meeti');
+               }
         })
         .catch(function(err) {
             console.log("ERROR_CATCH:::::::::::::::::::::::::::::: " + err);
-            pagos.push(err.data)
+           // pagos.push(err.data)
           //  res.send({data:pagos})
         });
 }
@@ -331,8 +346,23 @@ const createPaymentTc = function(epayco,resultado2,valorByProduct,token){
         epayco.charge.create(payment_info)
         .then(function(charge) {
               console.log('SUCCESS::::::::::::::::: ',charge.data);
-              pagos.push(charge.data)
-             // res.send({data:pagos})
+            //  pagos.push(charge.data)
+              res.send(charge.data)
+             //el dato valor hay que pasalor a integer
+             try {
+              charge.data.usuarioId = req.user.id;
+              charge.data.id = uuid();
+               Invoice.create(charge.data);
+                   req.session.cart=null;
+               } catch (error) {
+                   // extraer el message de los errores
+                   if(error.errors){  
+                       const erroresSequelize = error.errors.map(err => err.message);
+                       console.log('===============================',erroresSequelize);
+                     req.flash('error', erroresSequelize);
+                     }
+                   res.redirect('/nuevo-meeti');
+               }
         })
         .catch(function(err) {
             console.log("ERROR_CATCH:::::::::::::::::::::::::::::: " + err);
@@ -366,9 +396,11 @@ const createPaymentCash =   (epayco,resultado2,valorByProduct,cash)=>{
         epayco.cash.create(cash,payment_info)
         .then(function(charge) {
               console.log('SUCCESS::::::::::::::::: ',charge.data);
-              pagos.push(charge.data)//object
+              //pagos.push(charge.data)//object
+              res.send(charge.data)
                  // almacenar en la BD
     try {
+      charge.data.usuarioId = req.user.id; 
       charge.data.id = uuid();
        Invoice.create(charge.data);
            req.session.cart= null;
@@ -376,12 +408,12 @@ const createPaymentCash =   (epayco,resultado2,valorByProduct,cash)=>{
            var stock = 0;
            var totalprice = 0;
        // mostramos la vista
-       res.render('processPayment', {
-           nombrePagina : `proceso de pago`,
-           Invoince,
-           stocks : stock,
-           totalprice: totalprice
-       })
+      //  res.render('processPayment', {
+      //      nombrePagina : `proceso de pago`,
+      //      Invoince,
+      //      stocks : stock,
+      //      totalprice: totalprice
+      //  })
        } catch (error) {
            // extraer el message de los errores
            if(error.errors){  
@@ -461,9 +493,6 @@ if( req.body.paymentType=='credit-card'){
   console.log("::::::::: credit-card ::::::::");
   var obj = req.body.custiId;
   var token = req.body.epaycoToken;
-  // var tokens2 =  Object.keys(obj).map(function(key) {
-  //   return [key]
-  // });
    if(req.body.count.length<=1){
     console.log("customerId",epayco_publickey,epayco_secretkey)
     var epayco = require('epayco-sdk-node')({
@@ -535,11 +564,14 @@ if(req.body.count.length<=1){
 });
 
 
-if(req.body.paymentType=='pse'){
-res.send({data:pagos})
-}else{
-  res.send({data:"{otra: data}"})
-}
+// if(req.body.paymentType=='pse'){
+// res.send(pagos)
+// }if(req.body.paymentType=='cash'){
+//   res.send(pagos)
+//   }
+//   if(req.body.paymentType=='credit-card'){
+//     res.send(pagos)
+//     }
 //const [  meetis  ] = await Promise.all(consultas);
 // var usuarioId = meetis.usuario;
 //se guarda el pedido
