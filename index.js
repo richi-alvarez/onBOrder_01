@@ -17,6 +17,7 @@ const db = require('./config/db');
     require('./models/Grupos');
     require('./models/Meeti');
     require('./models/Ordenes');
+    require('./models/Invoice');
     db.sync().then(() => console.log('DB Conectada')).catch((error) => console.log(error));
 
 // Variables de Desarrollo
@@ -32,15 +33,15 @@ const app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 require('./models/Chat');
-io.on('connection', function(socket){
-	console.log(' alguien se h conectado con socket');
-	socket.emit('messagesr',messages);
-	socket.on('new-message',function(data){
-		messages.push(data);
+// io.on('connection', function(socket){
+// 	console.log(' alguien se h conectado con socket');
+// 	socket.emit('messagesr',messages);
+// 	socket.on('new-message',function(data){
+// 		messages.push(data);
 
-		io.sockets.emit('messagesr',messages)
-	});
-});
+// 		io.sockets.emit('messagesr',messages)
+// 	});
+// });
 // Body parser, leer formularios
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true }));

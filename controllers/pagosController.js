@@ -2,6 +2,7 @@ const  axios = require('axios');
 const Ordenes = require('../models/Ordenes');
 const Meeti = require('../models/Meeti');
 const Usuarios = require('../models/Usuarios');
+const Invoice = require('../models/Invoice');
 const Cart = require('../models/Cart');
 const Wish = require('../models/Wish');
 
@@ -364,8 +365,32 @@ const createPaymentCash = function(epayco,resultado2,valorByProduct,cash){
         epayco.cash.create(cash,payment_info)
         .then(function(charge) {
               console.log('SUCCESS::::::::::::::::: ',charge.data);
-              pagos.push(charge.data)
-             // res.send({data:pagos})
+              pagos.push(charge.data)//object
+                 // almacenar en la BD
+    // try {
+    //   await Invoice.create(charge.data);
+    //        req.session.cart=null;
+    //        actualizar el stock
+    //        var stock = 0;
+    //        var totalprice = 0;
+    //    // mostramos la vista
+    //    res.render('processPayment', {
+    //        nombrePagina : `proceso de pago`,
+    //        Invoince,
+    //        stocks : stock,
+    //        totalprice: totalprice
+    //    })
+    //    } catch (error) {
+    //        // extraer el message de los errores
+    //        if(error.errors){  
+    //            const erroresSequelize = error.errors.map(err => err.message);
+    //            console.log('===============================',erroresSequelize);
+    //          req.flash('error', erroresSequelize);
+    //          }
+    //        res.redirect('/nuevo-meeti');
+    //    }
+
+
         })
         .catch(function(err) {
             console.log("ERROR_CATCH:::::::::::::::::::::::::::::: " + err);
@@ -460,7 +485,7 @@ if( req.body.paymentType=='credit-card'){
 var valueOb = Object.values(returnedTarget);
 Object.keys(valueOb).forEach(function (key) {
   if(valueOb[key]['customerId'] == epayco_customerid){
-    console.log("customerId",valueOb[key]['customerId'],epayco_publickey,epayco_secretkey)
+    console.log("customerId",valueOb[key]['customerId'],epayco_publickey,epayco_secretkey,valueOb[key]['tokenId'])
     var epayco = require('epayco-sdk-node')({
       apiKey: epayco_publickey,
       privateKey: epayco_secretkey,
