@@ -5,6 +5,7 @@ const Usuarios = require('../models/Usuarios');
 const Invoice = require('../models/Invoice');
 const Cart = require('../models/Cart');
 const Wish = require('../models/Wish');
+const uuid = require('uuid/v4');
 
 exports.response= async (req, res, next) => {
     const ref_payco = req.query.ref_payco;
@@ -341,7 +342,7 @@ const createPaymentTc = function(epayco,resultado2,valorByProduct,token){
 }
 
 //CREAR TRANSACCION EN EFECTIVO
-const createPaymentCash = function(epayco,resultado2,valorByProduct,cash){
+const createPaymentCash =   (epayco,resultado2,valorByProduct,cash)=>{
   var payment_info = {
      description: resultado2,
      value: valorByProduct.toString(),
@@ -367,28 +368,29 @@ const createPaymentCash = function(epayco,resultado2,valorByProduct,cash){
               console.log('SUCCESS::::::::::::::::: ',charge.data);
               pagos.push(charge.data)//object
                  // almacenar en la BD
-    // try {
-    //   await Invoice.create(charge.data);
-    //        req.session.cart=null;
-    //        actualizar el stock
-    //        var stock = 0;
-    //        var totalprice = 0;
-    //    // mostramos la vista
-    //    res.render('processPayment', {
-    //        nombrePagina : `proceso de pago`,
-    //        Invoince,
-    //        stocks : stock,
-    //        totalprice: totalprice
-    //    })
-    //    } catch (error) {
-    //        // extraer el message de los errores
-    //        if(error.errors){  
-    //            const erroresSequelize = error.errors.map(err => err.message);
-    //            console.log('===============================',erroresSequelize);
-    //          req.flash('error', erroresSequelize);
-    //          }
-    //        res.redirect('/nuevo-meeti');
-    //    }
+    try {
+      charge.data.id = uuid();
+       Invoice.create(charge.data);
+           req.session.cart= null;
+          // actualizar el stock
+           var stock = 0;
+           var totalprice = 0;
+       // mostramos la vista
+       res.render('processPayment', {
+           nombrePagina : `proceso de pago`,
+           Invoince,
+           stocks : stock,
+           totalprice: totalprice
+       })
+       } catch (error) {
+           // extraer el message de los errores
+           if(error.errors){  
+               const erroresSequelize = error.errors.map(err => err.message);
+               console.log('===============================',erroresSequelize);
+             req.flash('error', erroresSequelize);
+             }
+           res.redirect('/nuevo-meeti');
+       }
 
 
         })
