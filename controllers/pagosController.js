@@ -268,22 +268,36 @@ if(!req.session.wish){
 
 exports.pay=  (req, res, next) => {
 console.log("____pay___",req.body)
-var obj2 = req.body.custiId2;
-var obj3 = req.body.bank;
-var bank_ = req.body.banks;
-//  var banks = Object.entries(obj2).forEach(([key, value]) => {
-//   console.log(key + ' ' + value);   
+if( req.body.paymentType=='credit-card'){
+  console.log("::::::::: credit-card ::::::::");
+  var obj = req.body.custiId;
+  var token = req.body.epaycoToken;
+  var tokens2 =  Object.keys(obj).map(function(key) {
+    return [key]
+  });
+   console.log("tokens2",tokens2.length)
+   console.log("cpunt 2 ",req.body.count.length)
+   if(req.body.count.length<=1){
+      
+   }else{
+    var object = {};
+    var resultArray = [];
+    obj.forEach(function(objs, index){
+       object = {
+          'customerId':objs,
+          'tokenId':token[index]
+       }
+       resultArray.push(object);
+    });
+    var returnedTarget = Object.assign({},resultArray);
+var valueOb = Object.values(returnedTarget);
+console.log("object", valueOb,typeof(valueOb))
 
-// });
-// var banks = Object.keys(obj2).map(function(key) {
-//   return Object.keys(obj3).map(function(keys) {
-//      return [ obj2[key], obj3[key] ];
-//    });
-// });
+   }
+}
 
-// console.log("__bank__",banks)
-//CREAR TRANSACCION CON TARJETA DE CREDITO
-const createPaymentPse = function(epayco,resultado2,valorByProduct){
+//CREAR TRANSACCION CON PSE
+const createPaymentPse = function(epayco,resultado2,valorByProduct,bank_){
   var pse_info = {
     //   bank: bank_,
     //  // invoice: "13213",
@@ -291,7 +305,7 @@ const createPaymentPse = function(epayco,resultado2,valorByProduct){
     //   value: valorByProduct,
     //   tax: "0",
     //   tax_base: valorByProduct,
-    bank: bank_,
+     bank: bank_,
      description: resultado2,
      value: valorByProduct.toString(),
      tax: "0",
@@ -309,20 +323,18 @@ const createPaymentPse = function(epayco,resultado2,valorByProduct){
       url_response: "https://ejemplo.com/respuesta.html",
       url_confirmation: "https://ejemplo.com/confirmacion",
       method_confirmation: "GET",
-  }
-
-epayco.bank.create(pse_info)
-.then(function(charge) {
-      console.log('SUCCESS::::::::::::::::: ',charge.data);
-      pagos.push(charge.data)
-      res.send({data:pagos})
-})
-.catch(function(err) {
-    console.log("ERROR_CATCH:::::::::::::::::::::::::::::: " + err);
-    pagos.push(err.data)
-    res.send({data:pagos})
-});
-
+   }
+        epayco.bank.create(pse_info)
+        .then(function(charge) {
+              console.log('SUCCESS::::::::::::::::: ',charge.data);
+              pagos.push(charge.data)
+             // res.send({data:pagos})
+        })
+        .catch(function(err) {
+            console.log("ERROR_CATCH:::::::::::::::::::::::::::::: " + err);
+            pagos.push(err.data)
+          //  res.send({data:pagos})
+        });
 
 }
 
@@ -340,9 +352,8 @@ var alg =  cart.generateArray();
 const consultas = [];
 var pagos = new Array();
 alg.forEach(element => {
-  var id_producto = element.item.id;
-  var usuarioId=element.item.usuarioId;
-
+var id_producto = element.item.id;
+var usuarioId=element.item.usuarioId;
 var epayco_customerid = element.item.epayco_customerid;
 var epayco_secretkey = element.item.epayco_secretkey;
 var epayco_publickey = element.item.epayco_publickey;
@@ -354,36 +365,45 @@ var re2 = /div>/g;
 var resultado2 = resultado.replace(re2, '');
 var valorByProduct = element.qty * element.item.valorMeeti;
 
-var obj = req.body.custiId2;
- Object.keys(obj).map(function(key) {
-  if(obj[key] == epayco_customerid){
-    // console.log(":::::::::epayco_customerid::::::::",epayco_customerid);
-    // console.log(":::::::::epayco_publickey::::::::",epayco_publickey);
-    // console.log(":::::::::epayco_secretkey::::::::",epayco_secretkey);
-     console.log(":::::::::valorByProduct::::::::", typeof(valorByProduct));
-    // console.log(":::::::::descripcion::::::::",resultado2);
-    // console.log(":::::::::id_producto::::::::",id_producto);
-    var epayco = require('epayco-sdk-node')({
-      apiKey: epayco_publickey,
-      privateKey: epayco_secretkey,
-      lang: 'ES',
-      test: false
-    });
-    if(req.body.paymentType=='pse'){
- 
-      console.log(":::::::::pse::::::::");
-    
-  createPaymentPse(epayco,resultado2,valorByProduct)
- // console.log(pse_info)
 
+if(req.body.paymentType=='pse'){
+  console.log("::::::::: pse ::::::::");
+var obj = req.body.custiId;
+var bank_ = req.body.banks;
+if(req.body.count.length<=1){
+  var epayco = require('epayco-sdk-node')({
+    apiKey: epayco_publickey,
+    privateKey: epayco_secretkey,
+    lang: 'ES',
+    test: false
+  });
+  createPaymentPse(epayco,resultado2,valorByProduct,bank_);
+}else{
+  Object.keys(obj).map(function(key) {
+    if(obj[key] == epayco_customerid){
+      // console.log(":::::::::epayco_customerid::::::::",epayco_customerid);
+      // console.log(":::::::::epayco_publickey::::::::",epayco_publickey);
+      // console.log(":::::::::epayco_secretkey::::::::",epayco_secretkey);
+       console.log(":::::::::valorByProduct::::::::", typeof(valorByProduct));
+      // console.log(":::::::::descripcion::::::::",resultado2);
+      // console.log(":::::::::id_producto::::::::",id_producto);
+      var epayco = require('epayco-sdk-node')({
+        apiKey: epayco_publickey,
+        privateKey: epayco_secretkey,
+        lang: 'ES',
+        test: false
+      });
+      createPaymentPse(epayco,resultado2,valorByProduct,bank_);
     }
-  }
+  });
+}
+
+}
+
+
 });
 
 
-
-
-});
 if(req.body.paymentType=='pse'){
 res.send({data:pagos})
 }else{

@@ -45,9 +45,11 @@ var result = Object.keys(obj).map(function(key) {
     ePayco.setPublicKey(p_k[1]);
     ePayco.token.create($form, function(error, token) {
         if(!error) {
-            console.log("token=>",token)  
-            $form.append($(`<input type="hidden" name="custiId${count}">`).val(c_i[1]));
-            $form.append($(`<input type="hidden" name="epaycoToken${count}">`).val(token));
+            console.log("token=>",token) 
+            console.log("id=>",c_i[1])   
+            $form.append($(`<input type="hidden" name="custiId">`).val(c_i[1]));
+            $form.append($(`<input type="hidden" name="count">`).val(count));
+            $form.append($(`<input type="hidden" name="epaycoToken">`).val(token));
         } else {
             console.log(error.data.description)
                }
@@ -57,8 +59,8 @@ var result = Object.keys(obj).map(function(key) {
     if(countTotal==count){
         setTimeout(function () {
       console.log('temrino',count)
-    //  $form.get(0).submit();
-        },3000)
+      $form.get(0).submit();
+        },10000)
     }
  });
  console.log('Loop finished.');
@@ -77,7 +79,7 @@ function pagoPse (event){
     return [Number(key), obj[key]];
   });
   var count = 0;
-  var interval = 2000; 
+  var interval = 500; 
   var countTotal = result.length;
   $form.append($(`<input type="hidden" name="banks">`).val(bank));
   result.forEach(function (el, index){
@@ -86,7 +88,8 @@ function pagoPse (event){
         return grupo.epayco_customerid
         });
         $form.append($(`<input type="hidden" name="bank">`).val(bank));
-        $form.append($(`<input type="hidden" name="custiId${count}">`).val(c_i[1]));
+        $form.append($(`<input type="hidden" name="count">`).val(count));
+        $form.append($(`<input type="hidden" name="custiId">`).val(c_i[1]));
         console.log(c_i);
     },index * interval);
     count++
@@ -94,8 +97,8 @@ function pagoPse (event){
     if(countTotal==count){
         setTimeout(function () {
       console.log('temrino',count)
-      $form.get(0).submit();
-        },3000)
+    $form.get(0).submit();
+        },5000)
     }
   });
  
