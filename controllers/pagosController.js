@@ -289,7 +289,7 @@ const createPaymentPse = function(epayco,resultado2,valorByProduct,bank_){
       ip:"190.000.000.000", /*This is the client's IP, it is required */
       url_response: "https://ejemplo.com/respuesta.html",
       url_confirmation: "https://ejemplo.com/confirmacion",
-      method_confirmation: "GET",
+      method_confirmation: "POST",
    }
         epayco.bank.create(pse_info)
         .then(function(charge) {
@@ -314,7 +314,6 @@ const createPaymentTc = function(epayco,resultado2,valorByProduct,token){
      tax: "0",
      tax_base: valorByProduct.toString(),
       currency: "COP",
-      type_person: "0",
       doc_type: "CC",
       doc_number: "10358519",
       name: 'ricardo',
@@ -325,9 +324,44 @@ const createPaymentTc = function(epayco,resultado2,valorByProduct,token){
       ip:"190.000.000.000", /*This is the client's IP, it is required */
       url_response: "https://ejemplo.com/respuesta.html",
       url_confirmation: "https://ejemplo.com/confirmacion",
-      method_confirmation: "GET",
+      method_confirmation: "POST",
    }
         epayco.charge.create(payment_info)
+        .then(function(charge) {
+              console.log('SUCCESS::::::::::::::::: ',charge.data);
+              pagos.push(charge.data)
+             // res.send({data:pagos})
+        })
+        .catch(function(err) {
+            console.log("ERROR_CATCH:::::::::::::::::::::::::::::: " + err);
+            pagos.push(err.data)
+          //  res.send({data:pagos})
+        });
+}
+
+//CREAR TRANSACCION EN EFECTIVO
+const createPaymentCash = function(epayco,resultado2,valorByProduct,cash){
+  var payment_info = {
+     description: resultado2,
+     value: valorByProduct.toString(),
+     tax: "0",
+     tax_base: valorByProduct.toString(),
+      currency: "COP",
+      type_person: "0",
+      doc_type: "CC",
+      doc_number: "10358519",
+      name: 'ricardo',
+      last_name: 'saldarriaga',
+      email: 'ricardo.saldarriaga@payco.co',
+      country: "CO",
+      cell_phone: "3010000001",
+      end_date: "2020-06-08",
+      ip:"190.000.000.000", /*This is the client's IP, it is required */
+      url_response: "https://ejemplo.com/respuesta.html",
+      url_confirmation: "https://ejemplo.com/confirmacion",
+      method_confirmation: "POST",
+   }
+        epayco.cash.create(cash,payment_info)
         .then(function(charge) {
               console.log('SUCCESS::::::::::::::::: ',charge.data);
               pagos.push(charge.data)
@@ -394,7 +428,9 @@ if(req.body.count.length<=1){
   });
 }
 
-}if( req.body.paymentType=='credit-card'){
+}
+
+if( req.body.paymentType=='credit-card'){
   console.log("::::::::: credit-card ::::::::");
   var obj = req.body.custiId;
   var token = req.body.epaycoToken;
@@ -402,6 +438,7 @@ if(req.body.count.length<=1){
   //   return [key]
   // });
    if(req.body.count.length<=1){
+    console.log("customerId",epayco_publickey,epayco_secretkey)
     var epayco = require('epayco-sdk-node')({
       apiKey: epayco_publickey,
       privateKey: epayco_secretkey,
@@ -436,6 +473,33 @@ Object.keys(valueOb).forEach(function (key) {
 
 });
    }
+
+}
+if(req.body.paymentType=='cash'){
+  console.log("::::::::: cash ::::::::");
+var obj = req.body.custiId;
+var cash = req.body.radio;
+if(req.body.count.length<=1){
+  var epayco = require('epayco-sdk-node')({
+    apiKey: epayco_publickey,
+    privateKey: epayco_secretkey,
+    lang: 'ES',
+    test: false
+  });
+  createPaymentCash(epayco,resultado2,valorByProduct,cash);
+}else{
+  Object.keys(obj).map(function(key) {
+    if(obj[key] == epayco_customerid){
+      var epayco = require('epayco-sdk-node')({
+        apiKey: epayco_publickey,
+        privateKey: epayco_secretkey,
+        lang: 'ES',
+        test: false
+      });
+      createPaymentCash(epayco,resultado2,valorByProduct,cash);
+    }
+  })
+}
 
 }
 
