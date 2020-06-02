@@ -43,21 +43,11 @@ exports.home = async (req, res) => {
         var alg = cart.generateArray();
         var cars = new Array();
         alg.forEach(element => {
-            var cadena = element.item.descripcion;
-            var re = /<div>/g;
-            var resultado = cadena.replace(re, '');
-            var re2 = /div>/g;
-            var resultado2 = resultado.replace(re2, '');
-
             var myArray = {'epayco_customerid': element.item.epayco_customerid, 'epayco_publickey': element.item.epayco_publickey, 'productoID':element.item.id};
             cars.push(myArray);
         });
         
-
     }
-    //console.log("========================>",meetis)
-    
-  //  
 
     res.render('home', {
         nombrePagina : 'Inicio',
