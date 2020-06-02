@@ -42,6 +42,15 @@ const Meeti = db.define(
             type: Sequelize.INTEGER,
             defaultValue : 0
         },
+        iva : {
+            type: Sequelize.FLOAT,
+            defaultValue : 0.0
+        },
+        descuento : {
+            type: Sequelize.FLOAT,
+            defaultValue : 0.0
+        },
+
         cupo : {
             type: Sequelize.INTEGER,
             defaultValue : 0
@@ -129,6 +138,10 @@ const Meeti = db.define(
         interesados : {
             type: Sequelize.INTEGER,
             defaultValue : 0
+        },
+        detalles : {
+            type: Sequelize.ARRAY(Sequelize.STRING),
+            defaultValue : []
         }
     }, {
         hooks: {

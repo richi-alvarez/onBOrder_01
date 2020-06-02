@@ -171,20 +171,23 @@ function checkPagos(e){
         document.getElementById("productoType").required = true; 
         document.getElementById("stock").required = true;
         document.getElementById("adicionalDescription").required = true;
+        document.getElementById("iva").required = true;
+        document.getElementById("descuento").required = true;
 
        // text.style.display = "block";
       } else {
         document.getElementById("pagoCheck").style.display = "none";
-       // text.style.display = "none";
        document.getElementById("valorMeeti").required = false;
        document.getElementById("valorMeeti").value = '';
        document.getElementById("productoType").required = false;
-
-    //    document.getElementById("productoType").value = '';
        document.getElementById("stock").required = false;
        document.getElementById("stock").value = 0;
        document.getElementById("adicionalDescription").required = false;
        document.getElementById("adicionalDescription").value = '';
+       document.getElementById("iva").required = false;
+       document.getElementById("iva").value = 0;
+       document.getElementById("descuento").required = false;
+       document.getElementById("descuento").value = 0;
       }
 }
 

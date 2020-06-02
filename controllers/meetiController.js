@@ -110,8 +110,33 @@ function formatH(){
    var ts = new Date();
    var formatoFecha= formatDate(ts.toDateString());
    var formatHours = formatH();
-   console.log(formatoFecha,typeof(formatoFecha));
-   console.log(formatHours,typeof(formatHours));
+   
+   var ivatotal;
+   var iva;
+   var amount;
+   var totalAmount;
+    var totalDecuento;
+   if(req.body.descuento){
+    totalDecuento=req.body.descuento;
+       if(req.body.valorMeeti>req.body.descuento){
+    amount= req.body.valorMeeti;
+    totalAmount= amount-req.body.descuento;
+   }else{
+    totalAmount=req.body.descuento;
+   }
+}else{
+    totalAmount= req.body.valorMeeti;
+    totalDecuento=0;
+}
+   if(req.body.iva){
+    iva = req.body.iva;
+    ivatotal= (19*totalAmount)/100;
+  }else{
+   ivatotal=0.0;
+  }
+  meeti.valorMeeti =totalAmount;
+  meeti.iva =ivatotal;
+  meeti.descuento = totalDecuento;
 var tipo;
 if(req.body.stock == '' && req.body.zoomId  == '')
 {
@@ -214,6 +239,7 @@ if(req.files) {
 
     // almacenar en la BD
     try {
+     //   console.log(meeti);
    await Meeti.create(meeti);
         req.flash('exito', 'cambios guardados exitosamente!');
         res.redirect('/administracion');
