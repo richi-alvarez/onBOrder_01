@@ -2,9 +2,17 @@
     <!-- Block2 -->
     <div class="block2">
              <% if(meeti.nuevo == 'nuevo') { %>
-                <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+                <% if(meeti.descuento != meeti.valorMeeti) { %>
+                <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
+                    <% } else { %>
+                        <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+                        <% } %>
             <% } else { %>
+                <% if(meeti.descuento != meeti.valorMeeti) { %>
+                    <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
+                        <% } else { %>
                 <div class="block2-img wrap-pic-w of-hidden pos-relative">
+                    <% } %>
                 <% } %>
        
             <% if(meeti.imagen) { %>
@@ -32,9 +40,20 @@
                 <%= meeti.titulo %>
             </a>
 
-            <span class="block2-price m-text6 p-r-5">
-                $<%= meeti.valorMeeti %>
-            </span>
+            <% if(meeti.descuento != meeti.valorMeeti) { %>  
+                <span class="block2-price m-text7 p-r-5">
+                    $<%= meeti.valorMeeti %>
+                </span>
+
+                <span class="block2-newprice m-text8 p-r-5">
+                    $<%= meeti.descuento %>
+                </span>
+                <% } else { %>
+                    <span class="block2-price m-text6 p-r-5">
+                        $<%= meeti.valorMeeti %>
+                    </span>
+                    <% } %>
+           
         </div>
     </div>
 

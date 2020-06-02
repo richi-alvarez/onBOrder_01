@@ -134,9 +134,9 @@ function formatH(){
   }else{
    ivatotal=0.0;
   }
-  meeti.valorMeeti =totalAmount;
+  meeti.valorMeeti =req.body.valorMeeti;
   meeti.iva =ivatotal;
-  meeti.descuento = totalDecuento;
+  meeti.descuento = totalAmount;
 var tipo;
 if(req.body.stock == '' && req.body.zoomId  == '')
 {

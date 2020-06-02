@@ -12,7 +12,7 @@ exports.home = async (req, res) => {
     const consultas = [];
     consultas.push( Categorias.findAll({}) );
     consultas.push( Meeti.findAll ({
-            attributes : ['slug', 'titulo', 'fecha', 'hora','imagen', 'id', 'valorMeeti','tipo', 'nuevo', 'stock'],
+            attributes : ['slug', 'titulo', 'fecha', 'hora','imagen', 'id', 'valorMeeti','tipo', 'nuevo', 'stock', 'descuento'],
 
            // limit: 3,
             order : [
@@ -43,13 +43,6 @@ exports.home = async (req, res) => {
         var alg = cart.generateArray();
         var cars = new Array();
         alg.forEach(element => {
-            // console.log("::::: id producto :::: ",element.item.id);
-            // console.log("::::: epayco_customerid: :::: ",element.item.epayco_customerid);
-            // console.log("::::: epayco_publickey: :::: ",element.item.epayco_publickey);
-            // console.log("::::: descripcion::: :::: ",element.item.descripcion);
-            // let valorByProduct = element.qty * element.item.valorMeeti;
-            // console.log(":::::::::valor a pagar ::::::::",valorByProduct);
-            // console.log(":::::::::body::::::::");
             var cadena = element.item.descripcion;
             var re = /<div>/g;
             var resultado = cadena.replace(re, '');

@@ -3,9 +3,17 @@
     <div class="block2">
         <!-- productos relacionados mostrarMeeti controller -->
         <% if(meetisDos.nuevo == 'nuevo') { %>
-            <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew" style="height: 300px;">
+            <% if(meetisDos.descuento != meetisDos.valorMeeti) { %>
+            <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale" style="height: 300px;">
+                <% } else { %>
+                    <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew" style="height: 300px;">
+                    <% } %>
         <% } else { %>
-                <div class="block2-img wrap-pic-w of-hidden pos-relative" style="height: 300px;">
+            <% if(meetisDos.descuento != meetisDos.valorMeeti) { %>
+                <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale" style="height: 300px;">
+                    <% } else { %>
+                        <div class="block2-img wrap-pic-w of-hidden pos-relative" style="height: 300px;">
+                        <% } %>
             <% } %>
      
             <% if(meetisDos.imagen) { %>
@@ -34,9 +42,20 @@
                 <%= meetisDos.titulo %>
             </a>
 
-            <span class="block2-price m-text6 p-r-5">
-                <%= meetisDos.valorMeeti %>
-            </span>
+            <% if(meetisDos.descuento != meetisDos.valorMeeti) { %>
+                    <span class="block2-oldprice m-text7 p-r-5">
+                        <%= meetisDos.valorMeeti %>
+                    </span>
+                    <span class="block2-newprice m-text8 p-r-5">
+                        <%= meetisDos.valorMeeti %>
+                    </span>
+                    <% } else { %>
+                        <span class="block2-newprice m-text6 p-r-5">
+                            <%= meetisDos.valorMeeti %>
+                        </span>
+                        <% } %>
+
+           
         </div>
     </div>
 </div>
