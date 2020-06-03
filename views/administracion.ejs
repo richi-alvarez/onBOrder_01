@@ -77,33 +77,21 @@
     <div class="seccion-admin">
         <div class="sec-title">
             <h3 class="m-text5 t-center">
-                Productos Anteriores
+                Ordenes y Pedios
             </h3>
         </div>
-    
-        <% if(anteriores.length > 0 ) { %>
+        
         <ul>
-            <% anteriores.forEach(meet => { %>
             <li>
-                <div class="informacion-admin">
-                    <% moment.locale('es'); %>
-                    <% const fecha = meet.fecha +' '+ meet.hora;  %>
-                    <p class="fecha"><%= moment( fecha ).format('LLLL');  %> Horas</p>
-                    <h3><%= meet.titulo %></h3>
-                    <!-- <small><%= meet.interesados.length %> Interesados</small> -->
-                </div>
-                <div class="acciones contenedor-botones">
-                    <a href="/editar-meeti/<%= meet.id %>" class="btn btn-verde">Editar</a>
-                    <!-- <a href="/asistentes-meeti/<%= meet.id %>" class="btn btn-azul2">Asistentes</a> -->
-                     <a href="/imagen-grupo/<%= meet.id %>" class="btn btn-azul2">Imagen</a>
-                    <a href="/eliminar-meeti/<%= meet.id %>" class="btn btn-rojo">Eliminar</a>
-                </div>
+                     <div class="contenedor-botones">
+                        <a href="/facturas" class="btn btn-amarillo">mis Ordenes</a>
+                        <a href="/pedidos" class="btn btn-azul">Mis pedidos </a>
+                        <!-- <a href="/pedidos" class="btn btn-azul">Mis pedidos </a> -->
+                    </div>
             </li>
-            <% }) %>
+
         </ul>
-        <% } else { %>
-            <p>No hay productos Anteriores</p>
-        <% } %>
+    
     </div>
 
 </main>

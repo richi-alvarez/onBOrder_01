@@ -1,0 +1,27 @@
+<main class="contenedor panel-administracion">
+    <h1><%= nombrePagina %></h1>
+
+    <div class="seccion-admin">
+        <% if(invoices.length ) { %>
+            
+            <ul>
+                <% invoices.forEach(invoice => { %>
+                <li>
+                    <div class="informacion-admin">
+                        <h3><%= invoice.ref_payco %></h3>
+                        <h3><%= invoice.descripcion %></h3>
+                    </div>
+                    <div class="acciones contenedor-botones">
+                        <h3><%= invoice.valor %></h3>
+                        <h3><%= invoice.moneda %></h3>
+                        <h3><%= invoice.estado %></h3>
+                    </div>
+                </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No tienes facturas creadas</p>
+        <% } %>
+    </div>
+
+</main>

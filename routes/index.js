@@ -105,6 +105,11 @@ module.exports = function() {
         adminController.panelAdministracion 
     );
 
+    router.get('/facturas',  
+    authController.usuarioAutenticado,
+    adminController.facturas 
+);
+
     /** Nuevos Grupos */
     router.get('/nuevo-grupo',
         authController.usuarioAutenticado,
