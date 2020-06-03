@@ -143,7 +143,7 @@
 										</a>
 
 										<span class="header-cart-item-info">
-											<%= data.qty %> x $<%= data.item.valorMeeti %>
+											<%= data.qty %> x $<%= data.item.descuento %>
 										</span>
 									</div>
 									</li>
@@ -580,7 +580,7 @@
 		var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
 			$(this).on('click', function(){
 				var path =$(this).parent().parent().parent().find('.block2-name')[0].pathname;
-			var price_ = $(this).parent().parent().parent().find('.block2-price').html();
+			var price_ = $(this).parent().parent().parent().find('.block2-newprice').html();
 			var img=$(this).parent().parent().parent().find('.block2-img ')[0].children[0].src;	
 				var url = $(this).parent().prevObject[0].dataset.id;
 			//	var url_completed=window.location.href+url;

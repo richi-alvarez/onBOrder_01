@@ -173,7 +173,7 @@ exports.checkout = async (req, res, next) =>{
   var alg = cart.generateArray();
   var cars = new Array();
   alg.forEach(element => {
-      let valorByProduct = element.qty * element.item.valorMeeti;
+      let valorByProduct = element.qty * element.item.descuento;
       var cadena = element.item.descripcion;
       var re = /<div>/g;
       var resultado = cadena.replace(re, '');
@@ -269,16 +269,14 @@ if(!req.session.wish){
 
 
 exports.pay=  (req, res, next) => {
-console.log("____pay___",req.body)
-
 //CREAR TRANSACCION CON PSE
-const createPaymentPse = function(epayco,resultado2,valorByProduct,bank_){
+const createPaymentPse = function(epayco,resultado2,valorByProduct,bank_,iva,subtotal){
   var pse_info = {
      bank: bank_,
      description: resultado2,
      value: valorByProduct.toString(),
-     tax: "0",
-     tax_base: valorByProduct.toString(),
+     tax: iva.toString(),
+     tax_base: subtotal.toString(),
       currency: "COP",
       type_person: "0",
       doc_type: "CC",
@@ -297,13 +295,14 @@ const createPaymentPse = function(epayco,resultado2,valorByProduct,bank_){
         .then(function(charge) {
               console.log('SUCCESS::::::::::::::::: ',charge.data);
              // pagos.push(charge.data)
-              res.send(charge.data)
+             // res.send(charge.data)
              //asignas charge.data.nombre = 'null' and direccion,
              try {
               charge.data.usuarioId = req.user.id;
               charge.data.id = uuid();
               Invoice.create(charge.data);
                 req.session.cart= null;
+                res.redirect(`/processPayment?ref_payco=${charge.data.ref_payco}`);
                } catch (error) {
                    // extraer el message de los errores
                    if(error.errors){  
@@ -321,15 +320,15 @@ const createPaymentPse = function(epayco,resultado2,valorByProduct,bank_){
         });
 }
 //CREAR TRANSACCION CON TARJETA DE CREDITO
-const createPaymentTc = function(epayco,resultado2,valorByProduct,token){
+const createPaymentTc = function(epayco,resultado2,valorByProduct,token,iva,subtotal){
   let date = Date.now()
   var payment_info = {
      token_card: token,
      customer_id: date.toString(),
      description: resultado2,
      value: valorByProduct.toString(),
-     tax: "0",
-     tax_base: valorByProduct.toString(),
+     tax: iva.toString(),
+     tax_base: subtotal.toString(),
       currency: "COP",
       doc_type: "CC",
       doc_number: "10358519",
@@ -346,14 +345,32 @@ const createPaymentTc = function(epayco,resultado2,valorByProduct,token){
         epayco.charge.create(payment_info)
         .then(function(charge) {
               console.log('SUCCESS::::::::::::::::: ',charge.data);
-            //  pagos.push(charge.data)
-              res.send(charge.data)
+              var save;
+              // save.ref_payco=charge.data.ref_payco;
+              // save.factura = charge.data.factura;
+              // save.descripcion = charge.data.descripcion;
+              // save.valor = charge.data.valor;
+              // save.iva = charge.data.iva;
+              // save.baseiva = charge.data.baseiva;
+              // save.moneda = charge.data.moneda;
+              // save.estado = charge.data.estado;
+              // save.nombres = charge.data.nombres;
+              // save.apellidos = charge.data.apellidos;
+              // save.email = charge.data.email;
+              // save.ciudad = charge.data.ciudad;
+              // save.direccion = charge.data.direccion;
              //el dato valor hay que pasalor a integer
              try {
               charge.data.usuarioId = req.user.id;
               charge.data.id = uuid();
                Invoice.create(charge.data);
-                   req.session.cart=null;
+               if(Invoice){
+                req.session.cart=null;
+                res.redirect(`/processPayment?ref_payco=${charge.data.ref_payco}`);
+               }else{
+                res.redirect(`/processPayment?ref_payco=1`);
+               }
+                  
                } catch (error) {
                    // extraer el message de los errores
                    if(error.errors){  
@@ -372,12 +389,12 @@ const createPaymentTc = function(epayco,resultado2,valorByProduct,token){
 }
 
 //CREAR TRANSACCION EN EFECTIVO
-const createPaymentCash =   (epayco,resultado2,valorByProduct,cash)=>{
+const createPaymentCash =   (epayco,resultado2,valorByProduct,cash,iva,subtotal)=>{
   var payment_info = {
      description: resultado2,
      value: valorByProduct.toString(),
-     tax: "0",
-     tax_base: valorByProduct.toString(),
+     tax: iva.toString(),
+     tax_base: subtotal.toString(),
       currency: "COP",
       type_person: "0",
       doc_type: "CC",
@@ -396,8 +413,6 @@ const createPaymentCash =   (epayco,resultado2,valorByProduct,cash)=>{
         epayco.cash.create(cash,payment_info)
         .then(function(charge) {
               console.log('SUCCESS::::::::::::::::: ',charge.data);
-              //pagos.push(charge.data)//object
-              res.send(charge.data)
                  // almacenar en la BD
     try {
       charge.data.usuarioId = req.user.id; 
@@ -405,15 +420,9 @@ const createPaymentCash =   (epayco,resultado2,valorByProduct,cash)=>{
        Invoice.create(charge.data);
            req.session.cart= null;
           // actualizar el stock
-           var stock = 0;
-           var totalprice = 0;
        // mostramos la vista
-      //  res.render('processPayment', {
-      //      nombrePagina : `proceso de pago`,
-      //      Invoince,
-      //      stocks : stock,
-      //      totalprice: totalprice
-      //  })
+      res.redirect(`/processPayment?ref_payco=${charge.data.ref_payco}`);
+    
        } catch (error) {
            // extraer el message de los errores
            if(error.errors){  
@@ -439,16 +448,10 @@ if(!req.session.cart){
   return res.redirect('/iniciar-sesion');
 }
 
-var stock = req.session.cart.totalQty;
 var cart = new Cart(req.session.cart ? req.session.cart : {});
-var totalprice= cart.totalPrice;
-var totalcantidad= cart.totalQty;
 var alg =  cart.generateArray();
-const consultas = [];
 var pagos = new Array();
 alg.forEach(element => {
-var id_producto = element.item.id;
-var usuarioId=element.item.usuarioId;
 var epayco_customerid = element.item.epayco_customerid;
 var epayco_secretkey = element.item.epayco_secretkey;
 var epayco_publickey = element.item.epayco_publickey;
@@ -458,8 +461,9 @@ var re = /<div>/g;
 var resultado = cadena.replace(re, '');
 var re2 = /div>/g;
 var resultado2 = resultado.replace(re2, '');
-var valorByProduct = element.qty * element.item.valorMeeti;
-
+var valorByProduct = element.qty * element.item.descuento;
+var valorTaxByProduct = element.qty * element.item.iva;
+var valorSubtotal = valorByProduct-valorTaxByProduct;
 
 if(req.body.paymentType=='pse'){
   console.log("::::::::: pse ::::::::");
@@ -472,7 +476,7 @@ if(req.body.count.length<=1){
     lang: 'ES',
     test: false
   });
-  createPaymentPse(epayco,resultado2,valorByProduct,bank_);
+  createPaymentPse(epayco,resultado2,valorByProduct,bank_,valorTaxByProduct,valorSubtotal);
 }else{
   Object.keys(obj).map(function(key) {
     if(obj[key] == epayco_customerid){
@@ -482,7 +486,7 @@ if(req.body.count.length<=1){
         lang: 'ES',
         test: false
       });
-      createPaymentPse(epayco,resultado2,valorByProduct,bank_);
+      createPaymentPse(epayco,resultado2,valorByProduct,bank_,valorTaxByProduct,valorSubtotal);
     }
   });
 }
@@ -501,7 +505,7 @@ if( req.body.paymentType=='credit-card'){
       lang: 'ES',
       test: false
     });
-    createPaymentTc(epayco,resultado2,valorByProduct,token);
+    createPaymentTc(epayco,resultado2,valorByProduct,token,valorTaxByProduct,valorSubtotal);
    }else{
     var object = {};
     var resultArray = [];
@@ -523,7 +527,7 @@ Object.keys(valueOb).forEach(function (key) {
       lang: 'ES',
       test: false
     });
-    createPaymentTc(epayco,resultado2,valorByProduct,valueOb[key]['tokenId']);
+    createPaymentTc(epayco,resultado2,valorByProduct,valueOb[key]['tokenId'],valorTaxByProduct,valorSubtotal);
   }
 
 
@@ -542,7 +546,7 @@ if(req.body.count.length<=1){
     lang: 'ES',
     test: false
   });
-  createPaymentCash(epayco,resultado2,valorByProduct,cash);
+  createPaymentCash(epayco,resultado2,valorByProduct,cash,valorTaxByProduct,valorSubtotal);
 }else{
   Object.keys(obj).map(function(key) {
     if(obj[key] == epayco_customerid){
@@ -552,32 +556,38 @@ if(req.body.count.length<=1){
         lang: 'ES',
         test: false
       });
-      createPaymentCash(epayco,resultado2,valorByProduct,cash);
+      createPaymentCash(epayco,resultado2,valorByProduct,cash,valorTaxByProduct,valorSubtotal);
     }
   })
 }
 
 }
 
-
-
 });
 
+console.log("::::::::: a pagar ::::::::");
 
-// if(req.body.paymentType=='pse'){
-// res.send(pagos)
-// }if(req.body.paymentType=='cash'){
-//   res.send(pagos)
-//   }
-//   if(req.body.paymentType=='credit-card'){
-//     res.send(pagos)
-//     }
-//const [  meetis  ] = await Promise.all(consultas);
-// var usuarioId = meetis.usuario;
-//se guarda el pedido
-console.log(":::::::::valor a pagar ::::::::");
+}
 
+exports.processPayment= async (req, res, next) => {
+  req.session.cart= null;
+  var alg = null;
+    var stock = 0;
+    var totalprice = 0;
+    var cart = new Cart({});
+    const invoice = await Invoice.findOne({ where : { ref_payco : req.query.ref_payco }});
 
-
-
+    if(!invoice) {
+        req.flash('error', 'Operación no valida');
+        res.redirect('/administracion');
+        return next();
+    }
+var data = invoice.dataValues;
+   res.render('processPayment', {
+           nombrePagina : `proceso de pago`,
+           stocks : stock,
+           totalprice: totalprice,
+           alg,
+           data
+       })
 }

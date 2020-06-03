@@ -2,23 +2,26 @@ module.exports = function Cart(oldCart) {
     this.items = oldCart.items || {};
     this.totalQty = oldCart.totalQty || 0;
     this.totalPrice = oldCart.totalPrice || 0;
+    this.totalTax = oldCart.totalTax || 0;
 
     this.add = function(item, id){
         var storedItem = this.items[id];
         if(!storedItem){
-        storedItem = this.items[id] = {item: item, qty:0, valorMeeti:0};
+        storedItem = this.items[id] = {item: item, qty:0, descuento:0, iva:0};
         }
         storedItem.qty++;
-        storedItem.valorMeeti = storedItem.item.valorMeeti * storedItem.qty;
+        storedItem.descuento = storedItem.item.descuento * storedItem.qty;
+        storedItem.iva = storedItem.item.iva * storedItem.qty;
         this.totalQty++;
-        this.totalPrice += storedItem.item.valorMeeti;
+        this.totalPrice += storedItem.item.descuento;
+        this.totalTax += storedItem.item.iva;
     };
 
     this.reduceByOne = function(id){
        this.items[id].qty--;
-       this.items[id].valorMeeti -= this.items[id].item.valorMeeti;
+       this.items[id].descuento -= this.items[id].item.descuento;
         this.totalQty--;
-        this.totalPrice -= this.items[id].item.valorMeeti;
+        this.totalPrice -= this.items[id].item.descuento;
         if(this.items[id].qty <= 0){
             delete this.items[id];
         }
@@ -26,7 +29,7 @@ module.exports = function Cart(oldCart) {
 
     this.removeItem = function(id){
         this.totalQty -= this.items[id].qty;
-        this.totalPrice -= this.items[id].valorMeeti;
+        this.totalPrice -= this.items[id].descuento;
         delete this.items[id];
     }
 

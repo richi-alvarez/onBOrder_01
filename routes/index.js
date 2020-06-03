@@ -249,6 +249,10 @@ pagosController.showWishi
     pagosController.checkout);
     router.post('/checkout-pay',pagosController.pay);
 
+    router.get('/processPayment',
+    authController.usuarioAutenticado,
+    pagosController.processPayment);
+
     return router;
 }
 

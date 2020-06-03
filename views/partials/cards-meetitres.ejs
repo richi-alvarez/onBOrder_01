@@ -41,7 +41,7 @@
                 <%= meeti.titulo %>
             </a>
             <% if(meeti.descuento != meeti.valorMeeti) { %>  
-                <span class="block2-price m-text7 p-r-5">
+                <span class="block2-oldprice m-text7 p-r-5">
                     $<%= meeti.valorMeeti %>
                 </span>
 
@@ -49,7 +49,7 @@
                     $<%= meeti.descuento %>
                 </span>
                 <% } else { %>
-                    <span class="block2-price m-text6 p-r-5">
+                    <span class="block2-newprice m-text6 p-r-5">
                         $<%= meeti.valorMeeti %>
                     </span>
                     <% } %>
