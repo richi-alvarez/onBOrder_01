@@ -294,15 +294,23 @@ const createPaymentPse = function(epayco,resultado2,valorByProduct,bank_,iva,sub
         epayco.bank.create(pse_info)
         .then(function(charge) {
               console.log('SUCCESS::::::::::::::::: ',charge.data);
-             // pagos.push(charge.data)
-             // res.send(charge.data)
-             //asignas charge.data.nombre = 'null' and direccion,
              try {
               charge.data.usuarioId = req.user.id;
               charge.data.id = uuid();
               Invoice.create(charge.data);
-                req.session.cart= null;
-                res.redirect(`/processPayment?ref_payco=${charge.data.ref_payco}`);
+              req.session.cart= null;
+          setTimeout(async function () {
+           const invoice =await  Invoice.findOne({ where : { ref_payco :charge.data.ref_payco }});
+           if(!invoice) {
+             req.flash('error', 'Operación no valida');
+             res.redirect('/administracion');
+             return next();
+         }
+         if(invoice){
+         // console.log("Invoice=>",invoice)
+          res.redirect(`/processPayment?ref_payco=${invoice.dataValues.ref_payco}`);
+        }
+          },2000)
                } catch (error) {
                    // extraer el message de los errores
                    if(error.errors){  
@@ -363,13 +371,20 @@ const createPaymentTc = function(epayco,resultado2,valorByProduct,token,iva,subt
              try {
               charge.data.usuarioId = req.user.id;
               charge.data.id = uuid();
-               Invoice.create(charge.data);
-               if(Invoice){
-                req.session.cart=null;
-                res.redirect(`/processPayment?ref_payco=${charge.data.ref_payco}`);
-               }else{
-                res.redirect(`/processPayment?ref_payco=1`);
-               }
+              Invoice.create(charge.data);
+           req.session.cart= null;
+       setTimeout(async function () {
+        const invoice =await  Invoice.findOne({ where : { ref_payco :charge.data.ref_payco }});
+        if(!invoice) {
+          req.flash('error', 'Operación no valida');
+          res.redirect('/administracion');
+          return next();
+      }
+      if(invoice){
+      // console.log("Invoice=>",invoice)
+       res.redirect(`/processPayment?ref_payco=${invoice.dataValues.ref_payco}`);
+     }
+       },2000)
                   
                } catch (error) {
                    // extraer el message de los errores
@@ -419,10 +434,19 @@ const createPaymentCash =   (epayco,resultado2,valorByProduct,cash,iva,subtotal)
       charge.data.id = uuid();
        Invoice.create(charge.data);
            req.session.cart= null;
-          // actualizar el stock
-       // mostramos la vista
-      res.redirect(`/processPayment?ref_payco=${charge.data.ref_payco}`);
-    
+       setTimeout(async function () {
+        const invoice =await  Invoice.findOne({ where : { ref_payco :charge.data.ref_payco }});
+        if(!invoice) {
+          req.flash('error', 'Operación no valida');
+          res.redirect('/administracion');
+          return next();
+      }
+      if(invoice){
+      // console.log("Invoice=>",invoice)
+       res.redirect(`/processPayment?ref_payco=${invoice.dataValues.ref_payco}`);
+     }
+       },2000)
+
        } catch (error) {
            // extraer el message de los errores
            if(error.errors){  
