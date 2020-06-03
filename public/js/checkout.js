@@ -46,6 +46,7 @@ var result = Object.keys(obj).map(function(key) {
  var count = 0;
  var interval = 2000; 
  var countTotal = result.length;
+ $form.append($(`<input type="hidden" name="ip">`).val(newIp));
  result.forEach(function (el, index){
    //  console.log(el)
     setTimeout(function () {
@@ -63,7 +64,6 @@ var result = Object.keys(obj).map(function(key) {
             console.log("id=>",c_i[1])   
             $form.append($(`<input type="hidden" name="custiId">`).val(c_i[1]));
             $form.append($(`<input type="hidden" name="count">`).val(count));
-            $form.append($(`<input type="hidden" name="ip">`).val(newIp));
             $form.append($(`<input type="hidden" name="epaycoToken">`).val(token));
         } else {
             console.log(error.data.description)
@@ -86,6 +86,7 @@ function pagoPse (event){
     debugger
     event.preventDefault();
     var newIp=$("#ip").text();
+    
     var $form = $(this);
     var json=document.getElementById('json').value;
     var bank=document.getElementById('ccmonth').value;
@@ -98,13 +99,13 @@ function pagoPse (event){
   var interval = 500; 
   var countTotal = result.length;
   $form.append($(`<input type="hidden" name="banks">`).val(bank));
+  $form.append($(`<input type="hidden" name="ip">`).val(newIp));
   result.forEach(function (el, index){
     setTimeout(function () {
     const c_i = el.map(grupo => {
         return grupo.epayco_customerid
         });
         $form.append($(`<input type="hidden" name="bank">`).val(bank));
-        $form.append($(`<input type="hidden" name="ip">`).val(newIp));
         $form.append($(`<input type="hidden" name="count">`).val(count));
         $form.append($(`<input type="hidden" name="custiId">`).val(c_i[1]));
         console.log(c_i);
@@ -155,13 +156,13 @@ function pagoCash (event){
   var count = 0;
   var interval = 500; 
   var countTotal = result.length;
+  $form.append($(`<input type="hidden" name="ip">`).val(newIp));
   result.forEach(function (el, index){
     setTimeout(function () {
     const c_i = el.map(grupo => {
         return grupo.epayco_customerid
         });
         $form.append($(`<input type="hidden" name="cash">`).val(cash));
-        $form.append($(`<input type="hidden" name="ip">`).val(newIp));
         $form.append($(`<input type="hidden" name="count">`).val(count));
         $form.append($(`<input type="hidden" name="custiId">`).val(c_i[1]));
         console.log(c_i);
