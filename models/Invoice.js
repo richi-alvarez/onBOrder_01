@@ -53,6 +53,9 @@ const Invoice = db.define(
         },
         codigoproyecto : {
             type : Sequelize.STRING
+        },
+        urlbanco : {
+            type : Sequelize.STRING
         }
     
     });

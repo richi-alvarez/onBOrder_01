@@ -136,7 +136,7 @@ function formatH(){
   }
   meeti.valorMeeti =req.body.valorMeeti;
   meeti.iva =ivatotal;
-  var totalValor = totalAmount + ivatotal
+  var totalValor =parseFloat(totalAmount) + parseFloat(ivatotal);
   meeti.descuento = totalValor;
 var tipo;
 if(req.body.stock == '' && req.body.zoomId  == '')
