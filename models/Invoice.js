@@ -21,12 +21,12 @@ const Invoice = db.define(
             type: Sequelize.STRING,
         },
         valor : {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
         },
         iva : {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
         },
-        baseiva : Sequelize.INTEGER,
+        baseiva : Sequelize.STRING,
         moneda : {
             type: Sequelize.STRING,
         },
@@ -46,6 +46,12 @@ const Invoice = db.define(
             type : Sequelize.STRING
         },
         direccion : {
+            type : Sequelize.STRING
+        },
+        pin : {
+            type : Sequelize.STRING
+        },
+        codigoproyecto : {
             type : Sequelize.STRING
         }
     

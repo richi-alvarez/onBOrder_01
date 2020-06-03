@@ -270,7 +270,7 @@ if(!req.session.wish){
 
 exports.pay=  (req, res, next) => {
 //CREAR TRANSACCION CON PSE
-const createPaymentPse = function(epayco,resultado2,valorByProduct,bank_,iva,subtotal){
+const createPaymentPse = function(epayco,resultado2,valorByProduct,bank_,iva,subtotal,ip){
   var pse_info = {
      bank: bank_,
      description: resultado2,
@@ -286,7 +286,7 @@ const createPaymentPse = function(epayco,resultado2,valorByProduct,bank_,iva,sub
       email: 'ricardo.saldarriaga@payco.co',
       country: "CO",
       cell_phone: "3010000001",
-      ip:"190.000.000.000", /*This is the client's IP, it is required */
+      ip:ip, /*This is the client's IP, it is required */
       url_response: "https://ejemplo.com/respuesta.html",
       url_confirmation: "https://ejemplo.com/confirmacion",
       method_confirmation: "POST",
@@ -328,7 +328,7 @@ const createPaymentPse = function(epayco,resultado2,valorByProduct,bank_,iva,sub
         });
 }
 //CREAR TRANSACCION CON TARJETA DE CREDITO
-const createPaymentTc = function(epayco,resultado2,valorByProduct,token,iva,subtotal){
+const createPaymentTc = function(epayco,resultado2,valorByProduct,token,iva,subtotal,ip){
   let date = Date.now()
   var payment_info = {
      token_card: token,
@@ -345,7 +345,7 @@ const createPaymentTc = function(epayco,resultado2,valorByProduct,token,iva,subt
       email: 'ricardo.saldarriaga@payco.co',
       country: "CO",
       cell_phone: "3010000001",
-      ip:"190.000.000.000", /*This is the client's IP, it is required */
+      ip:ip, /*This is the client's IP, it is required */
       url_response: "https://ejemplo.com/respuesta.html",
       url_confirmation: "https://ejemplo.com/confirmacion",
       method_confirmation: "POST",
@@ -404,7 +404,7 @@ const createPaymentTc = function(epayco,resultado2,valorByProduct,token,iva,subt
 }
 
 //CREAR TRANSACCION EN EFECTIVO
-const createPaymentCash =   (epayco,resultado2,valorByProduct,cash,iva,subtotal)=>{
+const createPaymentCash =   (epayco,resultado2,valorByProduct,cash,iva,subtotal,end_date,ip)=>{
   var payment_info = {
      description: resultado2,
      value: valorByProduct.toString(),
@@ -419,8 +419,8 @@ const createPaymentCash =   (epayco,resultado2,valorByProduct,cash,iva,subtotal)
       email: 'ricardo.saldarriaga@payco.co',
       country: "CO",
       cell_phone: "3010000001",
-      end_date: "2020-06-08",
-      ip:"190.000.000.000", /*This is the client's IP, it is required */
+      end_date: end_date,
+      ip:ip, /*This is the client's IP, it is required */
       url_response: "https://ejemplo.com/respuesta.html",
       url_confirmation: "https://ejemplo.com/confirmacion",
       method_confirmation: "POST",
@@ -442,7 +442,6 @@ const createPaymentCash =   (epayco,resultado2,valorByProduct,cash,iva,subtotal)
           return next();
       }
       if(invoice){
-      // console.log("Invoice=>",invoice)
        res.redirect(`/processPayment?ref_payco=${invoice.dataValues.ref_payco}`);
      }
        },2000)
@@ -493,6 +492,8 @@ if(req.body.paymentType=='pse'){
   console.log("::::::::: pse ::::::::");
 var obj = req.body.custiId;
 var bank_ = req.body.banks;
+var ip = req.body.ip;
+console.log(obj,bank_,ip)
 if(req.body.count.length<=1){
   var epayco = require('epayco-sdk-node')({
     apiKey: epayco_publickey,
@@ -500,7 +501,7 @@ if(req.body.count.length<=1){
     lang: 'ES',
     test: false
   });
-  createPaymentPse(epayco,resultado2,valorByProduct,bank_,valorTaxByProduct,valorSubtotal);
+  createPaymentPse(epayco,resultado2,valorByProduct,bank_,valorTaxByProduct,valorSubtotal,ip);
 }else{
   Object.keys(obj).map(function(key) {
     if(obj[key] == epayco_customerid){
@@ -510,7 +511,7 @@ if(req.body.count.length<=1){
         lang: 'ES',
         test: false
       });
-      createPaymentPse(epayco,resultado2,valorByProduct,bank_,valorTaxByProduct,valorSubtotal);
+      createPaymentPse(epayco,resultado2,valorByProduct,bank_,valorTaxByProduct,valorSubtotal,ip);
     }
   });
 }
@@ -521,15 +522,17 @@ if( req.body.paymentType=='credit-card'){
   console.log("::::::::: credit-card ::::::::");
   var obj = req.body.custiId;
   var token = req.body.epaycoToken;
+  var ip = req.body.ip;
+  console.log(obj,token,ip)
    if(req.body.count.length<=1){
-    console.log("customerId",epayco_publickey,epayco_secretkey)
+  //  console.log("customerId",epayco_publickey,epayco_secretkey)
     var epayco = require('epayco-sdk-node')({
       apiKey: epayco_publickey,
       privateKey: epayco_secretkey,
       lang: 'ES',
       test: false
     });
-    createPaymentTc(epayco,resultado2,valorByProduct,token,valorTaxByProduct,valorSubtotal);
+    createPaymentTc(epayco,resultado2,valorByProduct,token,valorTaxByProduct,valorSubtotal,ip);
    }else{
     var object = {};
     var resultArray = [];
@@ -551,7 +554,7 @@ Object.keys(valueOb).forEach(function (key) {
       lang: 'ES',
       test: false
     });
-    createPaymentTc(epayco,resultado2,valorByProduct,valueOb[key]['tokenId'],valorTaxByProduct,valorSubtotal);
+    createPaymentTc(epayco,resultado2,valorByProduct,valueOb[key]['tokenId'],valorTaxByProduct,valorSubtotal,ip);
   }
 
 
@@ -560,9 +563,24 @@ Object.keys(valueOb).forEach(function (key) {
 
 }
 if(req.body.paymentType=='cash'){
+  function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+    return [year, month, day].join('-');
+}
+   var ts = new Date();
+   var formatoFecha= formatDate(ts.toDateString());
   console.log("::::::::: cash ::::::::");
 var obj = req.body.custiId;
 var cash = req.body.radio;
+var ip = req.body.ip;
+console.log(obj,cash,ip)
 if(req.body.count.length<=1){
   var epayco = require('epayco-sdk-node')({
     apiKey: epayco_publickey,
@@ -570,7 +588,7 @@ if(req.body.count.length<=1){
     lang: 'ES',
     test: false
   });
-  createPaymentCash(epayco,resultado2,valorByProduct,cash,valorTaxByProduct,valorSubtotal);
+  createPaymentCash(epayco,resultado2,valorByProduct,cash,valorTaxByProduct,valorSubtotal,formatoFecha,ip);
 }else{
   Object.keys(obj).map(function(key) {
     if(obj[key] == epayco_customerid){
@@ -580,7 +598,7 @@ if(req.body.count.length<=1){
         lang: 'ES',
         test: false
       });
-      createPaymentCash(epayco,resultado2,valorByProduct,cash,valorTaxByProduct,valorSubtotal);
+      createPaymentCash(epayco,resultado2,valorByProduct,cash,valorTaxByProduct,valorSubtotal,formatoFecha,ip);
     }
   })
 }

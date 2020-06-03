@@ -1,5 +1,15 @@
 // Autenticación con su public_key (Requerido)
+import axios from 'axios';
+// const { JSDOM } = require( "jsdom" );
+// const { window } = new JSDOM( "" );
+// const $ = require( "jquery" )( window );
+import jquery from 'jquery';
 document.addEventListener('DOMContentLoaded', () => {
+  $.getJSON("https://api.ipify.org?format=json", 
+  function(data) { 
+    $("#ip").html(data.ip); 
+    console.log(data.ip);
+});
     const tc = document.querySelector('#customer-form-tc');
     if(tc) {
         tc.addEventListener('submit', pagoTc);
@@ -20,6 +30,7 @@ function pagoTc (event){
     //detiene el evento automático del formulario
    
     event.preventDefault();
+    var newIp=$("#ip").text();
     //captura el contenido del formulario
     var $form = $(this);
     var json=document.getElementById('json').value;
@@ -52,6 +63,7 @@ var result = Object.keys(obj).map(function(key) {
             console.log("id=>",c_i[1])   
             $form.append($(`<input type="hidden" name="custiId">`).val(c_i[1]));
             $form.append($(`<input type="hidden" name="count">`).val(count));
+            $form.append($(`<input type="hidden" name="ip">`).val(newIp));
             $form.append($(`<input type="hidden" name="epaycoToken">`).val(token));
         } else {
             console.log(error.data.description)
@@ -73,6 +85,7 @@ var result = Object.keys(obj).map(function(key) {
 function pagoPse (event){
     debugger
     event.preventDefault();
+    var newIp=$("#ip").text();
     var $form = $(this);
     var json=document.getElementById('json').value;
     var bank=document.getElementById('ccmonth').value;
@@ -91,6 +104,7 @@ function pagoPse (event){
         return grupo.epayco_customerid
         });
         $form.append($(`<input type="hidden" name="bank">`).val(bank));
+        $form.append($(`<input type="hidden" name="ip">`).val(newIp));
         $form.append($(`<input type="hidden" name="count">`).val(count));
         $form.append($(`<input type="hidden" name="custiId">`).val(c_i[1]));
         console.log(c_i);
@@ -110,8 +124,11 @@ function pagoPse (event){
 }
 
 function pagoCash (event){
+  
     debugger
+    var ip;
     event.preventDefault();
+    var newIp=$("#ip").text();
     var $form = $(this);
     var json=document.getElementById('json').value;
     var cash;
@@ -144,6 +161,7 @@ function pagoCash (event){
         return grupo.epayco_customerid
         });
         $form.append($(`<input type="hidden" name="cash">`).val(cash));
+        $form.append($(`<input type="hidden" name="ip">`).val(newIp));
         $form.append($(`<input type="hidden" name="count">`).val(count));
         $form.append($(`<input type="hidden" name="custiId">`).val(c_i[1]));
         console.log(c_i);
@@ -153,7 +171,11 @@ function pagoCash (event){
     if(countTotal==count){
         setTimeout(function () {
       console.log('temrino',count)
-    $form.get(0).submit();
+      if(cash){
+        $form.get(0).submit();
+      }else{
+        alert('por favor selecciona una opcion de pago en efectivo')
+      }
         },5000)
     }
   });
