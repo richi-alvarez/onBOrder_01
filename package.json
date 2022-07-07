@@ -34,7 +34,7 @@
     "jquery": "^1.7.4",
     "jsdom": "^16.2.2",
     "leaflet-geosearch": "2.7.0",
-    "moment": "2.24.0",
+    "moment": "2.29.4",
     "multer": "1.4.1",
     "mysql2": "^2.1.0",
     "nodemailer": "5.1.1",
